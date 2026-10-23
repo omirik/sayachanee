@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+@theme {
+  --animate-gradient: gradientMove 15s ease infinite;
+  --animate-shooting-star: shootingStar 3s linear infinite;
+
+  @keyframes gradientMove {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  @keyframes shootingStar {
+    0% { transform: translateX(0) translateY(0) rotate(-45deg); opacity: 1; }
+    100% { transform: translateX(-1000px) translateY(1000px) rotate(-45deg); opacity: 0; }
+  }
+}
