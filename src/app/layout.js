@@ -21,7 +21,8 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="tr">
-      <body className={inter.className}>
+      {/* Siyah arka plan ve beyaz yazı rengi buraya eklendi */}
+      <body className={`${inter.className} bg-zinc-950 text-white antialiased`}>
         {children}
         <Analytics />
       </body>
