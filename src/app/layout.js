@@ -17,22 +17,20 @@ export const metadata = {
     locale: 'tr_TR',
     type: 'website',
   },
+  // Google Doğrulama Kodu Buraya Eklendi
+  verification: {
+    google: 'dpu_d5D__hzM9AEYB5FhuICaQuEfE9ujUymrdXHLGIQ',
+  },
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="tr">
       <body className={`${inter.className} bg-zinc-950 text-white antialiased flex flex-col min-h-screen`}>
-        {/* Senin kendi menün zaten sayfanın içinde olduğu için buradaki fazlalığı sildik */}
-        
         <main className="flex-grow">
           {children}
         </main>
-        
-        {/* Alt Bilgi */}
         <Footer />
-        
-        {/* Vercel Analiz Aracı */}
         <Analytics />
       </body>
     </html>
