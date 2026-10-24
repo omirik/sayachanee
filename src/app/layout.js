@@ -1,6 +1,7 @@
 import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { GoogleAnalytics } from '@next/third-parties/google';
+import Script from "next/script";
 import Footer from "@/components/Footer";
 import "./globals.css";
 
@@ -26,17 +27,22 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="tr">
+      <head>
+        {/* Google AdSense Onay Kodu */}
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9995958735732535"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
+      </head>
       <body className={`${inter.className} bg-zinc-950 text-white antialiased flex flex-col min-h-screen`}>
         <main className="flex-grow">
           {children}
         </main>
         <Footer />
-        
-        {/* Vercel Analytics */}
         <Analytics />
       </body>
-      
-      {/* Google Analytics (GA4) */}
       <GoogleAnalytics gaId="G-R5YF0EEDFN" />
     </html>
   );
