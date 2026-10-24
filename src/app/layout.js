@@ -1,5 +1,7 @@
 import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -21,9 +23,19 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="tr">
-      {/* Siyah arka plan ve beyaz yazı rengi buraya eklendi */}
-      <body className={`${inter.className} bg-zinc-950 text-white antialiased`}>
-        {children}
+      <body className={`${inter.className} bg-zinc-950 text-white antialiased flex flex-col min-h-screen`}>
+        {/* Üst Menü */}
+        <Navbar />
+        
+        {/* Sayfa İçerikleri */}
+        <main className="flex-grow">
+          {children}
+        </main>
+        
+        {/* Alt Bilgi */}
+        <Footer />
+        
+        {/* Vercel Analiz Aracı */}
         <Analytics />
       </body>
     </html>
