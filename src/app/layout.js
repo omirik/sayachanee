@@ -1,6 +1,5 @@
 import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
-import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import "./globals.css";
 
@@ -24,10 +23,8 @@ export default function RootLayout({ children }) {
   return (
     <html lang="tr">
       <body className={`${inter.className} bg-zinc-950 text-white antialiased flex flex-col min-h-screen`}>
-        {/* Üst Menü */}
-        <Navbar />
+        {/* Senin kendi menün zaten sayfanın içinde olduğu için buradaki fazlalığı sildik */}
         
-        {/* Sayfa İçerikleri */}
         <main className="flex-grow">
           {children}
         </main>
