@@ -8,24 +8,46 @@ export default function Iletisim() {
   const [yukleniyor, setYukleniyor] = useState(false);
   const [gonderildi, setGonderildi] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setYukleniyor(true);
     
-    // Gerçek bir API'ye bağlanana kadar 1.5 saniyelik şık bir bekleme (loading) animasyonu simüle ediyoruz
-    setTimeout(() => {
-      setYukleniyor(false);
-      setGonderildi(true);
-      setFormVerisi({ isim: '', email: '', mesaj: '' });
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          // BURAYA WEB3FORMS'TAN ALDIĞIN ACCESS KEY'İ YAPIŞTIR:
+          access_key: "7006462c-ddd6-4198-9674-d6bb0c6b3b19", 
+          name: formVerisi.isim,
+          email: formVerisi.email,
+          message: formVerisi.mesaj,
+          subject: "Sayaçhane'den Yeni Bir İletişim Mesajı Var!", // Sana gelecek mailin başlığı
+        }),
+      });
+
+      const result = await response.json();
       
-      // 5 saniye sonra başarı mesajını kaldır
-      setTimeout(() => setGonderildi(false), 5000);
-    }, 1500);
+      if (result.success) {
+        setGonderildi(true);
+        setFormVerisi({ isim: '', email: '', mesaj: '' });
+        // 5 saniye sonra başarı mesajını kaldır
+        setTimeout(() => setGonderildi(false), 5000);
+      } else {
+        alert("Mesaj gönderilemedi. Lütfen daha sonra tekrar deneyin.");
+      }
+    } catch (error) {
+      alert("Bağlantı hatası oluştu. Lütfen internetinizi kontrol edin.");
+    } finally {
+      setYukleniyor(false);
+    }
   };
 
   return (
     <div className="flex-1 flex flex-col items-center justify-start p-4 pt-12 relative pb-32 min-h-screen">
-      {/* Arkaplan Efektleri */}
       <div className="absolute inset-0 bg-gradient-to-br from-emerald-900/10 via-zinc-950 to-teal-950/10 -z-10 fixed"></div>
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-lg h-96 bg-emerald-500/5 rounded-full blur-[100px] -z-10"></div>
       
@@ -39,7 +61,6 @@ export default function Iletisim() {
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12">
           
-          {/* SOL KISIM: İletişim Bilgileri */}
           <div className="lg:col-span-2 flex flex-col justify-center">
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-6 tracking-tight">
               Bizimle <br/><span className="text-emerald-400">İletişime Geçin.</span>
@@ -63,11 +84,9 @@ export default function Iletisim() {
             </div>
           </div>
 
-          {/* SAĞ KISIM: İletişim Formu */}
           <div className="lg:col-span-3">
             <div className="bg-zinc-900/40 border border-zinc-800/80 p-6 md:p-10 rounded-[2rem] backdrop-blur-sm shadow-2xl relative overflow-hidden">
               
-              {/* Başarı Mesajı (Görünmezden Gelir) */}
               <div className={`absolute inset-0 z-20 bg-zinc-900/95 backdrop-blur-md flex flex-col items-center justify-center transition-all duration-500 ${gonderildi ? 'opacity-100 visible' : 'opacity-0 invisible'}`}>
                 <CheckCircle2 size={64} className="text-emerald-500 mb-4 animate-in zoom-in duration-500" />
                 <h3 className="text-2xl font-bold text-white mb-2">Mesajınız Alındı!</h3>
@@ -77,7 +96,6 @@ export default function Iletisim() {
               <form onSubmit={handleSubmit} className="relative z-10 flex flex-col gap-6">
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {/* İsim Kutusu */}
                   <div>
                     <label className="block text-xs uppercase tracking-widest text-zinc-400 mb-2 font-semibold">Adınız Soyadınız</label>
                     <div className="relative">
@@ -91,7 +109,6 @@ export default function Iletisim() {
                     </div>
                   </div>
 
-                  {/* E-Posta Kutusu */}
                   <div>
                     <label className="block text-xs uppercase tracking-widest text-zinc-400 mb-2 font-semibold">E-Posta Adresiniz</label>
                     <div className="relative">
@@ -106,7 +123,6 @@ export default function Iletisim() {
                   </div>
                 </div>
 
-                {/* Mesaj Kutusu */}
                 <div>
                   <label className="block text-xs uppercase tracking-widest text-zinc-400 mb-2 font-semibold">Mesajınız</label>
                   <div className="relative">
@@ -120,7 +136,6 @@ export default function Iletisim() {
                   </div>
                 </div>
 
-                {/* Gönder Butonu */}
                 <button 
                   type="submit" 
                   disabled={yukleniyor}
