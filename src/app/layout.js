@@ -1,30 +1,27 @@
-import './globals.css';
-import Footer from '@/components/Footer';
+import { Inter } from "next/font/google";
+import "./globals.css";
 
-// GOOGLE SEO İÇİN SİTENİN KİMLİĞİ
+const inter = Inter({ subsets: ["latin"] });
+
 export const metadata = {
-  title: 'Sayaçhane | Premium Geri Sayım Aracı',
-  description: 'YKS, KPSS, Ramazan ve özel günleriniz için karanlık mod odaklı, reklamsız ve kesintisiz geri sayım platformu.',
-  keywords: ['sayaç', 'yks sayacı', 'kpss sayacı', 'ramazan sayacı', 'geri sayım', 'özel sayaç'],
+  title: 'Sayaçhane | YKS, KPSS ve Ramazan Geri Sayım',
+  description: 'Türkiye\'nin en şık geri sayım platformu. 2026 YKS, KPSS, Ramazan ayı ve kendi özel günleriniz için saniyesi saniyesine zamanı takip edin.',
+  keywords: ['sayaç', 'yks sayacı', 'yks 2026 ne zaman', 'kpss geri sayım', 'ramazan sayacı', 'iftar vakti', 'özel sayaç', 'sayaçhane'],
+  openGraph: {
+    title: 'Sayaçhane | Zamanı Lehine Çevir',
+    description: 'YKS, KPSS ve Ramazan için en iyi geri sayım aracı.',
+    url: 'https://sayachane.com.tr',
+    siteName: 'Sayaçhane',
+    locale: 'tr_TR',
+    type: 'website',
+  },
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="tr">
-      {/* 
-        antialiased: Yazıları daha pürüzsüz yapar (Apple stili)
-        min-h-screen flex flex-col: Footer'ın her zaman en altta kalmasını sağlar 
-      */}
-      <body className="bg-zinc-950 text-white min-h-screen flex flex-col antialiased selection:bg-emerald-500/30 selection:text-white">
-        
-        {/* Sayfaların (page.js) yüklendiği dinamik alan */}
-        <main className="flex-1 flex flex-col relative">
-          {children}
-        </main>
-        
-        {/* Tüm sayfaların en altında görünecek Global Footer */}
-        <Footer />
-        
+      <body className={inter.className}>
+        {children}
       </body>
     </html>
   );
