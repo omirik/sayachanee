@@ -1,6 +1,7 @@
 import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { GoogleAnalytics } from '@next/third-parties/google';
+import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import "./globals.css";
 
@@ -21,7 +22,6 @@ export const metadata = {
   verification: {
     google: 'dpu_d5D__hzM9AEYB5FhuICaQuEfE9ujUymrdXHLGIQ',
   },
-  // AdSense botunun kesinlikle okuyacağı Meta etiketi
   other: {
     "google-adsense-account": "ca-pub-9995958735732535"
   }
@@ -31,7 +31,6 @@ export default function RootLayout({ children }) {
   return (
     <html lang="tr">
       <head>
-        {/* Standart HTML AdSense Kodu */}
         <script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9995958735732535"
@@ -39,9 +38,13 @@ export default function RootLayout({ children }) {
         ></script>
       </head>
       <body className={`${inter.className} bg-zinc-950 text-white antialiased flex flex-col min-h-screen`}>
+        {/* YENİ EKLENEN ÜST MENÜ */}
+        <Header />
+        
         <main className="flex-grow">
           {children}
         </main>
+        
         <Footer />
         <Analytics />
       </body>
