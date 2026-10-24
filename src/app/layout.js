@@ -1,5 +1,6 @@
 import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
+import { GoogleAnalytics } from '@next/third-parties/google';
 import Footer from "@/components/Footer";
 import "./globals.css";
 
@@ -17,7 +18,6 @@ export const metadata = {
     locale: 'tr_TR',
     type: 'website',
   },
-  // Google Doğrulama Kodu Buraya Eklendi
   verification: {
     google: 'dpu_d5D__hzM9AEYB5FhuICaQuEfE9ujUymrdXHLGIQ',
   },
@@ -31,8 +31,13 @@ export default function RootLayout({ children }) {
           {children}
         </main>
         <Footer />
+        
+        {/* Vercel Analytics */}
         <Analytics />
       </body>
+      
+      {/* Google Analytics (GA4) */}
+      <GoogleAnalytics gaId="G-R5YF0EEDFN" />
     </html>
   );
 }
