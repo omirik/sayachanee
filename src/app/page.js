@@ -6,11 +6,10 @@ import { BookOpen, Moon, Briefcase, CalendarHeart, Zap, ShieldCheck, ChevronRigh
 export default function Home() {
   const [heroIndex, setHeroIndex] = useState(0);
 
-  // SAYAÇLARA ÖZEL DİNAMİK KAHRAMAN (HERO) İÇERİKLERİ
   const sayaclar = [
-    // 1. YENİ EKLENEN ANA KARŞILAMA SLAYTI (Sıfırıncı İndeks)
+    // 1. ANA KARŞILAMA SLAYTI (Buton artık aşağıya "vitrin"e kaydırıyor)
     { 
-      baslik: 'Ana Sayfa', kisa: 'Keşfet', butonText: 'Tüm Sayaçları Gör',
+      baslik: 'Ana Sayfa', kisa: 'Keşfet', butonText: 'Hızlı Göz At',
       aciklama: 'Sınavlar, bayramlar ve dini günler... Aradığın tüm geri sayımlar burada.', 
       link: '#vitrin', ikon: Compass, 
       renkText: 'text-indigo-400', renkBg: 'bg-indigo-400', renkGlow: 'bg-indigo-500/30', cardHover: 'hover:border-indigo-500/50 hover:shadow-[0_0_30px_rgba(99,102,241,0.1)]',
@@ -19,7 +18,6 @@ export default function Home() {
       heroSubtext: 'Türkiye\'nin en şık geri sayım portalı. Sınavlar, milli bayramlar, dini günler ve daha fazlası için zamanı anlık takip et.',
       heroBgGlow: 'from-indigo-900/15', heroBlurCircle: 'bg-indigo-500/10'
     },
-    // 2. RAMAZAN
     { 
       baslik: 'Ramazan Sayacı', kisa: 'Ramazan', butonText: 'Ramazan\'a Başla',
       aciklama: 'Diyanet verileriyle iftar ve sahur vakitleri.', link: '/ramazan', ikon: Moon, 
@@ -29,7 +27,6 @@ export default function Home() {
       heroSubtext: 'İftar ve sahur vakitlerini saniyesi saniyesine takip et, bereketli zamana odaklan.',
       heroBgGlow: 'from-amber-900/15', heroBlurCircle: 'bg-amber-500/10'
     },
-    // 3. YKS
     { 
       baslik: 'YKS Sayacı', kisa: 'YKS', butonText: 'YKS\'ye Hazırlan',
       aciklama: 'Üniversite sınavı için kalan zamanı takip et.', link: '/yks', ikon: BookOpen, 
@@ -39,7 +36,6 @@ export default function Home() {
       heroSubtext: 'YKS maratonunda zamanı yönetmek başarının anahtarıdır. Kalan süreni anlık takip et.',
       heroBgGlow: 'from-emerald-900/15', heroBlurCircle: 'bg-emerald-500/10'
     },
-    // 4. KPSS
     { 
       baslik: 'KPSS Sayacı', kisa: 'KPSS', butonText: 'KPSS\'ye Hazırlan',
       aciklama: 'Memurluk hedefi için geri sayımı başlat.', link: '/kpss', ikon: Briefcase, 
@@ -49,7 +45,6 @@ export default function Home() {
       heroSubtext: 'Geleceğini garanti altına almak için KPSS sürecinde her saniyeni değerli kıl.',
       heroBgGlow: 'from-blue-900/15', heroBlurCircle: 'bg-blue-500/10'
     },
-    // 5. ÖZEL SAYAÇ
     { 
       baslik: 'Özel Sayaç', kisa: 'Özel Gün', butonText: 'Kendi Sayacını Kur',
       aciklama: 'Kendi özel gününü ve saatini belirle.', link: '/ozel', ikon: CalendarHeart, 
@@ -69,12 +64,11 @@ export default function Home() {
   return (
     <div className="w-full flex flex-col pb-16">
       
-      <section className="relative w-full px-4 py-12 md:py-20 flex flex-col items-center justify-center overflow-hidden pt-24">
-        {/* DİNAMİK ARKA PLAN EFEKTLERİ */}
+      {/* SLIDER BÖLÜMÜ */}
+      <section className="relative w-full px-4 py-12 md:py-20 flex flex-col items-center justify-center overflow-hidden pt-24 min-h-[70vh]">
         <div className={`absolute inset-0 bg-gradient-to-b ${aktifSayac.heroBgGlow} via-zinc-950 to-zinc-950 -z-10 transition-colors duration-1000`}></div>
         <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] ${aktifSayac.heroBlurCircle} rounded-full blur-[120px] -z-10 pointer-events-none transition-colors duration-1000`}></div>
         
-        {/* DİNAMİK METİNLER */}
         <div key={heroIndex} className="animate-in fade-in zoom-in-95 slide-in-from-bottom-4 duration-700 w-full flex flex-col items-center">
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white mb-6 tracking-tighter text-center max-w-4xl">
             {aktifSayac.heroTitle1} <span className={`text-transparent bg-clip-text bg-gradient-to-r ${aktifSayac.heroHighlightColor}`}>{aktifSayac.heroHighlight}</span> {aktifSayac.heroTitle2}
@@ -105,7 +99,6 @@ export default function Home() {
             </div>
           </div>
 
-          {/* İlerleme Noktaları */}
           <div className="flex items-center gap-3 mt-4">
             {sayaclar.map((sayac, index) => (
               <div 
@@ -119,10 +112,20 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ALT KISIMDAKİ KART VİTRİNLERİ (id="vitrin" ekledik ki buton buraya kaydırsın) */}
+      {/* SIK KULLANILAN SAYAÇLAR (VİTRİN) */}
       <section id="vitrin" className="w-full max-w-6xl mx-auto px-4 py-16 scroll-mt-20">
+        <div className="flex items-end justify-between mb-10 border-b border-zinc-800/60 pb-4">
+          <div>
+            <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight">Sık Kullanılan <span className="text-zinc-500">Sayaçlar</span></h2>
+            <p className="text-zinc-400 mt-2 text-sm md:text-base">Kullanıcılarımızın en çok takip ettiği geri sayımlar.</p>
+          </div>
+          <Link href="/tum-sayaclar" className="hidden md:flex items-center gap-2 text-emerald-400 hover:text-emerald-300 font-semibold transition-colors group">
+            Tümünü Gör 
+            <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
+          </Link>
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Ana sayfa karşılama metnini kart olarak aşağıda göstermemek için .slice(1) kullandık */}
           {sayaclar.slice(1).map((sayac, index) => {
             const Icon = sayac.ikon;
             return (
@@ -138,9 +141,17 @@ export default function Home() {
             );
           })}
         </div>
+        
+        {/* Mobil için Tümünü Gör Butonu (Telefonda altta daha şık durur) */}
+        <div className="mt-8 flex justify-center md:hidden">
+          <Link href="/tum-sayaclar" className="flex items-center gap-2 text-emerald-400 hover:text-emerald-300 bg-emerald-500/10 px-6 py-3 rounded-full font-semibold transition-colors">
+            Tüm Kataloğu Keşfet <ChevronRight size={18} />
+          </Link>
+        </div>
       </section>
 
-      <section className="w-full max-w-6xl mx-auto px-4 pt-16 pb-8 border-t border-zinc-800/50 mt-12">
+      {/* NEDEN SAYAÇHANE BÖLÜMÜ */}
+      <section className="w-full max-w-6xl mx-auto px-4 pt-16 pb-8 border-t border-zinc-800/50 mt-4">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Neden Sayaçhane?</h2>
           <p className="text-zinc-400">Pürüzsüz bir deneyim için en son teknolojilerle geliştirildi.</p>
