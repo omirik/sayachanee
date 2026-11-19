@@ -30,19 +30,19 @@ export default function Hakkimizda() {
               İnternette yer alan mevcut geri sayım araçlarının göz yoran tasarımları, her yerden fırlayan rahatsız edici reklamları ve cihazı yoran ağır altyapıları bizi bu projeyi geliştirmeye itti. Sınavlara hazırlanan bir öğrenci, iftar vaktini bekleyen bir inanan veya özel gününü sabırsızlıkla bekleyen biri için zamanın akışını izlemek bir stres kaynağı değil, motivasyon aracı olmalıdır.
             </p>
             <p>
-              Bu vizyonla yola çıkarak, tamamen kullanıcı odaklı, karanlık mod (dark mode) estetiğine sahip ve saniyenin onda biri hassasiyetinde çalışan Sayaçhane'yi kodladık.
+              Bu vizyonla yola çıkarak, tamamen kullanıcı odaklı, karanlık mod estetiğine sahip ve Türkiye saatiyle saniye saniye çalışan Sayaçhane’yi geliştirdik.
             </p>
 
             <h2 className="text-xl font-semibold text-white mt-8 mb-3">Neler Sunuyoruz?</h2>
             <ul className="list-disc pl-5 space-y-2">
-              <li><strong>Eğitim Sayaçları:</strong> YKS ve KPSS gibi hayatın dönüm noktası olan sınavlara kalan süreyi şık bir arayüzle sunuyoruz.</li>
-              <li><strong>Ramazan Sayacı:</strong> Diyanet İşleri Başkanlığı verileriyle %100 uyumlu, anlık iftar ve sahur vakti takibi sağlıyoruz.</li>
+              <li><strong>Sınav Sayaçları:</strong> YKS, KPSS, LGS ve DGS gibi hayatın dönüm noktası olan sınavlara kalan süreyi ÖSYM ve MEB’in resmi takvimlerine göre gösteriyoruz.</li>
+              <li><strong>Bayram ve Dini Gün Sayaçları:</strong> Resmi bayramlar, Ramazan ve Kurban Bayramı için geri sayım; Ramazan’da şehrine göre iftar ve sahur vakitleri (Diyanet hesaplama yöntemiyle).</li>
               <li><strong>Özel Sayaç:</strong> Sizin için anlamlı olan herhangi bir tarihi sisteme girerek kendi kişisel geri sayımlarınızı oluşturmanıza imkan tanıyoruz.</li>
             </ul>
 
             <h2 className="text-xl font-semibold text-white mt-8 mb-3">Misyonumuz</h2>
             <p>
-              Amacımız, Sayaçhane'yi Türkiye'nin en çok tercih edilen, en estetik ve en güvenilir "zaman yönetimi ve takip" platformu haline getirmektir. Bizi tercih ettiğiniz için teşekkür ederiz.
+              Amacımız, Sayaçhane’yi Türkiye’nin en çok tercih edilen, en estetik ve en güvenilir “zaman yönetimi ve takip” platformu haline getirmektir. Bizi tercih ettiğiniz için teşekkür ederiz.
             </p>
           </div>
         </div>

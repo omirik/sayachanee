@@ -4,20 +4,7 @@ import { Calendar, Clock } from 'lucide-react';
 import GeriSayim from './GeriSayim';
 import { temalar } from '@/lib/tema';
 import { tarihMetni, saatMetni } from '@/lib/zaman';
-
-function depoyuDinle(degisince) {
-  window.addEventListener('storage', degisince);
-  return () => window.removeEventListener('storage', degisince);
-}
-
-function depodanOku(anahtar) {
-  if (!anahtar) return null;
-  try {
-    return localStorage.getItem(anahtar);
-  } catch {
-    return null;
-  }
-}
+import { depoyuDinle, depodanOku, depoyaYaz } from '@/lib/depo';
 
 /**
  * Birden fazla oturumu olan sınavlar için (ör. YKS: TYT/AYT/YDT) seçici + geri sayım.
@@ -36,7 +23,7 @@ export default function OturumluSayac({
   const t = temalar[tema];
   const [secimAdi, setSecimAdi] = useState(null);
 
-  // Son seçilen oturumu hatırla (sunucuda ve tarayıcı izin vermezse null döner).
+  // Son seçilen oturumu hatırla (sunucuda null döner).
   const kayitliAd = useSyncExternalStore(
     depoyuDinle,
     () => depodanOku(depoAnahtari),
@@ -45,9 +32,7 @@ export default function OturumluSayac({
 
   function sec(i) {
     setSecimAdi(oturumlar[i].ad);
-    try {
-      if (depoAnahtari) localStorage.setItem(depoAnahtari, oturumlar[i].ad);
-    } catch {}
+    if (depoAnahtari) depoyaYaz(depoAnahtari, oturumlar[i].ad);
   }
 
   const aktifAd = secimAdi ?? kayitliAd;

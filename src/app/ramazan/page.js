@@ -1,5 +1,8 @@
 'use client'
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useSyncExternalStore } from 'react';
+import { depoyuDinle, depodanOku, depoyaYaz } from '@/lib/depo';
+
+const SEHIR_DEPO = 'sayachane_sehir';
 import Link from 'next/link';
 import { ArrowLeft, MapPin, Loader2, ChevronDown, Search, Moon, Sun, Calendar, Plus, Minus } from 'lucide-react';
 import { ramazan } from '@/data/sayaclar';
@@ -35,7 +38,10 @@ const sssVerileri = [
 ];
 
 export default function RamazanSayaci() {
-  const [sehir, setSehir] = useState('İstanbul');
+  // Seçilen şehir tarayıcı hafızasında saklanır; yoksa İstanbul.
+  const kayitliSehir = useSyncExternalStore(depoyuDinle, () => depodanOku(SEHIR_DEPO), () => null);
+  const sehir = sehirlerListesi.includes(kayitliSehir) ? kayitliSehir : 'İstanbul';
+  const setSehir = (yeni) => depoyaYaz(SEHIR_DEPO, yeni);
   const [aktifSekme, setAktifSekme] = useState('İftar'); 
   const [vakitler, setVakitler] = useState({ iftar: null, sahur: null });
   const [kalan, setKalan] = useState({ gun: '00', saat: '--', dakika: '--', saniye: '--' });
@@ -49,17 +55,6 @@ export default function RamazanSayaci() {
   const dropdownRef = useRef(null);
 
   useEffect(() => {
-    try {
-      const kayitliSehir = localStorage.getItem('sayachane_sehir');
-      if (kayitliSehir && sehirlerListesi.includes(kayitliSehir)) setSehir(kayitliSehir);
-    } catch {}
-  }, []);
-
-  useEffect(() => {
-    try { localStorage.setItem('sayachane_sehir', sehir); } catch {}
-  }, [sehir]);
-
-  useEffect(() => {
     function handleClickOutside(event) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) setDropdownAcik(false);
     }
@@ -68,6 +63,8 @@ export default function RamazanSayaci() {
   }, []);
 
   useEffect(() => {
+    // Şehir hızlıca değiştirilirse eski şehrin geç gelen cevabı yenisinin üzerine yazmasın.
+    let gecersiz = false;
     const vakitleriGetir = async () => {
       setYukleniyor(true);
       setHata(false);
@@ -75,6 +72,7 @@ export default function RamazanSayaci() {
         const res = await fetch(`https://api.aladhan.com/v1/timingsByCity?city=${encodeURIComponent(sehir)}&country=Turkey&method=13`);
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const veri = await res.json();
+        if (gecersiz) return;
         const saatler = veri.data.timings;
         const bugun = veri.data.date.gregorian.date; // "GG-AA-YYYY", şehrin kendi günü
 
@@ -96,6 +94,7 @@ export default function RamazanSayaci() {
           return simdi >= imsakBugun && simdi < iftarBugun ? 'İftar' : 'Sahur';
         });
       } catch (error) {
+        if (gecersiz) return;
         console.error("Vakitler çekilirken hata:", error);
         setHata(true);
       }
@@ -103,6 +102,9 @@ export default function RamazanSayaci() {
     };
 
     vakitleriGetir();
+    return () => {
+      gecersiz = true;
+    };
   }, [sehir, yenile]);
 
   useEffect(() => {
@@ -203,7 +205,7 @@ export default function RamazanSayaci() {
             <Moon size={16} className={aktifSekme === 'Sahur' ? 'text-white' : 'text-blue-500/70'} /> Sahur
           </button>
           <button onClick={() => setAktifSekme('Ramazan')} className={`flex items-center gap-2 px-5 py-2 rounded-full text-sm font-semibold transition-all ${aktifSekme === 'Ramazan' ? 'bg-emerald-500 text-white shadow-md' : 'text-zinc-400 hover:text-white'}`}>
-            <Calendar size={16} className={aktifSekme === 'Ramazan' ? 'text-white' : 'text-emerald-500/70'} /> Ramazan'a Doğru
+            <Calendar size={16} className={aktifSekme === 'Ramazan' ? 'text-white' : 'text-emerald-500/70'} /> Ramazan’a Doğru
           </button>
         </div>
 

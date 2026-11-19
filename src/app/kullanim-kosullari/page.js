@@ -26,10 +26,10 @@ export default function KullanimKosullari() {
             
             <h2 className="text-xl font-semibold text-white mt-8 mb-3">1. Sorumluluk Reddi (Önemli)</h2>
             <p>
-              Sitemizde yer alan <strong>YKS, KPSS</strong> gibi sınav tarihleri, ÖSYM'nin resmi açıklaması yapılana kadar geçmiş yıllardaki istatistiklere dayalı <strong>tahmini tarihlerdir.</strong> Resmi tarihler açıklandığında sistemimiz güncellenmektedir. 
+              Sitemizdeki sınav tarihleri ÖSYM ve MEB’in, dini gün tarihleri ise Diyanet İşleri Başkanlığı’nın yayımladığı takvimlere dayanır. Kurumlar bir tarihi değiştirirse sitemiz de güncellenir; ancak bu güncelleme <strong>gecikmeli olabilir.</strong>
             </p>
             <p>
-              Sitede yer alan geri sayım verilerindeki olası gecikme, hata veya uyuşmazlıklardan doğabilecek doğrudan veya dolaylı hiçbir maddi/manevi zarardan Sayaçhane ve geliştiricileri sorumlu tutulamaz. Resmi ve kesin tarihler için kullanıcıların daima <a href="https://www.osym.gov.tr" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">ÖSYM</a> ve <a href="https://www.diyanet.gov.tr" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">Diyanet İşleri Başkanlığı</a> web sitelerini takip etmesi önerilir.
+              Sitede yer alan geri sayım verilerindeki olası gecikme, hata veya uyuşmazlıklardan doğabilecek doğrudan veya dolaylı hiçbir maddi/manevi zarardan Sayaçhane ve geliştiricileri sorumlu tutulamaz. Resmi ve kesin tarihler için kullanıcıların daima <a href="https://www.osym.gov.tr" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">ÖSYM</a> , <a href="https://www.meb.gov.tr" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">MEB</a> ve <a href="https://www.diyanet.gov.tr" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">Diyanet İşleri Başkanlığı</a> web sitelerini takip etmesi önerilir.
             </p>
 
             <h2 className="text-xl font-semibold text-white mt-8 mb-3">2. Hizmetin Sağlanması ve Kesintiler</h2>
@@ -39,7 +39,7 @@ export default function KullanimKosullari() {
 
             <h2 className="text-xl font-semibold text-white mt-8 mb-3">3. Kullanıcı Tarafından Oluşturulan Veriler</h2>
             <p>
-              "Özel Sayaç" bölümünde oluşturduğunuz etkinlik adları ve tarihleri tamamen sizin cihazınızın tarayıcı hafızasında (Local Storage) tutulur. Bu verilerin kaybından, silinmesinden veya üçüncü şahısların cihazınıza erişmesi durumunda oluşabilecek gizlilik ihlallerinden Sayaçhane sorumlu değildir.
+              “Özel Sayaç” bölümünde oluşturduğunuz etkinlik adları ve tarihleri tamamen sizin cihazınızın tarayıcı hafızasında (Local Storage) tutulur. Bir sayacı paylaştığınızda, sayacın adı ve tarihi paylaşım bağlantısının içinde yer alır; bağlantıya sahip herkes bu bilgileri görebilir. Bu verilerin kaybından, silinmesinden veya üçüncü şahısların cihazınıza erişmesi durumunda oluşabilecek gizlilik ihlallerinden Sayaçhane sorumlu değildir.
             </p>
 
             <h2 className="text-xl font-semibold text-white mt-8 mb-3">4. Fikri Mülkiyet</h2>

@@ -28,7 +28,7 @@ export default function GizlilikPolitikasi() {
             <p>Sitemizde, kullanıcı deneyimini iyileştirmek ve kişiselleştirilmiş reklamlar sunmak amacıyla Google AdSense dahil üçüncü taraf reklam şirketleri kullanılabilir.</p>
             <ul className="list-disc pl-5 space-y-2 mt-2">
               <li>Üçüncü taraf satıcılar (Google dâhil), kullanıcıların web sitemize veya diğer web sitelerine yaptıkları önceki ziyaretleri temel alan reklamlar yayınlamak için çerezleri kullanır.</li>
-              <li>Google'ın reklam çerezlerini kullanması, Google ve iş ortaklarının kullanıcılara sitemizdeki ve/veya internetteki diğer sitelerdeki ziyaretlerine dayalı reklamlar sunmasına olanak tanır.</li>
+              <li>Google’ın reklam çerezlerini kullanması, Google ve iş ortaklarının kullanıcılara sitemizdeki ve/veya internetteki diğer sitelerdeki ziyaretlerine dayalı reklamlar sunmasına olanak tanır.</li>
               <li>Kullanıcılar, <a href="https://myadcenter.google.com/" target="_blank" rel="noopener noreferrer" className="text-emerald-400 hover:underline">Reklam Ayarları</a> sayfasını ziyaret ederek kişiselleştirilmiş reklamcılığı devre dışı bırakabilirler.</li>
             </ul>
 

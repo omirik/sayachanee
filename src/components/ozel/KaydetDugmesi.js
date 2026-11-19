@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { BookmarkPlus, Check } from 'lucide-react';
+import { depodanOku, depoyaYaz } from '@/lib/depo';
 
 const DEPO = 'sayachane_ozel_sayaclar';
 
@@ -11,11 +12,11 @@ export default function KaydetDugmesi({ isim, hedef }) {
 
   function kaydet() {
     try {
-      const liste = JSON.parse(localStorage.getItem(DEPO) || '[]');
+      const liste = JSON.parse(depodanOku(DEPO) || '[]');
       const zatenVar = liste.some((s) => s.isim === isim && s.hedef === hedef);
       if (!zatenVar) {
         liste.push({ id: Date.now().toString(), isim, hedef, baslangic: Date.now() });
-        localStorage.setItem(DEPO, JSON.stringify(liste));
+        depoyaYaz(DEPO, JSON.stringify(liste));
       }
       setDurum('eklendi');
     } catch {

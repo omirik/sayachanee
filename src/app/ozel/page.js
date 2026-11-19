@@ -1,10 +1,27 @@
 'use client'
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo, useSyncExternalStore } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, CalendarHeart, AlertCircle, Activity, Plus, Trash2, Edit, Calendar, List, ChevronRight, ChevronDown, Clock } from 'lucide-react';
 import PaylasDugmeleri from '@/components/ozel/PaylasDugmeleri';
 import { trZamani, trParcalar, tarihMetni, saatMetni } from '@/lib/zaman';
 import { AD_UZUNLUGU } from '@/lib/ozel';
+import { depoyuDinle, depodanOku, depoyaYaz } from '@/lib/depo';
+
+const DEPO = 'sayachane_ozel_sayaclar';
+
+function listeyiCoz(ham) {
+  try {
+    const liste = JSON.parse(ham);
+    return Array.isArray(liste) ? liste : [];
+  } catch {
+    return [];
+  }
+}
+
+// Sayaç listesini günceller ve tarayıcı hafızasına yazar.
+function setSayaclar(guncelle) {
+  depoyaYaz(DEPO, JSON.stringify(guncelle(listeyiCoz(depodanOku(DEPO)))));
+}
 
 // Tarih kısa gösterimi: "1 Temmuz 2027 - 09:00" (Türkiye saatiyle)
 const kisaTarih = (ms) => `${tarihMetni(ms, { gunAdi: false })} - ${saatMetni(ms)}`;
@@ -16,10 +33,11 @@ const saatlerListesi = Array.from({ length: 24 }, (_, i) => i);
 const dakikalarListesi = Array.from({ length: 60 }, (_, i) => i);
 
 export default function OzelSayac() {
-  const [sayaclar, setSayaclar] = useState([]);
+  // Kayıtlı sayaçlar tarayıcı hafızasından okunur (sunucuda boş liste).
+  const hamListe = useSyncExternalStore(depoyuDinle, () => depodanOku(DEPO), () => null);
+  const sayaclar = useMemo(() => listeyiCoz(hamListe), [hamListe]);
   const [seciliSayacId, setSeciliSayacId] = useState(null);
   const [zamanlar, setZamanlar] = useState({});
-  const [hafizaYuklendi, setHafizaYuklendi] = useState(false);
   
   const [formAcik, setFormAcik] = useState(false);
   const [duzenlenecekId, setDuzenlenecekId] = useState(null);
@@ -33,20 +51,6 @@ export default function OzelSayac() {
   
   const [acikDropdown, setAcikDropdown] = useState(null);
   const [hata, setHata] = useState('');
-
-  useEffect(() => {
-    const kayitli = localStorage.getItem('sayachane_ozel_sayaclar');
-    if (kayitli) {
-      setSayaclar(JSON.parse(kayitli));
-    }
-    setHafizaYuklendi(true); 
-  }, []);
-
-  useEffect(() => {
-    if (hafizaYuklendi) {
-      localStorage.setItem('sayachane_ozel_sayaclar', JSON.stringify(sayaclar));
-    }
-  }, [sayaclar, hafizaYuklendi]);
 
   // HATA ÇÖZÜLDÜ: Menünün açılıp anında kapanmasını engelleyen doğru tıklama mantığı
   useEffect(() => {
