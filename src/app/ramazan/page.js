@@ -2,6 +2,17 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, MapPin, Loader2, ChevronDown, Search, Moon, Sun, Calendar, Plus, Minus } from 'lucide-react';
+import { ramazan } from '@/data/sayaclar';
+import { tarihMetni } from '@/lib/zaman';
+
+const ramazanBaslangici = new Date(ramazan.baslangicTarihi);
+const GUN_MS = 24 * 60 * 60 * 1000;
+
+// API'nin verdiği "GG-AA-YYYY" tarihi ve "SS:DD" saati -> Türkiye saatiyle Date
+function trVakit(gunAyYil, saatDakika) {
+  const [g, a, y] = gunAyYil.split('-');
+  return new Date(`${y}-${a}-${g}T${saatDakika.slice(0, 5)}:00+03:00`);
+}
 
 const sehirlerListesi = [
   "Adana", "Adıyaman", "Afyonkarahisar", "Ağrı", "Amasya", "Ankara", "Antalya", "Artvin", "Aydın", "Balıkesir",
@@ -16,10 +27,11 @@ const sehirlerListesi = [
 
 // RAMAZAN İÇİN SIKÇA SORULAN SORULAR
 const sssVerileri = [
-  { soru: '2027 Ramazan ayı ne zaman başlıyor?', cevap: 'Diyanet İşleri Başkanlığı takvimine göre 2027 yılında mübarek Ramazan ayı 8 Şubat 2027 Pazartesi günü başlayacaktır.' },
+  { soru: `${ramazan.yil} Ramazan ayı ne zaman başlıyor?`, cevap: `Diyanet İşleri Başkanlığı takvimine göre ${ramazan.yil} yılında Ramazan ayı ${tarihMetni(ramazan.baslangicTarihi)} günü başlıyor. İlk sahur, bir önceki geceye denk gelir. Son oruç ${tarihMetni(ramazan.bitisTarihi)} günü tutulacak.` },
+  { soru: `${ramazan.yil} Kadir Gecesi ne zaman?`, cevap: `Diyanet takvimine göre Kadir Gecesi, ${tarihMetni(ramazan.kadirGecesi)} günü akşamı idrak edilecek.` },
   { soru: 'Ramazana kaç gün kaldı?', cevap: 'Sayfamızdaki "Ramazan\'a Doğru" sekmesine tıklayarak Ramazan ayının başlangıcına kaç gün, saat, dakika ve saniye kaldığını görebilirsiniz.' },
   { soru: 'İftar ve sahur vakitleri neye göre hesaplanıyor?', cevap: 'Vakitler, bulunduğunuz şehre göre Diyanet İşleri Başkanlığı\'nın güncel hesaplama yöntemleri kullanılarak anlık olarak api.aladhan servisinden çekilmektedir.' },
-  { soru: 'Sayacın doğruluğu kesin mi?', cevap: 'Evet, sistem saniyenin onda biri hassasiyetle cihazınızın saatini referans alarak çalışır. Vakitler çekildikten sonra sayfa yenilenene kadar internetiniz kopsa dahi sayaç geriye saymaya devam eder.' }
+  { soru: 'Sayaç ne kadar doğru?', cevap: 'Sayaç cihazınızın saatini kullanır ve Türkiye saatine göre hesaplar. Cihazınızın saati doğruysa sonuç saniyesi saniyesine doğrudur. Vakitler bir kez yüklendikten sonra internet bağlantınız kopsa bile sayaç çalışmaya devam eder.' }
 ];
 
 export default function RamazanSayaci() {
@@ -28,21 +40,23 @@ export default function RamazanSayaci() {
   const [vakitler, setVakitler] = useState({ iftar: null, sahur: null });
   const [kalan, setKalan] = useState({ gun: '00', saat: '--', dakika: '--', saniye: '--' });
   const [yukleniyor, setYukleniyor] = useState(true);
+  const [hata, setHata] = useState(false);
+  const [yenile, setYenile] = useState(0); // vakit gelince yeni vakitleri çekmek için
   const [acikSoru, setAcikSoru] = useState(null);
   
   const [dropdownAcik, setDropdownAcik] = useState(false);
   const [aramaMetni, setAramaMetni] = useState('');
   const dropdownRef = useRef(null);
 
-  const ramazanBaslangici = new Date(2027, 1, 8, 0, 0, 0);
-
   useEffect(() => {
-    const kayitliSehir = localStorage.getItem('sayachane_sehir');
-    if (kayitliSehir) setSehir(kayitliSehir);
+    try {
+      const kayitliSehir = localStorage.getItem('sayachane_sehir');
+      if (kayitliSehir && sehirlerListesi.includes(kayitliSehir)) setSehir(kayitliSehir);
+    } catch {}
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('sayachane_sehir', sehir);
+    try { localStorage.setItem('sayachane_sehir', sehir); } catch {}
   }, [sehir]);
 
   useEffect(() => {
@@ -56,37 +70,40 @@ export default function RamazanSayaci() {
   useEffect(() => {
     const vakitleriGetir = async () => {
       setYukleniyor(true);
+      setHata(false);
       try {
-        const res = await fetch(`https://api.aladhan.com/v1/timingsByCity?city=${sehir}&country=Turkey&method=13`);
+        const res = await fetch(`https://api.aladhan.com/v1/timingsByCity?city=${encodeURIComponent(sehir)}&country=Turkey&method=13`);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const veri = await res.json();
         const saatler = veri.data.timings;
+        const bugun = veri.data.date.gregorian.date; // "GG-AA-YYYY", şehrin kendi günü
 
         const simdi = new Date();
-        
-        const iftarTarihi = new Date();
-        const [iSaat, iDak] = saatler.Maghrib.split(':');
-        iftarTarihi.setHours(iSaat, iDak, 0, 0);
-        if (simdi > iftarTarihi) iftarTarihi.setDate(iftarTarihi.getDate() + 1);
+        // Bugünün vakitleri (Türkiye saatiyle)
+        const imsakBugun = trVakit(bugun, saatler.Imsak);
+        const iftarBugun = trVakit(bugun, saatler.Maghrib);
 
-        const sahurTarihi = new Date();
-        const [sSaat, sDak] = saatler.Imsak.split(':');
-        sahurTarihi.setHours(sSaat, sDak, 0, 0);
-        if (simdi > sahurTarihi) sahurTarihi.setDate(sahurTarihi.getDate() + 1);
+        // Sıradaki imsak ve iftar: geçtiyse yarına kaydır (vakitler günden güne birkaç dakika değişir;
+        // vakit gelince sayfa yeni vakitleri tekrar çeker).
+        const sahurTarihi = simdi < imsakBugun ? imsakBugun : new Date(imsakBugun.getTime() + GUN_MS);
+        const iftarTarihi = simdi < iftarBugun ? iftarBugun : new Date(iftarBugun.getTime() + GUN_MS);
 
         setVakitler({ iftar: iftarTarihi, sahur: sahurTarihi });
 
-        if (aktifSekme !== 'Ramazan') {
-          if (simdi < iftarTarihi && simdi > sahurTarihi) setAktifSekme('İftar');
-          else setAktifSekme('Sahur');
-        }
+        // Gündüz (imsak ile iftar arası) iftarı, gece sahuru göster.
+        setAktifSekme((onceki) => {
+          if (onceki === 'Ramazan') return onceki;
+          return simdi >= imsakBugun && simdi < iftarBugun ? 'İftar' : 'Sahur';
+        });
       } catch (error) {
         console.error("Vakitler çekilirken hata:", error);
+        setHata(true);
       }
       setYukleniyor(false);
     };
 
     vakitleriGetir();
-  }, [sehir]);
+  }, [sehir, yenile]);
 
   useEffect(() => {
     let hedefZaman;
@@ -110,6 +127,8 @@ export default function RamazanSayaci() {
       } else {
         setKalan({ gun: '00', saat: '00', dakika: '00', saniye: '00' });
         clearInterval(sayac);
+        // İftar/sahur vakti geldi: bir sonraki vakti çek.
+        if (aktifSekme !== 'Ramazan') setTimeout(() => setYenile((n) => n + 1), 5000);
       }
     }, 1000);
 
@@ -195,6 +214,11 @@ export default function RamazanSayaci() {
               <Loader2 className="animate-spin text-amber-400" size={24} />
               <span className="text-sm tracking-wide">Vakitler güncelleniyor...</span>
             </div>
+          ) : hata && aktifSekme !== 'Ramazan' ? (
+            <div className="flex flex-col items-center gap-3 text-zinc-300">
+              <span>{sehir} için vakitler şu an alınamadı.</span>
+              <button onClick={() => setYenile((n) => n + 1)} className="px-4 py-2 rounded-full bg-zinc-800 hover:bg-zinc-700 text-sm font-medium">Tekrar dene</button>
+            </div>
           ) : (
             <div className="transition-all duration-500 animate-in fade-in slide-in-from-bottom-2">
               <h1 className="text-4xl md:text-6xl font-bold text-white mb-3 tracking-tight">
@@ -202,7 +226,7 @@ export default function RamazanSayaci() {
               </h1>
               <p className="text-zinc-400 font-light">
                 {aktifSekme === 'Ramazan' ? (
-                  <>Mübarek Ramazan ayı <span className="text-white font-medium">8 Şubat 2027</span> tarihinde başlıyor.</>
+                  <>Ramazan ayı <span className="text-white font-medium">{tarihMetni(ramazan.baslangicTarihi)}</span> günü başlıyor.</>
                 ) : (
                   <><span className="text-white font-medium">{sehir}</span> için {aktifSekme === 'İftar' ? 'akşam ezanı' : 'imsak vakti'} bekleniyor.</>
                 )}
