@@ -1,85 +1,52 @@
+import Link from 'next/link';
+import { ArrowRight, CalendarHeart } from 'lucide-react';
 import { sayfaMeta } from '@/lib/site';
-import Link from "next/link";
-import { BookOpen, Briefcase, PenTool, GraduationCap, Flag, Star, Sun, Award, Moon, Heart, CalendarHeart } from "lucide-react";
+import { kategoriler } from '@/lib/katalog';
+import KategoriListesi, { KategoriSayfasi } from '@/components/sayac/KategoriListesi';
 
 export const metadata = sayfaMeta('/tum-sayaclar');
+export const revalidate = 3600;
 
-export default function TumSayaclar() {
-  const kategoriler = [
-    {
-      baslik: "Sınav Sayaçları",
-      renk: "text-emerald-500",
-      sayaclar: [
-        { isim: "YKS Sayacı", link: "/yks", ikon: BookOpen, iconColor: "text-emerald-400", hoverBorder: "hover:border-emerald-500/50" },
-        { isim: "KPSS Sayacı", link: "/kpss", ikon: Briefcase, iconColor: "text-blue-400", hoverBorder: "hover:border-blue-500/50" },
-        { isim: "LGS Sayacı", link: "/lgs", ikon: PenTool, iconColor: "text-cyan-400", hoverBorder: "hover:border-cyan-500/50" },
-        { isim: "DGS Sayacı", link: "/dgs", ikon: GraduationCap, iconColor: "text-purple-400", hoverBorder: "hover:border-purple-500/50" },
-      ]
-    },
-    {
-      baslik: "Resmi Bayramlar",
-      renk: "text-red-500",
-      sayaclar: [
-        { isim: "29 Ekim Cumhuriyet B.", link: "/29-ekim", ikon: Flag, iconColor: "text-red-500", hoverBorder: "hover:border-red-500/50" },
-        { isim: "23 Nisan Ulusal E.", link: "/23-nisan", ikon: Star, iconColor: "text-red-500", hoverBorder: "hover:border-red-500/50" },
-        { isim: "19 Mayıs Gençlik", link: "/19-mayis", ikon: Sun, iconColor: "text-red-500", hoverBorder: "hover:border-red-500/50" },
-        { isim: "30 Ağustos Zafer B.", link: "/30-agustos", ikon: Award, iconColor: "text-red-500", hoverBorder: "hover:border-red-500/50" },
-      ]
-    },
-    {
-      baslik: "Dini Günler ve Bayramlar",
-      renk: "text-amber-500",
-      sayaclar: [
-        { isim: "Ramazan Sayacı", link: "/ramazan", ikon: Moon, iconColor: "text-amber-500", hoverBorder: "hover:border-amber-500/50" },
-        { isim: "Ramazan Bayramı", link: "/ramazan-bayrami", ikon: Heart, iconColor: "text-amber-500", hoverBorder: "hover:border-amber-500/50" },
-        { isim: "Kurban Bayramı", link: "/kurban-bayrami", ikon: Star, iconColor: "text-amber-500", hoverBorder: "hover:border-amber-500/50" },
-      ]
-    },
-    {
-      baslik: "Kişisel Araçlar",
-      renk: "text-rose-500",
-      sayaclar: [
-        { isim: "Özel Sayaç Kur", link: "/ozel", ikon: CalendarHeart, iconColor: "text-rose-500", hoverBorder: "hover:border-rose-500/50" },
-      ]
-    }
-  ];
-
+export default function TumSayaclarSayfasi() {
   return (
-    <div className="min-h-[calc(100vh-80px)] bg-zinc-950 flex flex-col items-center pt-20 pb-20 px-4">
-      <div className="text-center mb-16 max-w-2xl">
-        <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-6 tracking-tight">
-          Tüm <span className="text-zinc-400">Sayaçlar</span>
-        </h1>
-        <p className="text-zinc-400 text-lg leading-relaxed">
-          Sayaçhane'de bulunan tüm aktif geri sayım araçlarını aşağıdan keşfedebilirsin.
-        </p>
-      </div>
-
-      <div className="w-full max-w-6xl space-y-16">
-        {kategoriler.map((kategori, catIndex) => (
-          <div key={catIndex} className="animate-in fade-in slide-in-from-bottom-4 duration-700">
-            <div className="flex items-center gap-3 mb-6 border-b border-zinc-800/50 pb-3">
-              <h2 className={`text-2xl font-bold ${kategori.renk}`}>{kategori.baslik}</h2>
+    <KategoriSayfasi
+      baslik="Tüm"
+      vurgu="Sayaçlar"
+      vurguRengi="text-zinc-400"
+      aciklama="Sayaçhane'deki tüm geri sayımlar, kategorilere göre ve en yakından en uzağa sıralı."
+    >
+      <div className="space-y-14">
+        {Object.entries(kategoriler).map(([anahtar, k]) => (
+          <section key={anahtar}>
+            <div className="flex items-end justify-between gap-4 mb-5 border-b border-zinc-800/60 pb-3">
+              <h2 className="text-2xl font-bold text-white">{k.ad}</h2>
+              <Link href={k.yol} className="flex items-center gap-1 text-sm text-zinc-400 hover:text-white">
+                Kategoriye git <ArrowRight size={14} />
+              </Link>
             </div>
-            
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {kategori.sayaclar.map((sayac, index) => {
-                const Icon = sayac.ikon;
-                return (
-                  <Link key={index} href={sayac.link} className={`bg-zinc-900/40 border border-zinc-800/80 rounded-2xl p-5 flex flex-col items-center text-center gap-4 group transition-all duration-300 ${sayac.hoverBorder} hover:bg-zinc-900/80`}>
-                    <div className={`w-14 h-14 rounded-2xl bg-zinc-950 border border-zinc-800 flex items-center justify-center group-hover:scale-110 transition-transform ${sayac.iconColor}`}>
-                      <Icon size={24} />
-                    </div>
-                    <h3 className="font-semibold text-zinc-200 group-hover:text-white transition-colors">
-                      {sayac.isim}
-                    </h3>
-                  </Link>
-                );
-              })}
-            </div>
-          </div>
+            <KategoriListesi kategori={anahtar} />
+          </section>
         ))}
+
+        <section>
+          <h2 className="text-2xl font-bold text-white mb-5 border-b border-zinc-800/60 pb-3">Kişisel Araçlar</h2>
+          <Link
+            href="/ozel"
+            className="flex items-center justify-between gap-4 p-6 rounded-3xl border border-rose-500/20 bg-gradient-to-br from-rose-950/40 to-zinc-900/60 hover:border-rose-500/40 transition-colors"
+          >
+            <span className="flex items-center gap-4">
+              <span className="p-2.5 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-400">
+                <CalendarHeart size={20} />
+              </span>
+              <span>
+                <span className="block text-lg font-semibold text-white">Özel Sayaç</span>
+                <span className="block text-sm text-zinc-400">Kendi tarihini gir, geri sayımını oluştur.</span>
+              </span>
+            </span>
+            <ArrowRight size={18} className="text-rose-300 shrink-0" />
+          </Link>
+        </section>
       </div>
-    </div>
+    </KategoriSayfasi>
   );
 }

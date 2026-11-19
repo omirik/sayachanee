@@ -1,31 +1,69 @@
 import Link from 'next/link';
 import { Timer } from 'lucide-react';
+import { kategoriler, sayaclar } from '@/lib/katalog';
+
+const kurumsal = [
+  { ad: 'Hakkımızda', yol: '/hakkimizda' },
+  { ad: 'İletişim', yol: '/iletisim' },
+  { ad: 'Gizlilik Politikası', yol: '/gizlilik-politikasi' },
+  { ad: 'Kullanım Koşulları', yol: '/kullanim-kosullari' },
+];
 
 export default function Footer() {
   return (
-    <footer className="w-full border-t border-zinc-800/80 bg-zinc-950 py-8 relative z-50 mt-auto">
-      <div className="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-6">
-        
-        {/* Logo Kısmı */}
-        <div className="flex items-center gap-2 text-zinc-300">
-          <Timer size={20} className="text-emerald-500" />
-          <span className="font-bold text-lg tracking-tight">Sayaçhane</span>
-        </div>
-        
-        {/* AdSense İçin Zorunlu Linkler */}
-        <div className="flex flex-wrap justify-center gap-4 md:gap-8 text-sm font-medium text-zinc-400">
-          <Link href="/hakkimizda" className="hover:text-white transition-colors">Hakkımızda</Link>
-          <Link href="/gizlilik-politikasi" className="hover:text-white transition-colors">Gizlilik Politikası</Link>
-          <Link href="/kullanim-kosullari" className="hover:text-white transition-colors">Kullanım Koşulları</Link>
-          <Link href="/iletisim" className="hover:text-white transition-colors">İletişim</Link>
+    <footer className="w-full border-t border-zinc-800/80 bg-zinc-950 mt-auto">
+      <div className="max-w-6xl mx-auto px-4 py-12 grid grid-cols-2 md:grid-cols-5 gap-8">
+        <div className="col-span-2 md:col-span-1">
+          <Link href="/" className="flex items-center gap-2 text-zinc-200">
+            <Timer size={20} className="text-emerald-500" />
+            <span className="font-bold text-lg tracking-tight">Sayaçhane</span>
+          </Link>
+          <p className="text-sm text-zinc-400 mt-3 leading-relaxed">
+            Sınavlar, bayramlar ve özel günler için Türkiye saatiyle canlı geri sayım.
+          </p>
         </div>
 
-        {/* Telif Hakkı */}
-        <div className="text-zinc-600 text-xs text-center md:text-right">
-          © {new Date().getFullYear()} Sayaçhane.<br/>
-          Tüm hakları saklıdır.
+        {Object.entries(kategoriler).map(([anahtar, k]) => (
+          <div key={anahtar}>
+            <Link href={k.yol} className="text-sm font-semibold text-zinc-200 hover:text-white">
+              {k.ad}
+            </Link>
+            <ul className="mt-3 space-y-2">
+              {sayaclar
+                .filter((s) => s.kategori === anahtar)
+                .map((s) => (
+                  <li key={s.yol}>
+                    <Link href={s.yol} className="text-sm text-zinc-400 hover:text-white transition-colors">
+                      {s.ad} Sayacı
+                    </Link>
+                  </li>
+                ))}
+            </ul>
+          </div>
+        ))}
+
+        <div>
+          <span className="text-sm font-semibold text-zinc-200">Sayaçhane</span>
+          <ul className="mt-3 space-y-2">
+            <li>
+              <Link href="/ozel" className="text-sm text-zinc-400 hover:text-white transition-colors">Özel Sayaç</Link>
+            </li>
+            <li>
+              <Link href="/tum-sayaclar" className="text-sm text-zinc-400 hover:text-white transition-colors">Tüm Sayaçlar</Link>
+            </li>
+            {kurumsal.map((l) => (
+              <li key={l.yol}>
+                <Link href={l.yol} className="text-sm text-zinc-400 hover:text-white transition-colors">{l.ad}</Link>
+              </li>
+            ))}
+          </ul>
         </div>
-        
+      </div>
+
+      <div className="border-t border-zinc-900">
+        <p className="max-w-6xl mx-auto px-4 py-6 text-xs text-zinc-500">
+          © {new Date().getFullYear()} Sayaçhane. Tüm hakları saklıdır.
+        </p>
       </div>
     </footer>
   );

@@ -41,6 +41,12 @@ export function yillikTarihler(ay, gun, simdi = Date.now()) {
   };
 }
 
+// Sunucu bileşenlerinde sayfanın oluşturulduğu an. Sayfa saatlik yenilendiği için
+// sıralama ve ilk "kaç gün kaldı" değeri buna göre hesaplanır; tarayıcı sonra canlı günceller.
+export function sunucuZamani() {
+  return Date.now();
+}
+
 // Kalan süreyi gün/saat/dakika/saniye olarak parçalar.
 export function kalanSure(farkMs) {
   const toplamSaniye = Math.max(0, Math.floor(farkMs / 1000));
