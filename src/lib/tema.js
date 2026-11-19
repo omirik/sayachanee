@@ -62,6 +62,18 @@ export const temalar = {
     sssBaslik: 'group-open:text-red-400',
     sssIkon: 'group-open:bg-red-500/20 group-open:text-red-400',
   },
+  indigo: {
+    metin: 'text-indigo-300',
+    ikon: 'text-indigo-400',
+    ikonKutu: 'bg-indigo-900/30 border-indigo-500/30 text-indigo-300',
+    arkaPlan: 'from-indigo-900/15 via-zinc-950 to-violet-950/20',
+    vurguKart: 'border-indigo-500/40 shadow-[0_0_30px_rgba(129,140,248,0.15)]',
+    cubuk: 'from-indigo-700 via-indigo-500 to-violet-400',
+    secili: 'bg-indigo-500 text-white',
+    sssAcik: 'open:border-indigo-500/50',
+    sssBaslik: 'group-open:text-indigo-300',
+    sssIkon: 'group-open:bg-indigo-500/20 group-open:text-indigo-300',
+  },
   rose: {
     metin: 'text-rose-400',
     ikon: 'text-rose-500',

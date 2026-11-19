@@ -12,8 +12,8 @@ const kurumsal = [
 export default function Footer() {
   return (
     <footer className="w-full border-t border-zinc-800/80 bg-zinc-950 mt-auto">
-      <div className="max-w-6xl mx-auto px-4 py-12 grid grid-cols-2 md:grid-cols-5 gap-8">
-        <div className="col-span-2 md:col-span-1">
+      <div className="max-w-6xl mx-auto px-4 py-12 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
+        <div className="col-span-2 md:col-span-3 lg:col-span-1">
           <Link href="/" className="flex items-center gap-2 text-zinc-200">
             <Timer size={20} className="text-emerald-500" />
             <span className="font-bold text-lg tracking-tight">Sayaçhane</span>

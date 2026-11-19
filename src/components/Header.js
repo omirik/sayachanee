@@ -9,7 +9,8 @@ import { temalar } from "@/lib/tema";
 // Masaüstü menü bağlantıları
 const menu = [
   { ad: "Sınavlar", yol: "/sinavlar", kategori: "sinav" },
-  { ad: "Resmi Bayramlar", yol: "/resmi-bayramlar", kategori: "milli" },
+  { ad: "Okul Takvimi", yol: "/okul-takvimi", kategori: "okul" },
+  { ad: "Resmi Tatiller", yol: "/resmi-bayramlar", kategori: "milli" },
   { ad: "Dini Günler", yol: "/dini-gunler", kategori: "dini" },
   { ad: "Özel Sayaç", yol: "/ozel" },
 ];
@@ -34,7 +35,7 @@ export default function Header() {
             <span className="text-xl md:text-2xl font-bold text-white tracking-tight">Sayaçhane</span>
           </Link>
 
-          <nav className="hidden md:flex items-center gap-1" aria-label="Ana menü">
+          <nav className="hidden lg:flex items-center gap-1" aria-label="Ana menü">
             {menu.map((m) => (
               <Link
                 key={m.yol}
@@ -56,7 +57,7 @@ export default function Header() {
           </nav>
 
           <button
-            className="md:hidden text-zinc-300 hover:text-white p-2 -mr-2"
+            className="lg:hidden text-zinc-300 hover:text-white p-2 -mr-2"
             onClick={() => setAcik(!acik)}
             aria-expanded={acik}
             aria-controls="mobil-menu"
@@ -72,7 +73,7 @@ export default function Header() {
         <nav
           id="mobil-menu"
           aria-label="Mobil menü"
-          className="md:hidden border-t border-zinc-900 bg-zinc-950 max-h-[calc(100dvh-4rem)] overflow-y-auto px-4 pt-4 pb-8 animate-in fade-in slide-in-from-top-2 duration-200"
+          className="lg:hidden border-t border-zinc-900 bg-zinc-950 max-h-[calc(100dvh-4rem)] overflow-y-auto px-4 pt-4 pb-8 animate-in fade-in slide-in-from-top-2 duration-200"
         >
           {Object.entries(kategoriler).map(([anahtar, k]) => (
             <div key={anahtar} className="mb-5">

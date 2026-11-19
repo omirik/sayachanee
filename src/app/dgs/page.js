@@ -35,6 +35,8 @@ export default function DgsSayfasi() {
       geriEtiket="Sınavlar"
       baslik={`DGS ${dgs.yil}`}
       altBaslik="Dikey Geçiş Sınavı'na kalan süre"
+      metin="DGS, ön lisans (2 yıllık) mezunlarının ve son sınıf öğrencilerinin lisans programlarının 3. sınıfına geçiş yapabilmesi için ÖSYM tarafından yılda bir kez yapılan sınavdır. Yerleştirmede sınav puanının yanında ön lisans diploma notu da hesaba katılır."
+      bilgiler={dgs.bilgiler}
       sorular={sorular}
     >
       <OturumluSayac

@@ -9,21 +9,22 @@ import { tarihMetni, yillikTarihler } from '@/lib/zaman';
  * geri sayım ise tarayıcıda her saniye kendini hesaplar ve tarih geçince
  * otomatik olarak bir sonraki yıla geçer.
  */
-export default function MilliBayramSayfasi({ slug, Ikon, sorular }) {
+export default function MilliBayramSayfasi({ slug, Ikon, sorular, metin }) {
   const bayram = milliBayramlar[slug];
   const { yil, hedef } = yillikTarihler(bayram.ay, bayram.gun);
-  const yilDonumu = bayram.yilDonumu.replace('{n}', yil - bayram.kurulus);
+  const yilDonumu = bayram.yilDonumu?.replace('{n}', yil - bayram.kurulus);
 
   return (
     <SayacSayfasi
       tema="red"
       Ikon={Ikon}
-      rozet="Milli Bayram"
+      rozet={bayram.rozet ?? 'Milli Bayram'}
       geriLink="/resmi-bayramlar"
-      geriEtiket="Resmi Bayramlar"
+      geriEtiket="Resmi Tatiller"
       baslik={`${bayram.ad} ${yil}`}
-      altBaslik={`${bayram.tamAd} · ${yilDonumu}`}
+      altBaslik={yilDonumu ? `${bayram.tamAd} · ${yilDonumu}` : bayram.tamAd}
       sorular={sorular}
+      metin={metin}
     >
       <p className="text-zinc-300 font-medium mb-10">{tarihMetni(hedef)}</p>
       <GeriSayim tekrar={{ ay: bayram.ay, gun: bayram.gun, ad: bayram.ad }} tema="red" />

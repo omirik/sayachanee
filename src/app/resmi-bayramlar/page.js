@@ -8,9 +8,9 @@ export default function ResmiBayramlarSayfasi() {
   return (
     <KategoriSayfasi
       baslik="Resmi"
-      vurgu="Bayramlar"
+      vurgu="Tatiller"
       vurguRengi="text-red-500"
-      aciklama="23 Nisan, 19 Mayıs, 30 Ağustos ve 29 Ekim'e kalan süre. Sayaçlar bayram geçince kendiliğinden bir sonraki yıla geçer."
+      aciklama="Milli bayramlara, yılbaşına, 1 Mayıs'a ve 15 Temmuz'a kalan süre. Sayaçlar gün geçince kendiliğinden bir sonraki yıla geçer."
       kategori="milli"
     />
   );

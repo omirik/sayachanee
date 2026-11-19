@@ -35,6 +35,8 @@ export default function LgsSayfasi() {
       geriEtiket="Sınavlar"
       baslik={`LGS ${lgs.yil}`}
       altBaslik="Liselere Geçiş Sistemi merkezi sınavına kalan süre"
+      metin="LGS, 8. sınıf öğrencilerinin fen liseleri, Anadolu liseleri ve sosyal bilimler liseleri gibi sınavla öğrenci alan okullara yerleşmesi için MEB tarafından yapılan merkezi sınavdır. Sınav aynı gün iki oturumda yapılır; sınava girmek zorunlu değildir."
+      bilgiler={lgs.bilgiler}
       sorular={sorular}
     >
       <OturumluSayac

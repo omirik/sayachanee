@@ -2,7 +2,10 @@ import { BookOpen } from 'lucide-react';
 import SayacSayfasi from '@/components/sayac/SayacSayfasi';
 import OturumluSayac from '@/components/sayac/OturumluSayac';
 import { yks } from '@/data/sayaclar';
-import { tarihMetni, saatMetni } from '@/lib/zaman';
+import { tarihMetni, saatMetni, siradakiIndeks, sunucuZamani } from '@/lib/zaman';
+
+// Sıradaki oturumun seçili gelmesi için sayfa saatlik yenilenir.
+export const revalidate = 3600;
 
 const [tyt, ayt, ydt] = yks.oturumlar;
 
@@ -39,6 +42,8 @@ export default function YksSayfasi() {
       geriEtiket="Sınavlar"
       baslik={`YKS ${yks.yil}`}
       altBaslik="TYT, AYT ve YDT oturumlarına kalan süre"
+      metin="YKS (Yükseköğretim Kurumları Sınavı), üniversiteye girmek için ÖSYM tarafından yılda bir kez yapılan sınavdır. Üç oturumdan oluşur: herkesin girdiği TYT, alan puanları için AYT ve dil puanı için YDT. Yerleştirme puanında diploma notu (OBP) da hesaba katılır."
+      bilgiler={yks.bilgiler}
       sorular={sorular}
     >
       <OturumluSayac
@@ -47,6 +52,7 @@ export default function YksSayfasi() {
         baslangicEtiketi={yks.baslangicEtiketi}
         tema="emerald"
         depoAnahtari="sayachane_yks_seviye"
+        varsayilan={siradakiIndeks(yks.oturumlar, sunucuZamani())}
         bittiMesaji="Bu oturum tamamlandı. Tüm adaylara başarılar!"
       />
     </SayacSayfasi>

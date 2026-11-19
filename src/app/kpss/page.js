@@ -35,6 +35,8 @@ export default function KpssSayfasi() {
       geriEtiket="Sınavlar"
       baslik={`KPSS ${kpss.yil}`}
       altBaslik="KPSS Lisans Genel Yetenek - Genel Kültür oturumuna kalan süre"
+      metin={`KPSS (Kamu Personeli Seçme Sınavı), kamu kurumlarına memur alımında kullanılan ÖSYM sınavıdır. ${kpss.yil} yılında yalnızca lisans mezunlarına yönelik oturumlar yapılır; Genel Yetenek - Genel Kültür tüm lisans adayları için ortaktır, Alan Bilgisi oturumları ise A Grubu kadrolar içindir.`}
+      bilgiler={kpss.bilgiler}
       sorular={sorular}
     >
       <OturumluSayac

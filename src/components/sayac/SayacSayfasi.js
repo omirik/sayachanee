@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import { temalar } from '@/lib/tema';
 import SSS from './SSS';
+import BilgiKartlari from './BilgiKartlari';
 
 /**
  * Tüm sayaç sayfalarının ortak iskeleti: üst bar, başlık, sayaç alanı, SSS.
@@ -16,6 +17,8 @@ export default function SayacSayfasi({
   baslik,
   altBaslik,
   sorular,
+  metin, // sayfaya özgün açıklama paragrafı (tek metin ya da dizi)
+  bilgiler, // "Önemli Bilgiler" kutuları
   children,
 }) {
   const t = temalar[tema];
@@ -49,6 +52,16 @@ export default function SayacSayfasi({
         </header>
 
         {children}
+
+        {metin && (
+          <section className="w-full max-w-4xl mb-12 text-zinc-300 leading-relaxed space-y-3 text-base md:text-lg">
+            {[].concat(metin).map((p) => (
+              <p key={p}>{p}</p>
+            ))}
+          </section>
+        )}
+
+        {bilgiler?.length > 0 && <BilgiKartlari bilgiler={bilgiler} tema={tema} />}
 
         {sorular?.length > 0 && <SSS sorular={sorular} tema={tema} />}
       </div>

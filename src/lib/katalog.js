@@ -1,12 +1,16 @@
 // Sitedeki tüm sayaçların listesi. Ana sayfa, menü, alt bilgi ve kategori
 // sayfaları buradan beslenir. Yeni sayaç eklerken buraya da bir satır ekle.
-import { BookOpen, Briefcase, PenTool, GraduationCap, Moon, Heart, Star, Flag, Sun, Award } from 'lucide-react';
-import { yks, kpss, lgs, dgs, ramazan, ramazanBayrami, kurbanBayrami, milliBayramlar } from '@/data/sayaclar';
+import {
+  BookOpen, Briefcase, PenTool, GraduationCap, Moon, Heart, Star, Flag, Sun, Award,
+  FileText, Languages, Snowflake, Coffee, TreePalm, PartyPopper, Handshake, Landmark,
+} from 'lucide-react';
+import { yks, kpss, lgs, dgs, ales, yds, okul, ramazan, ramazanBayrami, kurbanBayrami, milliBayramlar } from '@/data/sayaclar';
 import { yillikTarihler } from '@/lib/zaman';
 
 export const kategoriler = {
   sinav: { ad: 'Sınavlar', yol: '/sinavlar' },
-  milli: { ad: 'Resmi Bayramlar', yol: '/resmi-bayramlar' },
+  okul: { ad: 'Okul Takvimi', yol: '/okul-takvimi' },
+  milli: { ad: 'Resmi Tatiller', yol: '/resmi-bayramlar' },
   dini: { ad: 'Dini Günler', yol: '/dini-gunler' },
 };
 
@@ -33,6 +37,11 @@ export const sayaclar = [
   { yol: '/kpss', ad: 'KPSS', aciklama: 'Lisans GY-GK', kategori: 'sinav', tema: 'blue', Ikon: Briefcase, sinav: kpss },
   { yol: '/lgs', ad: 'LGS', aciklama: 'Liselere Geçiş Sınavı', kategori: 'sinav', tema: 'cyan', Ikon: PenTool, sinav: lgs },
   { yol: '/dgs', ad: 'DGS', aciklama: 'Dikey Geçiş Sınavı', kategori: 'sinav', tema: 'purple', Ikon: GraduationCap, sinav: dgs },
+  { yol: '/ales', ad: 'ALES', aciklama: 'Lisansüstü ve akademik kadro', kategori: 'sinav', tema: 'purple', Ikon: FileText, sinav: ales },
+  { yol: '/yds', ad: 'YDS', aciklama: 'Yabancı dil sınavı', kategori: 'sinav', tema: 'cyan', Ikon: Languages, sinav: yds },
+  { yol: '/yariyil-tatili', ad: 'Yarıyıl Tatili', aciklama: 'Karne günü', kategori: 'okul', tema: 'indigo', Ikon: Snowflake, tarih: okul.karne1 },
+  { yol: '/ara-tatil', ad: 'Ara Tatil', aciklama: '2. dönem ara tatili', kategori: 'okul', tema: 'indigo', Ikon: Coffee, tarih: okul.araTatil2.baslangic },
+  { yol: '/okullarin-kapanmasi', ad: 'Okulların Kapanışı', aciklama: 'Yaz tatili', kategori: 'okul', tema: 'indigo', Ikon: TreePalm, tarih: okul.kapanis },
   { yol: '/ramazan', ad: 'Ramazan', aciklama: 'İftar, sahur ve Ramazan sayacı', kategori: 'dini', tema: 'amber', Ikon: Moon, tarih: ramazan.baslangicTarihi },
   { yol: '/ramazan-bayrami', ad: 'Ramazan Bayramı', aciklama: `${ramazanBayrami.bayramGunleri.length} günlük bayram`, kategori: 'dini', tema: 'amber', Ikon: Heart, tarih: ramazanBayrami.oturumlar[0].tarih },
   { yol: '/kurban-bayrami', ad: 'Kurban Bayramı', aciklama: `${kurbanBayrami.bayramGunleri.length} günlük bayram`, kategori: 'dini', tema: 'amber', Ikon: Star, tarih: kurbanBayrami.oturumlar[0].tarih },
@@ -40,6 +49,9 @@ export const sayaclar = [
   milli('19-mayis', Sun),
   milli('30-agustos', Award),
   milli('29-ekim', Flag),
+  milli('yilbasi', PartyPopper),
+  milli('1-mayis', Handshake),
+  milli('15-temmuz', Landmark),
 ];
 
 // Her sayacın şu anki hedef zamanını (ms) ekler.

@@ -64,6 +64,12 @@ export function sunucuZamani() {
   return Date.now();
 }
 
+// Oturum listesinde henüz geçmemiş ilk oturumun sırası (hepsi geçtiyse sonuncusu).
+export function siradakiIndeks(oturumlar, simdi) {
+  const i = oturumlar.findIndex((o) => new Date(o.tarih).getTime() > simdi);
+  return i >= 0 ? i : oturumlar.length - 1;
+}
+
 // Kalan süreyi gün/saat/dakika/saniye olarak parçalar.
 export function kalanSure(farkMs) {
   const toplamSaniye = Math.max(0, Math.floor(farkMs / 1000));

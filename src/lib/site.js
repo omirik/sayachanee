@@ -39,6 +39,39 @@ export const sayfalar = {
     keywords: ['dgs ye kaç gün kaldı', 'dgs sayacı', '2027 dgs ne zaman', 'dgs geri sayım'],
   },
 
+  '/ales': {
+    title: "ALES'e Kaç Gün Kaldı? 2027 ALES Sayacı",
+    description:
+      "2027 ALES/1, ALES/2 ve ALES/3'e kaç gün kaldı? Sınav, başvuru ve sonuç tarihleri ile canlı geri sayım sayacı.",
+    keywords: ['ales e kaç gün kaldı', '2027 ales ne zaman', 'ales sayacı', 'ales başvuru tarihleri'],
+  },
+  '/yds': {
+    title: "YDS'ye Kaç Gün Kaldı? 2027 YDS Sayacı",
+    description:
+      "2027 YDS/1 ve YDS/2'ye kaç gün kaldı? Yabancı Dil Bilgisi Seviye Tespit Sınavı tarihleri ve canlı geri sayım.",
+    keywords: ['yds ye kaç gün kaldı', '2027 yds ne zaman', 'yds sayacı', 'yds başvuru tarihleri'],
+  },
+
+  // Okul takvimi
+  '/yariyil-tatili': {
+    title: 'Yarıyıl Tatiline Kaç Gün Kaldı? Karne Günü Sayacı',
+    description:
+      'Karneye ve yarıyıl tatiline kaç gün kaldı? MEB 2026-2027 takvimine göre karne günü, yarıyıl tatili ve 2. dönem başlangıcı.',
+    keywords: ['yarıyıl tatiline kaç gün kaldı', 'karneye kaç gün kaldı', 'sömestr tatili ne zaman', 'karne ne zaman'],
+  },
+  '/ara-tatil': {
+    title: 'Ara Tatile Kaç Gün Kaldı? 2027 Mart Ara Tatili',
+    description:
+      'Ara tatile kaç gün kaldı? MEB 2026-2027 takvimine göre ikinci dönem ara tatili tarihleri ve canlı geri sayım.',
+    keywords: ['ara tatile kaç gün kaldı', 'ara tatil ne zaman', 'mart ara tatili 2027'],
+  },
+  '/okullarin-kapanmasi': {
+    title: 'Okulların Kapanmasına Kaç Gün Kaldı? Yaz Tatili Sayacı',
+    description:
+      'Okulların kapanmasına ve yaz tatiline kaç gün kaldı? MEB 2026-2027 takvimine göre son ders günü ve karne tarihi.',
+    keywords: ['okulların kapanmasına kaç gün kaldı', 'yaz tatiline kaç gün kaldı', 'okullar ne zaman kapanıyor'],
+  },
+
   // Dini günler
   '/ramazan': {
     title: 'Ramazana Kaç Gün Kaldı? İftar ve Sahur Sayacı',
@@ -84,6 +117,21 @@ export const sayfalar = {
       "30 Ağustos Zafer Bayramı'na kaç gün kaldı? Bayrama kalan süreyi canlı takip edin; sayaç her yıl otomatik yenilenir.",
     keywords: ['30 ağustosa kaç gün kaldı', 'zafer bayramı sayacı', '30 ağustos geri sayım'],
   },
+  '/yilbasi': {
+    title: 'Yılbaşına Kaç Gün Kaldı? Yeni Yıl Geri Sayım',
+    description: 'Yılbaşına kaç gün, saat, dakika kaldı? Yeni yıla Türkiye saatiyle saniye saniye canlı geri sayım.',
+    keywords: ['yılbaşına kaç gün kaldı', 'yeni yıla kaç gün kaldı', 'yılbaşı geri sayım', '2027 yılbaşı'],
+  },
+  '/1-mayis': {
+    title: "1 Mayıs'a Kaç Gün Kaldı? Emek ve Dayanışma Günü",
+    description: "1 Mayıs Emek ve Dayanışma Günü'ne kaç gün kaldı? Resmi tatile kalan süreyi canlı takip edin.",
+    keywords: ['1 mayısa kaç gün kaldı', '1 mayıs resmi tatil mi', '1 mayıs geri sayım'],
+  },
+  '/15-temmuz': {
+    title: "15 Temmuz'a Kaç Gün Kaldı? Demokrasi ve Milli Birlik Günü",
+    description: "15 Temmuz Demokrasi ve Milli Birlik Günü'ne kaç gün kaldı? Resmi tatile kalan süreyi canlı takip edin.",
+    keywords: ['15 temmuza kaç gün kaldı', '15 temmuz resmi tatil mi', '15 temmuz geri sayım'],
+  },
 
   // Araçlar ve kategori sayfaları
   '/ozel': {
@@ -98,14 +146,19 @@ export const sayfalar = {
       'Sayaçhane’deki tüm sayaçlar tek sayfada: sınavlar, resmi bayramlar, dini günler ve özel sayaç aracı.',
   },
   '/sinavlar': {
-    title: 'Sınav Sayaçları: YKS, KPSS, LGS ve DGS',
+    title: 'Sınav Sayaçları: YKS, KPSS, LGS, DGS, ALES, YDS',
     description:
-      'YKS, KPSS, LGS ve DGS sınavlarına kaç gün kaldı? Tüm sınav geri sayım sayaçları bir arada.',
+      'YKS, KPSS, LGS, DGS, ALES ve YDS sınavlarına kaç gün kaldı? Tüm sınav geri sayım sayaçları bir arada.',
   },
   '/resmi-bayramlar': {
-    title: 'Resmi Bayram Sayaçları',
+    title: 'Resmi Bayram ve Tatil Sayaçları',
     description:
-      '29 Ekim, 23 Nisan, 19 Mayıs ve 30 Ağustos bayramlarına kaç gün kaldı? Tüm resmi bayram sayaçları bir arada.',
+      '29 Ekim, 23 Nisan, 19 Mayıs, 30 Ağustos, yılbaşı, 1 Mayıs ve 15 Temmuz’a kaç gün kaldı? Tüm resmi bayram ve tatil sayaçları bir arada.',
+  },
+  '/okul-takvimi': {
+    title: 'Okul Takvimi: Karne, Ara Tatil ve Yaz Tatili Sayaçları',
+    description:
+      'Karneye, ara tatile ve okulların kapanmasına kaç gün kaldı? MEB 2026-2027 çalışma takvimine göre canlı sayaçlar.',
   },
   '/dini-gunler': {
     title: 'Dini Gün ve Bayram Sayaçları',

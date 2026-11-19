@@ -14,6 +14,7 @@ export const OG_RENK = {
   red: '#f87171',
   amber: '#fbbf24',
   rose: '#fb7185',
+  indigo: '#a5b4fc',
 };
 
 // Türkçe harfler (ğ, ş, ı, İ) için latin-ext dahil Inter yazı tipi.

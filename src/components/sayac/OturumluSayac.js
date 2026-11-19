@@ -19,6 +19,7 @@ export default function OturumluSayac({
   bittiMesaji,
   saatGoster = true,
   bitisEtiketi,
+  varsayilan = 0, // kayıtlı seçim yoksa açılacak oturum (genelde sıradaki)
 }) {
   const t = temalar[tema];
   const [secimAdi, setSecimAdi] = useState(null);
@@ -36,7 +37,8 @@ export default function OturumluSayac({
   }
 
   const aktifAd = secimAdi ?? kayitliAd;
-  const secili = Math.max(0, oturumlar.findIndex((o) => o.ad === aktifAd));
+  const bulunan = oturumlar.findIndex((o) => o.ad === aktifAd);
+  const secili = bulunan >= 0 ? bulunan : varsayilan;
   const oturum = oturumlar[secili];
 
   return (
