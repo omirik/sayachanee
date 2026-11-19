@@ -1,10 +1,8 @@
+import { sayfaMeta } from '@/lib/site';
 import Link from 'next/link';
 import { ArrowLeft, Info } from 'lucide-react';
 
-export const metadata = {
-  title: 'Hakkımızda | Sayaçhane',
-  description: 'Sayaçhane projesinin kuruluş amacı ve vizyonu.',
-};
+export const metadata = sayfaMeta('/hakkimizda');
 
 export default function Hakkimizda() {
   return (

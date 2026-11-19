@@ -1,5 +1,8 @@
+import { sayfaMeta } from '@/lib/site';
 import Link from "next/link";
 import { Moon, Heart, Star } from "lucide-react";
+
+export const metadata = sayfaMeta('/dini-gunler');
 
 export default function DiniGunlerKategori() {
   const gunListesi = [

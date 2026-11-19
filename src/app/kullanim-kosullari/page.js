@@ -1,10 +1,8 @@
+import { sayfaMeta } from '@/lib/site';
 import Link from 'next/link';
 import { ArrowLeft, FileText } from 'lucide-react';
 
-export const metadata = {
-  title: 'Kullanım Koşulları | Sayaçhane',
-  description: 'Sayaçhane platformunun kullanım koşulları ve sorumluluk reddi beyanı.',
-};
+export const metadata = sayfaMeta('/kullanim-kosullari');
 
 export default function KullanimKosullari() {
   return (

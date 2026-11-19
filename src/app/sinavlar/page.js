@@ -1,5 +1,8 @@
+import { sayfaMeta } from '@/lib/site';
 import Link from "next/link";
 import { BookOpen, Briefcase, PenTool, GraduationCap } from "lucide-react";
+
+export const metadata = sayfaMeta('/sinavlar');
 
 export default function SinavlarKategori() {
   const sinavListesi = [

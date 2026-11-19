@@ -1,10 +1,8 @@
+import { sayfaMeta } from '@/lib/site';
 import Link from 'next/link';
 import { ArrowLeft, ShieldCheck } from 'lucide-react';
 
-export const metadata = {
-  title: 'Gizlilik Politikası | Sayaçhane',
-  description: 'Sayaçhane gizlilik politikası ve çerez kullanımı bilgileri.',
-};
+export const metadata = sayfaMeta('/gizlilik-politikasi');
 
 export default function GizlilikPolitikasi() {
   return (

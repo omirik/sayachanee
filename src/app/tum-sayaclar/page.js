@@ -1,5 +1,8 @@
+import { sayfaMeta } from '@/lib/site';
 import Link from "next/link";
 import { BookOpen, Briefcase, PenTool, GraduationCap, Flag, Star, Sun, Award, Moon, Heart, CalendarHeart } from "lucide-react";
+
+export const metadata = sayfaMeta('/tum-sayaclar');
 
 export default function TumSayaclar() {
   const kategoriler = [

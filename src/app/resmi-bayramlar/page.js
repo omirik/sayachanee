@@ -1,5 +1,8 @@
+import { sayfaMeta } from '@/lib/site';
 import Link from "next/link";
 import { Flag, Star, Sun, Award } from "lucide-react";
+
+export const metadata = sayfaMeta('/resmi-bayramlar');
 
 export default function ResmiBayramlarKategori() {
   const bayramListesi = [

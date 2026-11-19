@@ -3,28 +3,52 @@ import { Analytics } from "@vercel/analytics/react";
 import { GoogleAnalytics } from '@next/third-parties/google';
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { SITE_URL, SITE_NAME, sayfalar } from "@/lib/site";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+// latin-ext: ğ, ş, ı, İ gibi Türkçe harfler için gerekli
+const inter = Inter({ subsets: ["latin", "latin-ext"] });
 
+// Tüm sayfalar için ortak ayarlar. Sayfaya özel başlık/açıklama/canonical
+// her sayfada sayfaMeta() ile verilir (bkz. src/lib/site.js).
+// Not: canonical burada bilerek YOK; olsaydı tüm sayfalar ana sayfayı gösterirdi.
 export const metadata = {
-  title: 'Sayaçhane | YKS, KPSS ve Ramazan Geri Sayım',
-  description: 'Türkiye\'nin en şık geri sayım platformu. 2026 YKS, KPSS, Ramazan ayı ve kendi özel günleriniz için saniyesi saniyesine zamanı takip edin.',
-  keywords: ['sayaç', 'yks sayacı', 'yks 2026 ne zaman', 'kpss geri sayım', 'ramazan sayacı', 'iftar vakti', 'özel sayaç', 'sayaçhane'],
-  openGraph: {
-    title: 'Sayaçhane | Zamanı Lehine Çevir',
-    description: 'YKS, KPSS ve Ramazan için en iyi geri sayım aracı.',
-    url: 'https://sayachane.com.tr',
-    siteName: 'Sayaçhane',
-    locale: 'tr_TR',
-    type: 'website',
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: sayfalar['/'].title,
+    template: `%s | ${SITE_NAME}`,
   },
+  description: sayfalar['/'].description,
+  applicationName: SITE_NAME,
   verification: {
     google: 'dpu_d5D__hzM9AEYB5FhuICaQuEfE9ujUymrdXHLGIQ',
   },
   other: {
     "google-adsense-account": "ca-pub-9995958735732535"
   }
+};
+
+// Google'a sitenin adını ve sahibini tanıtan yapılandırılmış veri.
+// Arama sonuçlarında URL yerine "Sayaçhane" adının görünmesine yardımcı olur.
+const siteSemasi = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": `${SITE_URL}/#website`,
+      url: SITE_URL,
+      name: SITE_NAME,
+      inLanguage: "tr-TR",
+      publisher: { "@id": `${SITE_URL}/#organization` },
+    },
+    {
+      "@type": "Organization",
+      "@id": `${SITE_URL}/#organization`,
+      name: SITE_NAME,
+      url: SITE_URL,
+      logo: `${SITE_URL}/icon.svg`,
+    },
+  ],
 };
 
 export default function RootLayout({ children }) {
@@ -38,7 +62,10 @@ export default function RootLayout({ children }) {
         ></script>
       </head>
       <body className={`${inter.className} bg-zinc-950 text-white antialiased flex flex-col min-h-screen`}>
-        {/* YENİ EKLENEN ÜST MENÜ */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(siteSemasi) }}
+        />
         <Header />
         
         <main className="flex-grow">

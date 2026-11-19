@@ -1,0 +1,180 @@
+'use client'
+import { useState } from 'react';
+import Link from 'next/link';
+import { BookOpen, Moon, Briefcase, CalendarHeart, Zap, ShieldCheck, ChevronRight, ChevronLeft, Compass } from 'lucide-react';
+
+export default function AnaSayfa() {
+  const [heroIndex, setHeroIndex] = useState(0);
+
+  const sayaclar = [
+    // 1. ANA KARŞILAMA SLAYTI (Buton artık aşağıya "vitrin"e kaydırıyor)
+    { 
+      baslik: 'Ana Sayfa', kisa: 'Keşfet', butonText: 'Hızlı Göz At',
+      aciklama: 'Sınavlar, bayramlar ve dini günler... Aradığın tüm geri sayımlar burada.', 
+      link: '#vitrin', ikon: Compass, 
+      renkText: 'text-indigo-400', renkBg: 'bg-indigo-400', renkGlow: 'bg-indigo-500/30', cardHover: 'hover:border-indigo-500/50 hover:shadow-[0_0_30px_rgba(99,102,241,0.1)]',
+      heroTitle1: 'Zamanı', heroHighlight: 'Lehine', heroTitle2: 'Çevir.',
+      heroHighlightColor: 'from-indigo-400 to-cyan-400',
+      heroSubtext: 'Türkiye\'nin en şık geri sayım portalı. Sınavlar, milli bayramlar, dini günler ve daha fazlası için zamanı anlık takip et.',
+      heroBgGlow: 'from-indigo-900/15', heroBlurCircle: 'bg-indigo-500/10'
+    },
+    { 
+      baslik: 'Ramazan Sayacı', kisa: 'Ramazan', butonText: 'Ramazan\'a Başla',
+      aciklama: 'Diyanet verileriyle iftar ve sahur vakitleri.', link: '/ramazan', ikon: Moon, 
+      renkText: 'text-amber-400', renkBg: 'bg-amber-400', renkGlow: 'bg-amber-500/30', cardHover: 'hover:border-amber-500/50 hover:shadow-[0_0_30px_rgba(251,191,36,0.1)]',
+      heroTitle1: 'On Bir Ayın', heroHighlight: 'Sultanına', heroTitle2: 'Hazırlan.',
+      heroHighlightColor: 'from-amber-400 to-orange-500',
+      heroSubtext: 'İftar ve sahur vakitlerini saniyesi saniyesine takip et, bereketli zamana odaklan.',
+      heroBgGlow: 'from-amber-900/15', heroBlurCircle: 'bg-amber-500/10'
+    },
+    { 
+      baslik: 'YKS Sayacı', kisa: 'YKS', butonText: 'YKS\'ye Hazırlan',
+      aciklama: 'Üniversite sınavı için kalan zamanı takip et.', link: '/yks', ikon: BookOpen, 
+      renkText: 'text-emerald-400', renkBg: 'bg-emerald-400', renkGlow: 'bg-emerald-500/30', cardHover: 'hover:border-emerald-500/50 hover:shadow-[0_0_30px_rgba(16,185,129,0.1)]',
+      heroTitle1: 'Hayallerindeki', heroHighlight: 'Üniversiteye', heroTitle2: 'Odaklan.',
+      heroHighlightColor: 'from-emerald-400 to-teal-500',
+      heroSubtext: 'YKS maratonunda zamanı yönetmek başarının anahtarıdır. Kalan süreni anlık takip et.',
+      heroBgGlow: 'from-emerald-900/15', heroBlurCircle: 'bg-emerald-500/10'
+    },
+    { 
+      baslik: 'KPSS Sayacı', kisa: 'KPSS', butonText: 'KPSS\'ye Hazırlan',
+      aciklama: 'Memurluk hedefi için geri sayımı başlat.', link: '/kpss', ikon: Briefcase, 
+      renkText: 'text-blue-400', renkBg: 'bg-blue-400', renkGlow: 'bg-blue-500/30', cardHover: 'hover:border-blue-500/50 hover:shadow-[0_0_30px_rgba(59,130,246,0.1)]',
+      heroTitle1: 'Memurluk Hedefine', heroHighlight: 'Adım', heroTitle2: 'At.',
+      heroHighlightColor: 'from-blue-400 to-indigo-500',
+      heroSubtext: 'Geleceğini garanti altına almak için KPSS sürecinde her saniyeni değerli kıl.',
+      heroBgGlow: 'from-blue-900/15', heroBlurCircle: 'bg-blue-500/10'
+    },
+    { 
+      baslik: 'Özel Sayaç', kisa: 'Özel Gün', butonText: 'Kendi Sayacını Kur',
+      aciklama: 'Kendi özel gününü ve saatini belirle.', link: '/ozel', ikon: CalendarHeart, 
+      renkText: 'text-rose-400', renkBg: 'bg-rose-400', renkGlow: 'bg-rose-500/30', cardHover: 'hover:border-rose-500/50 hover:shadow-[0_0_30px_rgba(244,63,94,0.1)]',
+      heroTitle1: 'Senin İçin', heroHighlight: 'Özel Olanı', heroTitle2: 'Kaçırma.',
+      heroHighlightColor: 'from-rose-400 to-pink-500',
+      heroSubtext: 'Doğum günü, askerlik, tatil veya yıldönümü... Önemli anlarınıza ne kadar kaldığını görün.',
+      heroBgGlow: 'from-rose-900/15', heroBlurCircle: 'bg-rose-500/10'
+    },
+  ];
+
+  const sonraki = () => setHeroIndex((prev) => (prev + 1) % sayaclar.length);
+  const onceki = () => setHeroIndex((prev) => (prev - 1 + sayaclar.length) % sayaclar.length);
+  const AktifIkon = sayaclar[heroIndex].ikon;
+  const aktifSayac = sayaclar[heroIndex];
+
+  return (
+    <div className="w-full flex flex-col pb-16">
+      
+      {/* SLIDER BÖLÜMÜ */}
+      <section className="relative w-full px-4 py-12 md:py-20 flex flex-col items-center justify-center overflow-hidden pt-24 min-h-[70vh]">
+        <div className={`absolute inset-0 bg-gradient-to-b ${aktifSayac.heroBgGlow} via-zinc-950 to-zinc-950 -z-10 transition-colors duration-1000`}></div>
+        <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] ${aktifSayac.heroBlurCircle} rounded-full blur-[120px] -z-10 pointer-events-none transition-colors duration-1000`}></div>
+        
+        <div key={heroIndex} className="animate-in fade-in zoom-in-95 slide-in-from-bottom-4 duration-700 w-full flex flex-col items-center">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white mb-6 tracking-tighter text-center max-w-4xl">
+            {aktifSayac.heroTitle1} <span className={`text-transparent bg-clip-text bg-gradient-to-r ${aktifSayac.heroHighlightColor}`}>{aktifSayac.heroHighlight}</span> {aktifSayac.heroTitle2}
+          </h1>
+          
+          <p className="text-lg md:text-xl text-zinc-400 max-w-2xl mx-auto text-center mb-12 leading-relaxed h-20 md:h-14">
+            {aktifSayac.heroSubtext}
+          </p>
+        </div>
+
+        <div className="flex flex-col items-center gap-8 animate-in fade-in slide-in-from-bottom-7">
+          <div className="relative group">
+            <div className={`absolute -inset-2 rounded-full blur-xl transition-all duration-1000 opacity-40 group-hover:opacity-80 ${aktifSayac.renkGlow}`}></div>
+
+            <div className="relative flex items-center bg-zinc-950/80 border border-zinc-800/80 rounded-full p-2 shadow-2xl backdrop-blur-xl">
+              <button onClick={onceki} className="p-3 rounded-full text-zinc-500 hover:text-white hover:bg-zinc-800 transition-colors focus:outline-none">
+                <ChevronLeft size={22} />
+              </button>
+
+              <Link href={aktifSayac.link} className="flex items-center justify-center gap-3 px-8 py-3.5 mx-2 rounded-full font-bold transition-all duration-300 hover:scale-[1.02] active:scale-95 w-64 md:w-72 bg-zinc-900 border border-zinc-800/50 hover:bg-zinc-800 text-white shadow-inner">
+                <AktifIkon size={20} className={`transition-colors duration-500 ${aktifSayac.renkText}`} />
+                <span className="tracking-wide text-base">{aktifSayac.butonText}</span>
+              </Link>
+
+              <button onClick={sonraki} className="p-3 rounded-full text-zinc-500 hover:text-white hover:bg-zinc-800 transition-colors focus:outline-none">
+                <ChevronRight size={22} />
+              </button>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3 mt-4">
+            {sayaclar.map((sayac, index) => (
+              <div 
+                key={index} 
+                className={`h-1.5 rounded-full transition-all duration-500 ${
+                  index === heroIndex ? `w-8 ${sayac.renkBg}` : 'w-2 bg-zinc-800'
+                }`}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* SIK KULLANILAN SAYAÇLAR (VİTRİN) */}
+      <section id="vitrin" className="w-full max-w-6xl mx-auto px-4 py-16 scroll-mt-20">
+        <div className="flex items-end justify-between mb-10 border-b border-zinc-800/60 pb-4">
+          <div>
+            <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight">Sık Kullanılan <span className="text-zinc-500">Sayaçlar</span></h2>
+            <p className="text-zinc-400 mt-2 text-sm md:text-base">Kullanıcılarımızın en çok takip ettiği geri sayımlar.</p>
+          </div>
+          <Link href="/tum-sayaclar" className="hidden md:flex items-center gap-2 text-emerald-400 hover:text-emerald-300 font-semibold transition-colors group">
+            Tümünü Gör 
+            <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {sayaclar.slice(1).map((sayac, index) => {
+            const Icon = sayac.ikon;
+            return (
+              <Link key={index} href={sayac.link} className={`group flex items-start p-8 bg-zinc-900/50 border border-zinc-800/80 rounded-[2rem] transition-all duration-300 ${sayac.cardHover} backdrop-blur-sm`}>
+                <div className={`p-4 rounded-2xl bg-zinc-950 border border-zinc-800 group-hover:scale-110 transition-transform duration-300 shadow-xl ${sayac.renkText}`}>
+                  <Icon size={32} strokeWidth={1.5} />
+                </div>
+                <div className="ml-6 flex-1">
+                  <h3 className="text-2xl font-semibold text-zinc-100 group-hover:text-white transition-colors mb-2">{sayac.baslik}</h3>
+                  <p className="text-zinc-500 leading-relaxed">{sayac.aciklama}</p>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+        
+        {/* Mobil için Tümünü Gör Butonu (Telefonda altta daha şık durur) */}
+        <div className="mt-8 flex justify-center md:hidden">
+          <Link href="/tum-sayaclar" className="flex items-center gap-2 text-emerald-400 hover:text-emerald-300 bg-emerald-500/10 px-6 py-3 rounded-full font-semibold transition-colors">
+            Tüm Kataloğu Keşfet <ChevronRight size={18} />
+          </Link>
+        </div>
+      </section>
+
+      {/* NEDEN SAYAÇHANE BÖLÜMÜ */}
+      <section className="w-full max-w-6xl mx-auto px-4 pt-16 pb-8 border-t border-zinc-800/50 mt-4">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Neden Sayaçhane?</h2>
+          <p className="text-zinc-400">Pürüzsüz bir deneyim için en son teknolojilerle geliştirildi.</p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="flex flex-col items-center text-center p-6">
+            <div className="p-4 bg-zinc-900 rounded-full mb-6 text-yellow-400"><Zap size={28} /></div>
+            <h4 className="text-xl font-semibold text-white mb-3">Anlık Senkronizasyon</h4>
+            <p className="text-zinc-500 text-sm">Saniyenin onda biri kadar bile sapma olmadan zamanı anlık olarak hesaplar ve ekrana yansıtır.</p>
+          </div>
+          <div className="flex flex-col items-center text-center p-6">
+            <div className="p-4 bg-zinc-900 rounded-full mb-6 text-emerald-400"><ShieldCheck size={28} /></div>
+            <h4 className="text-xl font-semibold text-white mb-3">Özenle Doğrulanmış Tarihler</h4>
+            <p className="text-zinc-500 text-sm">Resmi kurumların verileri referans alınarak tarih ve saatler en yüksek doğrulukla ekrana yansıtılır.</p>
+          </div>
+          <div className="flex flex-col items-center text-center p-6">
+            <div className="p-4 bg-zinc-900 rounded-full mb-6 text-purple-400"><Moon size={28} /></div>
+            <h4 className="text-xl font-semibold text-white mb-3">Göz Yormayan Tasarım</h4>
+            <p className="text-zinc-500 text-sm">Karanlık mod (Dark Mode) odaklı, OLED ekran dostu ve şık arayüzü ile saati takip etmek bir keyif.</p>
+          </div>
+        </div>
+      </section>
+      
+    </div>
+  );
+}
