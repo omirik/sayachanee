@@ -41,6 +41,23 @@ export function yillikTarihler(ay, gun, simdi = Date.now()) {
   };
 }
 
+// Türkiye saatiyle tarih parçalarından zaman (ms). ay: 0-11
+export function trZamani(yil, ay, gun, saat = 0, dakika = 0) {
+  return Date.UTC(yil, ay, gun, saat, dakika) - TR_FARK_MS;
+}
+
+// Bir zamanın Türkiye saatindeki parçaları. ay: 0-11
+export function trParcalar(ms) {
+  const d = new Date(ms + TR_FARK_MS);
+  return {
+    yil: d.getUTCFullYear(),
+    ay: d.getUTCMonth(),
+    gun: d.getUTCDate(),
+    saat: d.getUTCHours(),
+    dakika: d.getUTCMinutes(),
+  };
+}
+
 // Sunucu bileşenlerinde sayfanın oluşturulduğu an. Sayfa saatlik yenilendiği için
 // sıralama ve ilk "kaç gün kaldı" değeri buna göre hesaplanır; tarayıcı sonra canlı günceller.
 export function sunucuZamani() {

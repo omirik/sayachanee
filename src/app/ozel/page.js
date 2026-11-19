@@ -2,6 +2,12 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, CalendarHeart, AlertCircle, Activity, Plus, Trash2, Edit, Calendar, List, ChevronRight, ChevronDown, Clock } from 'lucide-react';
+import PaylasDugmeleri from '@/components/ozel/PaylasDugmeleri';
+import { trZamani, trParcalar, tarihMetni, saatMetni } from '@/lib/zaman';
+import { AD_UZUNLUGU } from '@/lib/ozel';
+
+// Tarih kısa gösterimi: "1 Temmuz 2027 - 09:00" (Türkiye saatiyle)
+const kisaTarih = (ms) => `${tarihMetni(ms, { gunAdi: false })} - ${saatMetni(ms)}`;
 
 const aylarListesi = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
 const yillarListesi = Array.from({ length: 15 }, (_, i) => new Date().getFullYear() + i);
@@ -91,24 +97,15 @@ export default function OzelSayac() {
 
   const formAc = (sayac = null) => {
     setHata('');
-    if (sayac) {
-      const hDate = new Date(sayac.hedef);
-      setIsimGirdisi(sayac.isim);
-      setSeciliGun(hDate.getDate());
-      setSeciliAy(hDate.getMonth());
-      setSeciliYil(hDate.getFullYear());
-      setSeciliSaat(hDate.getHours());
-      setSeciliDakika(hDate.getMinutes());
-      setDuzenlenecekId(sayac.id);
-    } else {
-      setIsimGirdisi('');
-      setSeciliGun(new Date().getDate());
-      setSeciliAy(new Date().getMonth());
-      setSeciliYil(new Date().getFullYear());
-      setSeciliSaat(new Date().getHours());
-      setSeciliDakika(new Date().getMinutes());
-      setDuzenlenecekId(null);
-    }
+    // Tarih seçicileri Türkiye saatiyle doldurulur.
+    const p = trParcalar(sayac ? sayac.hedef : Date.now());
+    setSeciliGun(p.gun);
+    setSeciliAy(p.ay);
+    setSeciliYil(p.yil);
+    setSeciliSaat(p.saat);
+    setSeciliDakika(p.dakika);
+    setIsimGirdisi(sayac ? sayac.isim : '');
+    setDuzenlenecekId(sayac ? sayac.id : null);
     setFormAcik(true);
     setSeciliSayacId(null);
   };
@@ -117,9 +114,14 @@ export default function OzelSayac() {
     e.preventDefault();
     setHata('');
     
-    const hedefTarihNesnesi = new Date(seciliYil, seciliAy, seciliGun, seciliSaat, seciliDakika, 0);
-    const hedefTimestamp = hedefTarihNesnesi.getTime();
+    const hedefTimestamp = trZamani(seciliYil, seciliAy, seciliGun, seciliSaat, seciliDakika);
     const suAn = new Date().getTime();
+
+    // 31 Şubat gibi var olmayan bir gün seçildiyse uyar.
+    if (trParcalar(hedefTimestamp).gun !== seciliGun) {
+      setHata(`${aylarListesi[seciliAy]} ${seciliYil} ayında ${seciliGun}. gün yok. Lütfen geçerli bir tarih seçin.`);
+      return;
+    }
 
     if (hedefTimestamp <= suAn) {
       setHata('Lütfen şu andan daha ileri bir tarih ve saat seçin.');
@@ -233,7 +235,7 @@ export default function OzelSayac() {
               
               <div className="mb-6">
                 <label className="block text-xs uppercase tracking-widest text-zinc-400 mb-2 font-semibold">Sayacın Adı</label>
-                <input type="text" required value={isimGirdisi} onChange={(e) => setIsimGirdisi(e.target.value)} placeholder="Örn: Tatil, Doğum Günü, Askerlik..." className="w-full bg-zinc-950/50 border border-zinc-700/50 rounded-xl px-4 py-3 text-white placeholder-zinc-600 outline-none focus:border-rose-500/70 transition-all" />
+                <input type="text" required maxLength={AD_UZUNLUGU} value={isimGirdisi} onChange={(e) => setIsimGirdisi(e.target.value)} placeholder="Örn: Tatil, Doğum Günü, Askerlik..." className="w-full bg-zinc-950/50 border border-zinc-700/50 rounded-xl px-4 py-3 text-white placeholder-zinc-600 outline-none focus:border-rose-500/70 transition-all" />
               </div>
               
               <div className="mb-4 relative z-20">
@@ -264,7 +266,8 @@ export default function OzelSayac() {
           <div className="w-full flex flex-col items-center animate-in fade-in slide-in-from-bottom-4 duration-500">
             <div className="text-center mb-12">
               <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 tracking-tight">{aktifDetay.isim}</h1>
-              <p className="text-rose-300 font-medium">Büyük güne geri sayım devam ediyor!</p>
+              <p className="text-zinc-300 font-medium mb-6">{kisaTarih(aktifDetay.hedef)}</p>
+              <PaylasDugmeleri isim={aktifDetay.isim} hedef={aktifDetay.hedef} />
             </div>
             
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 w-full max-w-4xl mb-12">
@@ -291,7 +294,7 @@ export default function OzelSayac() {
               </div>
               <div className="flex justify-between mt-3 px-1 text-[10px] md:text-xs text-zinc-500 uppercase tracking-widest font-semibold">
                 <span>Başlangıç</span>
-                <span>{new Date(aktifDetay.hedef).toLocaleDateString('tr-TR')} - {new Date(aktifDetay.hedef).toLocaleTimeString('tr-TR', {hour: '2-digit', minute:'2-digit'})}</span>
+                <span>{kisaTarih(aktifDetay.hedef)}</span>
               </div>
             </div>
           </div>
@@ -320,12 +323,12 @@ export default function OzelSayac() {
                       <div className="flex justify-between items-start z-10">
                         <div>
                           <h3 className="text-lg font-bold text-white mb-1 group-hover:text-rose-400 transition-colors line-clamp-1">{sayac.isim}</h3>
-                          <p className="text-xs text-zinc-500 flex items-center gap-1.5"><Calendar size={12}/> {new Date(sayac.hedef).toLocaleDateString('tr-TR')} - {new Date(sayac.hedef).toLocaleTimeString('tr-TR', {hour: '2-digit', minute:'2-digit'})}</p>
+                          <p className="text-xs text-zinc-500 flex items-center gap-1.5"><Calendar size={12}/> {kisaTarih(sayac.hedef)}</p>
                         </div>
                         
-                        <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                          <button onClick={(e) => { e.stopPropagation(); formAc(sayac); }} className="p-1.5 bg-zinc-800 hover:bg-blue-500/20 text-zinc-400 hover:text-blue-400 rounded-lg transition-colors"><Edit size={14} /></button>
-                          <button onClick={(e) => sil(sayac.id, e)} className="p-1.5 bg-zinc-800 hover:bg-red-500/20 text-zinc-400 hover:text-red-400 rounded-lg transition-colors"><Trash2 size={14} /></button>
+                        <div className="flex gap-2 md:opacity-0 md:group-hover:opacity-100 md:focus-within:opacity-100 transition-opacity">
+                          <button onClick={(e) => { e.stopPropagation(); formAc(sayac); }} aria-label={`${sayac.isim} sayacını düzenle`} className="p-2 bg-zinc-800 hover:bg-blue-500/20 text-zinc-400 hover:text-blue-400 rounded-lg transition-colors"><Edit size={14} /></button>
+                          <button onClick={(e) => sil(sayac.id, e)} aria-label={`${sayac.isim} sayacını sil`} className="p-2 bg-zinc-800 hover:bg-red-500/20 text-zinc-400 hover:text-red-400 rounded-lg transition-colors"><Trash2 size={14} /></button>
                         </div>
                       </div>
 
