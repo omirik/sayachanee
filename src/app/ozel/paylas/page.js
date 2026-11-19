@@ -18,6 +18,12 @@ export async function generateMetadata({ searchParams }) {
 
   const baslik = `${sayac.isim} · Geri Sayım`;
   const aciklama = `${sayac.isim}: ${tarihMetni(sayac.hedef)} saat ${saatMetni(sayac.hedef)}. Kalan süreyi Sayaçhane'de canlı takip et.`;
+  const gorsel = {
+    url: paylasimYolu(sayac.isim, sayac.hedef).replace('/ozel/paylas', '/api/og/ozel'),
+    width: 1200,
+    height: 630,
+    alt: baslik,
+  };
   return {
     title: baslik,
     description: aciklama,
@@ -29,8 +35,9 @@ export async function generateMetadata({ searchParams }) {
       siteName: SITE_NAME,
       locale: 'tr_TR',
       type: 'website',
+      images: [gorsel],
     },
-    twitter: { card: 'summary', title: baslik, description: aciklama },
+    twitter: { card: 'summary_large_image', title: baslik, description: aciklama, images: [gorsel.url] },
   };
 }
 

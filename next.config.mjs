@@ -1,6 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  /* config options here */
+  // Paylaşım görselleri Türkçe karakterli yazı tipini dosyadan okur;
+  // Vercel'deki sunucu fonksiyonlarına bu dosyalar da eklensin.
+  outputFileTracingIncludes: {
+    "/api/og/ozel": ["./src/assets/fonts/**"],
+    "/**/opengraph-image": ["./src/assets/fonts/**"],
+  },
   turbopack: {
     rules: {
       "*.css": {

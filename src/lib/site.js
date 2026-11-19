@@ -155,9 +155,11 @@ export function sayfaMeta(yol) {
       siteName: SITE_NAME,
       locale: 'tr_TR',
       type: 'website',
+      // Varsayılan: ana sayfa görseli. Kendi opengraph-image dosyası olan sayfalarda o kullanılır.
+      images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: SITE_NAME }],
     },
     twitter: {
-      card: 'summary',
+      card: 'summary_large_image',
       title: tamBaslik,
       description: sayfa.description,
     },
