@@ -30,11 +30,17 @@ export default function MilliBayramSayfasi({ slug, Ikon, sorular, metin }) {
       metin={metin}
     >
       <p className="text-zinc-300 font-medium mb-10">{tarihMetni(hedef)}</p>
-      <GeriSayim tekrar={{ ay: bayram.ay, gun: bayram.gun, ad: bayram.ad }} tema="red" />
+      <GeriSayim
+        tekrar={{ ay: bayram.ay, gun: bayram.gun, ad: bayram.ad }}
+        tema="red"
+        altBaslik={bayram.tamAd}
+        kutlama={slug === 'yilbasi' ? 'Mutlu yıllar! 🎉' : `${bayram.ad} kutlu olsun! 🇹🇷`}
+      />
       {paylasim && (
         <div className="mb-14">
           <PaylasimDugmeleri
             yol={paylasim.yol}
+            tema="red"
             baslik={paylasim.baslik}
             ifade={paylasim.ifade}
             hedef={hedef}

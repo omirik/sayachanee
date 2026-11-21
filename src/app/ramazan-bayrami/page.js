@@ -39,6 +39,7 @@ export default function RamazanBayramiSayfasi() {
         baslangicEtiketi={b.baslangicEtiketi}
         bitisEtiketi="Bayram"
         saatGoster={false}
+        kutlama="İyi bayramlar! 🎉"
         tema="amber"
         bittiMesaji="Bayramınız mübarek olsun! Yeni yılın tarihi için sayaç yakında güncellenecek."
       />

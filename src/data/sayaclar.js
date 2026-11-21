@@ -30,6 +30,10 @@ export const yks = {
     { ad: 'AYT', tamAd: 'Alan Yeterlilik Testleri', tarih: '2027-06-20T10:15:00+03:00' },
     { ad: 'YDT', tamAd: 'Yabancı Dil Testi', tarih: '2027-06-20T15:45:00+03:00' },
   ],
+  // Sonuç tarihleri (ÖSYM planı; açıklanma saati belli değil)
+  sonuclar: [
+    { ad: 'YKS sonuçları', ifade: 'YKS sonuçlarına', tarih: '2027-07-21T00:00:00+03:00' },
+  ],
   bilgiler: [
     { etiket: 'Başvuru', deger: '4 Şubat – 2 Mart 2027', not: 'Geç başvuru: 16-18 Mart' },
     { etiket: 'TYT', deger: '120 soru · 165 dakika', not: 'Türkçe, Sosyal, Matematik, Fen' },
@@ -50,6 +54,10 @@ export const kpss = {
   ],
   // Ön Lisans ve Ortaöğretim KPSS'leri yalnızca çift yıllarda yapılır.
   sonrakiBGrubuYili: 2028,
+  // Sonuç tarihleri (ÖSYM planı; açıklanma saati belli değil)
+  sonuclar: [
+    { ad: 'KPSS sonuçları', ifade: 'KPSS sonuçlarına', tarih: '2027-10-13T00:00:00+03:00' },
+  ],
   bilgiler: [
     { etiket: 'GY-GK', deger: '120 soru · 130 dakika', not: 'Genel Yetenek 60, Genel Kültür 60' },
     { etiket: 'Alan Bilgisi', deger: '18-19 Eylül 2027', not: 'A Grubu kadrolar için' },
@@ -83,6 +91,10 @@ export const dgs = {
   oturumlar: [
     { ad: 'DGS', tamAd: 'Dikey Geçiş Sınavı', tarih: '2027-07-18T10:15:00+03:00' },
   ],
+  // Sonuç tarihleri (ÖSYM planı; açıklanma saati belli değil)
+  sonuclar: [
+    { ad: 'DGS sonuçları', ifade: 'DGS sonuçlarına', tarih: '2027-08-12T00:00:00+03:00' },
+  ],
   bilgiler: [
     { etiket: 'Başvuru', deger: '26 Mayıs – 3 Haziran 2027' },
     { etiket: 'Sınav', deger: '100 soru · 150 dakika', not: 'Sayısal 50, Sözel 50' },
@@ -100,6 +112,12 @@ export const ales = {
     { ad: 'ALES/1', tamAd: 'Nisan dönemi', tarih: '2027-04-18T10:15:00+03:00' },
     { ad: 'ALES/2', tamAd: 'Temmuz dönemi', tarih: '2027-07-11T10:15:00+03:00' },
     { ad: 'ALES/3', tamAd: 'Kasım dönemi', tarih: '2027-11-28T10:15:00+03:00' },
+  ],
+  // Sonuç tarihleri (ÖSYM planı; açıklanma saati belli değil)
+  sonuclar: [
+    { ad: 'ALES/1 sonucu', ifade: 'ALES/1 sonucuna', tarih: '2027-05-07T00:00:00+03:00' },
+    { ad: 'ALES/2 sonucu', ifade: 'ALES/2 sonucuna', tarih: '2027-07-30T00:00:00+03:00' },
+    { ad: 'ALES/3 sonucu', ifade: 'ALES/3 sonucuna', tarih: '2027-12-17T00:00:00+03:00' },
   ],
   bilgiler: [
     { etiket: 'ALES/1', deger: '18 Nisan 2027', not: 'Başvuru 24 Şubat – 4 Mart · Sonuç 7 Mayıs' },
@@ -119,6 +137,11 @@ export const yds = {
     { ad: 'YDS/1', tamAd: 'Mart dönemi', tarih: '2027-03-28T10:15:00+03:00' },
     { ad: 'YDS/2', tamAd: 'Kasım dönemi', tarih: '2027-11-21T10:15:00+03:00' },
   ],
+  // Sonuç tarihleri (ÖSYM planı; açıklanma saati belli değil)
+  sonuclar: [
+    { ad: 'YDS/1 sonucu', ifade: 'YDS/1 sonucuna', tarih: '2027-04-21T00:00:00+03:00' },
+    { ad: 'YDS/2 sonucu', ifade: 'YDS/2 sonucuna', tarih: '2027-12-10T00:00:00+03:00' },
+  ],
   bilgiler: [
     { etiket: 'YDS/1', deger: '28 Mart 2027', not: 'Başvuru Şubat 2027 · Sonuç 21 Nisan' },
     { etiket: 'YDS/2', deger: '21 Kasım 2027', not: 'Başvuru 5-13 Ekim · Sonuç 10 Aralık' },
@@ -134,6 +157,10 @@ export const msu = {
   baslangicEtiketi: 'Sezon Başı (Eylül)',
   oturumlar: [
     { ad: 'MSÜ', tamAd: 'Millî Savunma Üniversitesi Askerî Öğrenci Aday Belirleme Sınavı', tarih: '2027-03-20T10:15:00+03:00' },
+  ],
+  // Sonuç tarihleri (ÖSYM planı; açıklanma saati belli değil)
+  sonuclar: [
+    { ad: 'MSÜ sonuçları', ifade: 'MSÜ sonuçlarına', tarih: '2027-04-15T00:00:00+03:00' },
   ],
   bilgiler: [
     { etiket: 'Başvuru', deger: '13 Ocak – 10 Şubat 2027', not: 'Geç başvuru: 16 Şubat' },
@@ -152,6 +179,10 @@ export const ags = {
     { ad: 'AGS', tamAd: 'MEB Akademi Giriş Sınavı', tarih: '2027-05-08T10:15:00+03:00' },
     // ÖABT başlama saati henüz açıklanmadı: saat gösterilmez, sayaç günün başına sayar.
     { ad: 'ÖABT', tamAd: 'Öğretmenlik Alan Bilgisi Testi', tarih: '2027-05-09T00:00:00+03:00', saatBelirsiz: true },
+  ],
+  // Sonuç tarihleri (ÖSYM planı; açıklanma saati belli değil)
+  sonuclar: [
+    { ad: 'AGS sonuçları', ifade: 'AGS sonuçlarına', tarih: '2027-06-11T00:00:00+03:00' },
   ],
   bilgiler: [
     { etiket: 'Başvuru', deger: '19 – 29 Mart 2027', not: 'Geç başvuru: 6 Nisan' },

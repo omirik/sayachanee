@@ -69,7 +69,12 @@ export default async function PaylasilanSayac({ searchParams }) {
       altBaslik={`${tarihMetni(sayac.hedef)} · ${saatMetni(sayac.hedef)}`}
     >
       <div className="h-6" />
-      <GeriSayim hedef={new Date(sayac.hedef).toISOString()} tema="rose" bittiMesaji={`${sayac.isim} geldi! 🎉`} />
+      <GeriSayim
+        hedef={new Date(sayac.hedef).toISOString()}
+        tema="rose"
+        bittiMesaji={`${sayac.isim} geldi! 🎉`}
+        kutlama={`${sayac.isim} geldi! 🎉`}
+      />
 
       <div className="flex flex-col items-center gap-4 mb-12">
         <PaylasDugmeleri isim={sayac.isim} hedef={sayac.hedef} />

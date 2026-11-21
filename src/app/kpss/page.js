@@ -2,7 +2,10 @@ import { Briefcase } from 'lucide-react';
 import SayacSayfasi from '@/components/sayac/SayacSayfasi';
 import OturumluSayac from '@/components/sayac/OturumluSayac';
 import { kpss } from '@/data/sayaclar';
-import { tarihMetni, saatMetni } from '@/lib/zaman';
+import { tarihMetni, saatMetni, siradakiIndeks, sunucuZamani, sonucluOturumlar } from '@/lib/zaman';
+
+// Sıradaki oturum (sınav bitince Sonuç sekmesi) seçili gelsin diye sayfa saatlik yenilenir.
+export const revalidate = 3600;
 
 const gygk = kpss.oturumlar[0];
 
@@ -26,6 +29,8 @@ const sorular = [
 ];
 
 export default function KpssSayfasi() {
+  const simdi = sunucuZamani();
+  const oturumlar = sonucluOturumlar(kpss, simdi);
   return (
     <SayacSayfasi
       tema="blue"
@@ -40,7 +45,8 @@ export default function KpssSayfasi() {
       sorular={sorular}
     >
       <OturumluSayac
-        oturumlar={kpss.oturumlar}
+        oturumlar={oturumlar}
+        varsayilan={siradakiIndeks(oturumlar, simdi)}
         baslangic={kpss.baslangic}
         baslangicEtiketi={kpss.baslangicEtiketi}
         tema="blue"

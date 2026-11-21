@@ -2,7 +2,10 @@ import { GraduationCap } from 'lucide-react';
 import SayacSayfasi from '@/components/sayac/SayacSayfasi';
 import OturumluSayac from '@/components/sayac/OturumluSayac';
 import { dgs } from '@/data/sayaclar';
-import { tarihMetni, saatMetni } from '@/lib/zaman';
+import { tarihMetni, saatMetni, siradakiIndeks, sunucuZamani, sonucluOturumlar } from '@/lib/zaman';
+
+// Sıradaki oturum (sınav bitince Sonuç sekmesi) seçili gelsin diye sayfa saatlik yenilenir.
+export const revalidate = 3600;
 
 const sinav = dgs.oturumlar[0];
 
@@ -26,6 +29,8 @@ const sorular = [
 ];
 
 export default function DgsSayfasi() {
+  const simdi = sunucuZamani();
+  const oturumlar = sonucluOturumlar(dgs, simdi);
   return (
     <SayacSayfasi
       tema="purple"
@@ -40,7 +45,8 @@ export default function DgsSayfasi() {
       sorular={sorular}
     >
       <OturumluSayac
-        oturumlar={dgs.oturumlar}
+        oturumlar={oturumlar}
+        varsayilan={siradakiIndeks(oturumlar, simdi)}
         baslangic={dgs.baslangic}
         baslangicEtiketi={dgs.baslangicEtiketi}
         tema="purple"

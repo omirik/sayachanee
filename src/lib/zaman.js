@@ -70,6 +70,24 @@ export function siradakiIndeks(oturumlar, simdi) {
   return i >= 0 ? i : oturumlar.length - 1;
 }
 
+// Sınavın oturumlarına sıradaki sonuç tarihini "Sonuç" sekmesi olarak ekler.
+// (ALES gibi birden çok sonucu olanlarda henüz gelmemiş ilk sonuç; hepsi geçtiyse sonuncusu.)
+export function sonucluOturumlar(sinav, simdi) {
+  if (!sinav.sonuclar?.length) return sinav.oturumlar;
+  const s = sinav.sonuclar[siradakiIndeks(sinav.sonuclar, simdi)];
+  return [
+    ...sinav.oturumlar,
+    {
+      ad: 'Sonuç',
+      tamAd: s.ad,
+      tarih: s.tarih,
+      saatBelirsiz: true, // ÖSYM açıklanma saatini sonuç günü duyurur
+      paylasimIfade: s.ifade, // "YKS sonuçlarına 241 gün kaldı!"
+      kutlama: 'Sonuçlar açıklandı! 🍀',
+    },
+  ];
+}
+
 // Kalan süreyi gün/saat/dakika/saniye olarak parçalar.
 export function kalanSure(farkMs) {
   const toplamSaniye = Math.max(0, Math.floor(farkMs / 1000));

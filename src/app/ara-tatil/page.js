@@ -45,6 +45,7 @@ export default function AraTatilSayfasi() {
         oturumlar={oturumlar}
         tema="indigo"
         saatGoster={false}
+        kutlama="İyi tatiller! 🎉"
         bitisEtiketi="Ara Tatil"
         baslangic="2026-11-21T00:00:00+03:00"
         baslangicEtiketi="1. Ara Tatil Sonu"

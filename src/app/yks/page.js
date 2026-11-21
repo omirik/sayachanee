@@ -2,7 +2,7 @@ import { BookOpen } from 'lucide-react';
 import SayacSayfasi from '@/components/sayac/SayacSayfasi';
 import OturumluSayac from '@/components/sayac/OturumluSayac';
 import { yks } from '@/data/sayaclar';
-import { tarihMetni, saatMetni, siradakiIndeks, sunucuZamani } from '@/lib/zaman';
+import { tarihMetni, saatMetni, siradakiIndeks, sunucuZamani, sonucluOturumlar } from '@/lib/zaman';
 
 // Sıradaki oturumun seçili gelmesi için sayfa saatlik yenilenir.
 export const revalidate = 3600;
@@ -33,6 +33,8 @@ const sorular = [
 ];
 
 export default function YksSayfasi() {
+  const simdi = sunucuZamani();
+  const oturumlar = sonucluOturumlar(yks, simdi);
   return (
     <SayacSayfasi
       tema="emerald"
@@ -47,12 +49,12 @@ export default function YksSayfasi() {
       sorular={sorular}
     >
       <OturumluSayac
-        oturumlar={yks.oturumlar}
+        oturumlar={oturumlar}
         baslangic={yks.baslangic}
         baslangicEtiketi={yks.baslangicEtiketi}
         tema="emerald"
         depoAnahtari="sayachane_yks_seviye"
-        varsayilan={siradakiIndeks(yks.oturumlar, sunucuZamani())}
+        varsayilan={siradakiIndeks(oturumlar, simdi)}
         bittiMesaji="Bu oturum tamamlandı. Tüm adaylara başarılar!"
       />
     </SayacSayfasi>

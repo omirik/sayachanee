@@ -1,4 +1,6 @@
+import { Fragment } from 'react';
 import Link from 'next/link';
+import ReklamAlani from '@/components/ReklamAlani';
 import { ArrowRight, CalendarHeart, Clock, ShieldCheck, Smartphone } from 'lucide-react';
 import { sayfaMeta } from '@/lib/site';
 import { yaklasanlar, kategoriler } from '@/lib/katalog';
@@ -88,8 +90,15 @@ export default function AnaSayfa() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {digerleri.map((s) => (
-            <SayacKarti key={s.yol} sayac={s} sunucuZamani={simdi} />
+          {digerleri.map((s, i) => (
+            <Fragment key={s.yol}>
+              <SayacKarti sayac={s} sunucuZamani={simdi} />
+              {i === 5 && (
+                <div className="col-span-full flex justify-center">
+                  <ReklamAlani alan="liste" className="my-2" />
+                </div>
+              )}
+            </Fragment>
           ))}
         </div>
 

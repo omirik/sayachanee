@@ -4,6 +4,7 @@ import { Moon, MapPin, CalendarDays } from 'lucide-react';
 import SayacSayfasi from '@/components/sayac/SayacSayfasi';
 import SehirVakitSayaci from '@/components/sayac/SehirVakitSayaci';
 import SSS from '@/components/sayac/SSS';
+import ReklamAlani from '@/components/ReklamAlani';
 import { iller, ilBul } from '@/data/iller';
 import { ramazan, ramazanBayrami } from '@/data/sayaclar';
 import { sehirVakitleri, trBugun, tarihAraligi } from '@/lib/vakitler';
@@ -194,6 +195,8 @@ export default async function SehirRamazanSayfasi({ params }) {
           </div>
         )}
       </section>
+
+      <ReklamAlani alan="imsakiye" className="mt-0 mb-12" />
 
       <SSS sorular={sorular} tema="amber" />
 

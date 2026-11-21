@@ -2,7 +2,10 @@ import { Shield } from 'lucide-react';
 import SayacSayfasi from '@/components/sayac/SayacSayfasi';
 import OturumluSayac from '@/components/sayac/OturumluSayac';
 import { msu } from '@/data/sayaclar';
-import { tarihMetni, saatMetni } from '@/lib/zaman';
+import { tarihMetni, saatMetni, siradakiIndeks, sunucuZamani, sonucluOturumlar } from '@/lib/zaman';
+
+// Sıradaki oturum (sınav bitince Sonuç sekmesi) seçili gelsin diye sayfa saatlik yenilenir.
+export const revalidate = 3600;
 
 const sinav = msu.oturumlar[0];
 
@@ -26,6 +29,8 @@ const sorular = [
 ];
 
 export default function MsuSayfasi() {
+  const simdi = sunucuZamani();
+  const oturumlar = sonucluOturumlar(msu, simdi);
   return (
     <SayacSayfasi
       tema="emerald"
@@ -40,7 +45,8 @@ export default function MsuSayfasi() {
       sorular={sorular}
     >
       <OturumluSayac
-        oturumlar={msu.oturumlar}
+        oturumlar={oturumlar}
+        varsayilan={siradakiIndeks(oturumlar, simdi)}
         baslangic={msu.baslangic}
         baslangicEtiketi={msu.baslangicEtiketi}
         tema="emerald"

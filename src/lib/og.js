@@ -19,7 +19,7 @@ export const OG_RENK = {
 
 // Türkçe harfler (ğ, ş, ı, İ) için latin-ext dahil Inter yazı tipi.
 let fontlarSozu;
-function fontlar() {
+export function fontlar() {
   const dizin = join(process.cwd(), 'src/assets/fonts');
   const oku = (ad) => readFile(join(dizin, ad));
   fontlarSozu ??= Promise.all([

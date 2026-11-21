@@ -2,7 +2,7 @@ import { FileText } from 'lucide-react';
 import SayacSayfasi from '@/components/sayac/SayacSayfasi';
 import OturumluSayac from '@/components/sayac/OturumluSayac';
 import { ales } from '@/data/sayaclar';
-import { tarihMetni, saatMetni, siradakiIndeks, sunucuZamani } from '@/lib/zaman';
+import { tarihMetni, saatMetni, siradakiIndeks, sunucuZamani, sonucluOturumlar } from '@/lib/zaman';
 
 // Sıradaki oturumun seçili gelmesi için sayfa saatlik yenilenir.
 export const revalidate = 3600;
@@ -29,6 +29,8 @@ const sorular = [
 ];
 
 export default function AlesSayfasi() {
+  const simdi = sunucuZamani();
+  const oturumlar = sonucluOturumlar(ales, simdi);
   return (
     <SayacSayfasi
       tema="purple"
@@ -43,12 +45,12 @@ export default function AlesSayfasi() {
       sorular={sorular}
     >
       <OturumluSayac
-        oturumlar={ales.oturumlar}
+        oturumlar={oturumlar}
         baslangic={ales.baslangic}
         baslangicEtiketi={ales.baslangicEtiketi}
         tema="purple"
         depoAnahtari="sayachane_ales_oturum"
-        varsayilan={siradakiIndeks(ales.oturumlar, sunucuZamani())}
+        varsayilan={siradakiIndeks(oturumlar, simdi)}
         bittiMesaji="Bu ALES oturumu tamamlandı. Yukarıdan sıradaki oturumu seçebilirsin."
       />
     </SayacSayfasi>

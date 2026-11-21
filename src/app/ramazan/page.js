@@ -6,9 +6,11 @@ const SEHIR_DEPO = 'sayachane_sehir';
 import Link from 'next/link';
 import { ArrowLeft, MapPin, Loader2, ChevronDown, Search, Moon, Sun, Calendar, Plus, Minus } from 'lucide-react';
 import { ramazan } from '@/data/sayaclar';
-import { tarihMetni } from '@/lib/zaman';
+import { tarihMetni, saatMetni } from '@/lib/zaman';
 import PaylasimDugmeleri from '@/components/PaylasimDugmeleri';
 import { iller } from '@/data/iller';
+import TamEkranDugmesi from '@/components/TamEkran';
+import ReklamAlani from '@/components/ReklamAlani';
 
 const ramazanBaslangici = new Date(ramazan.baslangicTarihi);
 
@@ -126,6 +128,29 @@ export default function RamazanSayaci() {
 
     return () => clearInterval(sayac);
   }, [aktifSekme, vakitler]);
+
+  // Tam ekranın sayacağı an: seçili sekmeye göre
+  const tamEkranHedefi = aktifSekme === 'İftar' ? vakitler.iftar : aktifSekme === 'Sahur' ? vakitler.sahur : ramazanBaslangici;
+
+  // Instagram hikâye görselinde yazacaklar
+  function hikayeBilgisi() {
+    const sayi = (s) => Number.parseInt(s, 10);
+    if (aktifSekme === 'Ramazan') {
+      const gun = sayi(kalan.gun);
+      if (Number.isNaN(gun)) return null;
+      return { ust: 'Ramazana', sayi: String(gun), birim: 'gün kaldı', alt: tarihMetni(ramazan.baslangicTarihi) };
+    }
+    const hedef = aktifSekme === 'İftar' ? vakitler.iftar : vakitler.sahur;
+    const saat = sayi(kalan.saat);
+    const dakika = sayi(kalan.dakika);
+    if (!hedef || Number.isNaN(saat) || Number.isNaN(dakika)) return null;
+    return {
+      ust: `${sehir} için ${aktifSekme === 'İftar' ? 'iftara' : 'sahura'}`,
+      sayi: `${saat}:${String(dakika).padStart(2, '0')}`,
+      birim: 'saat kaldı',
+      alt: `${aktifSekme === 'İftar' ? 'İftar' : 'İmsak'} ${saatMetni(hedef)}`,
+    };
+  }
 
   // Paylaşım metni: tıklama anındaki sekme, şehir ve kalan süreye göre.
   function paylasimMetni() {
@@ -268,8 +293,16 @@ export default function RamazanSayaci() {
         </div>
 
         {/* PAYLAŞ: metin o anki sekmeye ve şehre göre */}
-        <div className="mb-16">
-          <PaylasimDugmeleri yol="/ramazan" baslik="Ramazan, İftar ve Sahur Sayacı" metin={paylasimMetni} />
+        <div className="mb-16 flex flex-col items-center gap-4">
+          {tamEkranHedefi && (
+            <TamEkranDugmesi
+              hedef={tamEkranHedefi.getTime()}
+              tema={aktifSekme === 'Sahur' ? 'blue' : aktifSekme === 'Ramazan' ? 'emerald' : 'amber'}
+              altBaslik={aktifSekme === 'Ramazan' ? `Ramazan ${ramazan.yil}` : `${sehir} · ${aktifSekme === 'İftar' ? 'Akşam ezanı' : 'İmsak vakti'}`}
+              kutlama={aktifSekme === 'İftar' ? 'Hayırlı iftarlar! 🌙' : aktifSekme === 'Sahur' ? 'İmsak vakti girdi 🌙' : 'Hayırlı Ramazanlar! 🌙'}
+            />
+          )}
+          <PaylasimDugmeleri yol="/ramazan" baslik="Ramazan, İftar ve Sahur Sayacı" metin={paylasimMetni} hikaye={hikayeBilgisi} tema="amber" />
         </div>
 
         {/* ŞEHİR SAYFALARI: her il için iftar/sahur vakti ve imsakiye */}
@@ -292,6 +325,8 @@ export default function RamazanSayaci() {
             ))}
           </div>
         </section>
+
+        <ReklamAlani alan="sayacAlti" className="mt-0" />
 
         {/* RAMAZAN SSS BÖLÜMÜ */}
         <div className="w-full max-w-3xl flex flex-col animate-in fade-in slide-in-from-bottom-8 duration-700">

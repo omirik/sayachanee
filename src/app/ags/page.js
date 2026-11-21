@@ -2,7 +2,7 @@ import { Presentation } from 'lucide-react';
 import SayacSayfasi from '@/components/sayac/SayacSayfasi';
 import OturumluSayac from '@/components/sayac/OturumluSayac';
 import { ags } from '@/data/sayaclar';
-import { tarihMetni, saatMetni, siradakiIndeks, sunucuZamani } from '@/lib/zaman';
+import { tarihMetni, saatMetni, siradakiIndeks, sunucuZamani, sonucluOturumlar } from '@/lib/zaman';
 
 // Sıradaki oturumun seçili gelmesi için sayfa saatlik yenilenir.
 export const revalidate = 3600;
@@ -29,6 +29,8 @@ const sorular = [
 ];
 
 export default function AgsSayfasi() {
+  const simdi = sunucuZamani();
+  const oturumlar = sonucluOturumlar(ags, simdi);
   return (
     <SayacSayfasi
       tema="indigo"
@@ -43,12 +45,12 @@ export default function AgsSayfasi() {
       sorular={sorular}
     >
       <OturumluSayac
-        oturumlar={ags.oturumlar}
+        oturumlar={oturumlar}
         baslangic={ags.baslangic}
         baslangicEtiketi={ags.baslangicEtiketi}
         tema="indigo"
         depoAnahtari="sayachane_ags_oturum"
-        varsayilan={siradakiIndeks(ags.oturumlar, sunucuZamani())}
+        varsayilan={siradakiIndeks(oturumlar, simdi)}
         bittiMesaji="Bu oturum tamamlandı. Tüm adaylara başarılar!"
       />
     </SayacSayfasi>

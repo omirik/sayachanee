@@ -10,6 +10,7 @@ export default function PaylasDugmeleri({ isim, hedef }) {
       baslik={isim}
       ifade={`${isim} için`}
       hedef={hedef}
+      tema="rose"
     />
   );
 }

@@ -24,6 +24,7 @@ export default function OturumluSayac({
   bitisEtiketi,
   varsayilan = 0, // kayıtlı seçim yoksa açılacak oturum (genelde sıradaki)
   paylasimGoster = true,
+  kutlama = 'Başarılar! 🍀', // tam ekranda sıfırda görünen yazı
 }) {
   const t = temalar[tema];
   const [secimAdi, setSecimAdi] = useState(null);
@@ -89,17 +90,23 @@ export default function OturumluSayac({
         bitisEtiketi={bitisEtiketi ?? (oturumlar.length > 1 ? `${oturum.ad} Günü` : 'Sınav Günü')}
         tema={tema}
         bittiMesaji={bittiMesaji}
+        altBaslik={oturumlar.length > 1 ? oturum.tamAd : undefined}
+        kutlama={oturum.kutlama ?? kutlama}
       />
 
       {paylasim && (
         <div className="mb-14">
           <PaylasimDugmeleri
             yol={paylasim.yol}
+            tema={tema}
             baslik={paylasim.baslik}
-            ifade={paylasim.ifade}
+            // Sonuç sekmesinde kendi ifadesi var ("YKS sonuçlarına ..."), yoksa sayfanınki ("YKS'ye ...")
+            ifade={oturum.paylasimIfade ?? paylasim.ifade}
             hedef={oturum.tarih}
             // Birden çok oturum varsa hangisi olduğunu ekle ("YKS'ye ... (TYT)"); ifadeyle aynıysa ekleme.
-            ek={oturumlar.length > 1 && !paylasim.ifade.startsWith(oturum.ad) ? oturum.ad : undefined}
+            ek={
+              oturumlar.length > 1 && !oturum.paylasimIfade && !paylasim.ifade.startsWith(oturum.ad) ? oturum.ad : undefined
+            }
           />
         </div>
       )}

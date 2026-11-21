@@ -15,3 +15,13 @@
     100% { transform: translateX(-1000px) translateY(1000px) rotate(-45deg); opacity: 0; }
   }
 }
+
+/* Tam ekran modundaki kutlama konfetisi */
+@keyframes konfeti {
+  0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(110vh) rotate(720deg); opacity: 0.9; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [style*="konfeti"] { animation: none !important; display: none; }
+}

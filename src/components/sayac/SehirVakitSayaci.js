@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { Moon, Sunset } from 'lucide-react';
 import PaylasimDugmeleri from '@/components/PaylasimDugmeleri';
+import TamEkranDugmesi from '@/components/TamEkran';
 import { kalanSure } from '@/lib/zaman';
 
 const iki = (n) => String(n).padStart(2, '0');
@@ -50,6 +51,19 @@ export default function SehirVakitSayaci({ sehir, yol, gunler }) {
     return `🌙 ${sehir} için ${ilkOlan === 'sahur' ? 'sahura' : 'iftara'} ${sure} kaldı! (${ilkOlan === 'sahur' ? 'İmsak' : 'İftar'} ${v.saat})`;
   }
 
+  // Instagram hikâye görseli: "Samsun için iftara · 3:12 · saat kaldı · İftar 17:18"
+  function hikayeBilgisi() {
+    const v = ilkOlan === 'sahur' ? sahur : iftar;
+    if (!v) return null;
+    const k = kalanSure(v.zaman - Date.now());
+    return {
+      ust: `${sehir} için ${ilkOlan === 'sahur' ? 'sahura' : 'iftara'}`,
+      sayi: `${k.gun * 24 + k.saat}:${iki(k.dakika)}`,
+      birim: 'saat kaldı',
+      alt: `${ilkOlan === 'sahur' ? 'İmsak' : 'İftar'} ${v.saat}`,
+    };
+  }
+
   return (
     <>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-3xl mb-8" role="timer" aria-live="off">
@@ -75,8 +89,16 @@ export default function SehirVakitSayaci({ sehir, yol, gunler }) {
         })}
       </div>
 
-      <div className="mb-14">
-        <PaylasimDugmeleri yol={yol} baslik={`${sehir} İftar ve Sahur Vakti`} metin={paylasimMetni} />
+      <div className="mb-14 flex flex-col items-center gap-4">
+        {ilkOlan && (
+          <TamEkranDugmesi
+            hedef={(ilkOlan === 'iftar' ? iftar : sahur).zaman}
+            tema={ilkOlan === 'iftar' ? 'amber' : 'blue'}
+            altBaslik={ilkOlan === 'iftar' ? `İftar · ${iftar.saat}` : `İmsak · ${sahur.saat}`}
+            kutlama={ilkOlan === 'iftar' ? 'Hayırlı iftarlar! 🌙' : 'İmsak vakti girdi 🌙'}
+          />
+        )}
+        <PaylasimDugmeleri yol={yol} baslik={`${sehir} İftar ve Sahur Vakti`} metin={paylasimMetni} hikaye={hikayeBilgisi} tema="amber" />
       </div>
     </>
   );

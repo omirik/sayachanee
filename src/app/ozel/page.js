@@ -3,6 +3,7 @@ import { useState, useEffect, useMemo, useSyncExternalStore } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, CalendarHeart, AlertCircle, Activity, Plus, Trash2, Edit, Calendar, List, ChevronRight, ChevronDown, Clock } from 'lucide-react';
 import PaylasDugmeleri from '@/components/ozel/PaylasDugmeleri';
+import TamEkranDugmesi from '@/components/TamEkran';
 import { trZamani, trParcalar, tarihMetni, saatMetni } from '@/lib/zaman';
 import { AD_UZUNLUGU } from '@/lib/ozel';
 import { depoyuDinle, depodanOku, depoyaYaz } from '@/lib/depo';
@@ -271,7 +272,10 @@ export default function OzelSayac() {
             <div className="text-center mb-12">
               <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 tracking-tight">{aktifDetay.isim}</h1>
               <p className="text-zinc-300 font-medium mb-6">{kisaTarih(aktifDetay.hedef)}</p>
-              <PaylasDugmeleri isim={aktifDetay.isim} hedef={aktifDetay.hedef} />
+              <div className="flex flex-col items-center gap-4">
+                <TamEkranDugmesi hedef={aktifDetay.hedef} tema="rose" kutlama={`${aktifDetay.isim} geldi! 🎉`} />
+                <PaylasDugmeleri isim={aktifDetay.isim} hedef={aktifDetay.hedef} />
+              </div>
             </div>
             
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 w-full max-w-4xl mb-12">

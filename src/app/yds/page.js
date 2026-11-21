@@ -2,7 +2,7 @@ import { Languages } from 'lucide-react';
 import SayacSayfasi from '@/components/sayac/SayacSayfasi';
 import OturumluSayac from '@/components/sayac/OturumluSayac';
 import { yds } from '@/data/sayaclar';
-import { tarihMetni, saatMetni, siradakiIndeks, sunucuZamani } from '@/lib/zaman';
+import { tarihMetni, saatMetni, siradakiIndeks, sunucuZamani, sonucluOturumlar } from '@/lib/zaman';
 
 // Sıradaki oturumun seçili gelmesi için sayfa saatlik yenilenir.
 export const revalidate = 3600;
@@ -29,6 +29,8 @@ const sorular = [
 ];
 
 export default function YdsSayfasi() {
+  const simdi = sunucuZamani();
+  const oturumlar = sonucluOturumlar(yds, simdi);
   return (
     <SayacSayfasi
       tema="cyan"
@@ -43,12 +45,12 @@ export default function YdsSayfasi() {
       sorular={sorular}
     >
       <OturumluSayac
-        oturumlar={yds.oturumlar}
+        oturumlar={oturumlar}
         baslangic={yds.baslangic}
         baslangicEtiketi={yds.baslangicEtiketi}
         tema="cyan"
         depoAnahtari="sayachane_yds_oturum"
-        varsayilan={siradakiIndeks(yds.oturumlar, sunucuZamani())}
+        varsayilan={siradakiIndeks(oturumlar, simdi)}
         bittiMesaji="Bu YDS oturumu tamamlandı. Yukarıdan sıradaki oturumu seçebilirsin."
       />
     </SayacSayfasi>

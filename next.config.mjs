@@ -4,6 +4,7 @@ const nextConfig = {
   // Vercel'deki sunucu fonksiyonlarına bu dosyalar da eklensin.
   outputFileTracingIncludes: {
     "/api/og/ozel": ["./src/assets/fonts/**"],
+    "/api/hikaye": ["./src/assets/fonts/**"],
     "/**/opengraph-image": ["./src/assets/fonts/**"],
   },
   turbopack: {

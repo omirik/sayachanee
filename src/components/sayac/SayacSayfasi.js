@@ -3,6 +3,7 @@ import { ArrowLeft } from 'lucide-react';
 import { temalar } from '@/lib/tema';
 import SSS from './SSS';
 import BilgiKartlari from './BilgiKartlari';
+import ReklamAlani from '@/components/ReklamAlani';
 
 /**
  * Tüm sayaç sayfalarının ortak iskeleti: üst bar, başlık, sayaç alanı, SSS.
@@ -53,6 +54,8 @@ export default function SayacSayfasi({
 
         {children}
 
+        <ReklamAlani alan="sayacAlti" />
+
         {metin && (
           <section className="w-full max-w-4xl mb-12 text-zinc-300 leading-relaxed space-y-3 text-base md:text-lg">
             {[].concat(metin).map((p) => (
@@ -64,6 +67,8 @@ export default function SayacSayfasi({
         {bilgiler?.length > 0 && <BilgiKartlari bilgiler={bilgiler} tema={tema} />}
 
         {sorular?.length > 0 && <SSS sorular={sorular} tema={tema} />}
+
+        <ReklamAlani alan="sayfaSonu" />
       </div>
     </div>
   );

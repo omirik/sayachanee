@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { Activity, PartyPopper } from 'lucide-react';
 import { temalar } from '@/lib/tema';
 import { kalanSure, yillikTarihler } from '@/lib/zaman';
+import TamEkranDugmesi from '@/components/TamEkran';
 
 const BIRIMLER = [
   { anahtar: 'gun', etiket: 'Gün' },
@@ -27,6 +28,8 @@ export default function GeriSayim({
   bitisEtiketi = 'Hedef',
   tema = 'emerald',
   bittiMesaji = 'Geri sayım tamamlandı.',
+  altBaslik, // tam ekranda başlığın altında (ör. "TYT")
+  kutlama, // tam ekranda sıfırda görünen kutlama yazısı
 }) {
   const t = temalar[tema];
   // Sunucuda ve ilk yüklemede "--" gösterilir; saat ancak tarayıcıda bilinir.
@@ -67,12 +70,29 @@ export default function GeriSayim({
     return () => clearInterval(zamanlayici);
   }, [hedef, baslangic, tekrarAy, tekrarGun, tekrarAd, baslangicEtiketi, bitisEtiketi]);
 
+  // Tam ekran düğmesi her iki durumda da aynı anahtarla durur: sayaç bitince
+  // açık olan tam ekran kapanmaz, kutlamayı gösterir.
+  const tamEkran = (
+    <div key="tam-ekran" className="mb-6">
+      <TamEkranDugmesi
+        hedef={hedef}
+        tekrar={tekrarAy ? { ay: tekrarAy, gun: tekrarGun } : undefined}
+        tema={tema}
+        altBaslik={altBaslik}
+        kutlama={kutlama}
+      />
+    </div>
+  );
+
   if (durum?.bitti) {
     return (
-      <div className="w-full max-w-2xl mb-16 flex flex-col items-center text-center gap-3 p-8 bg-zinc-900/60 border border-zinc-800/80 rounded-3xl">
-        <PartyPopper size={32} className={t.metin} />
-        <p className="text-lg text-zinc-200">{bittiMesaji}</p>
-      </div>
+      <>
+        <div key="bitti" className="w-full max-w-2xl mb-8 flex flex-col items-center text-center gap-3 p-8 bg-zinc-900/60 border border-zinc-800/80 rounded-3xl">
+          <PartyPopper size={32} className={t.metin} />
+          <p className="text-lg text-zinc-200">{bittiMesaji}</p>
+        </div>
+        {tamEkran}
+      </>
     );
   }
 
@@ -100,7 +120,7 @@ export default function GeriSayim({
       </div>
 
       {durum?.yuzde != null && (
-        <div className="w-full max-w-4xl flex flex-col mb-16">
+        <div className="w-full max-w-4xl flex flex-col mb-8">
           <div className="flex justify-between items-end mb-3 px-1">
             <span className="text-zinc-400 text-xs font-semibold uppercase tracking-widest flex items-center gap-1.5">
               <Activity size={14} className={t.ikon} /> Süreç İlerlemesi
@@ -126,6 +146,8 @@ export default function GeriSayim({
           </div>
         </div>
       )}
+
+      {tamEkran}
     </>
   );
 }

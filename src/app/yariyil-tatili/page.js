@@ -44,6 +44,7 @@ export default function YariyilTatiliSayfasi() {
         oturumlar={oturumlar}
         tema="indigo"
         saatGoster={false}
+        kutlama="İyi tatiller! 🎉"
         bitisEtiketi="Karne Günü"
         baslangic={okul.acilis}
         baslangicEtiketi="Okulların Açılışı"
