@@ -8,33 +8,22 @@ import { ArrowLeft, MapPin, Loader2, ChevronDown, Search, Moon, Sun, Calendar, P
 import { ramazan } from '@/data/sayaclar';
 import { tarihMetni } from '@/lib/zaman';
 import PaylasimDugmeleri from '@/components/PaylasimDugmeleri';
+import { iller } from '@/data/iller';
 
 const ramazanBaslangici = new Date(ramazan.baslangicTarihi);
-const GUN_MS = 24 * 60 * 60 * 1000;
 
-// API'nin verdiği "GG-AA-YYYY" tarihi ve "SS:DD" saati -> Türkiye saatiyle Date
-function trVakit(gunAyYil, saatDakika) {
-  const [g, a, y] = gunAyYil.split('-');
-  return new Date(`${y}-${a}-${g}T${saatDakika.slice(0, 5)}:00+03:00`);
-}
+// "2026-11-21" + "17:49" -> Türkiye saatiyle Date
+const trVakit = (tarih, saat) => new Date(`${tarih}T${saat}:00+03:00`);
 
-const sehirlerListesi = [
-  "Adana", "Adıyaman", "Afyonkarahisar", "Ağrı", "Amasya", "Ankara", "Antalya", "Artvin", "Aydın", "Balıkesir",
-  "Bilecik", "Bingöl", "Bitlis", "Bolu", "Burdur", "Bursa", "Çanakkale", "Çankırı", "Çorum", "Denizli",
-  "Diyarbakır", "Edirne", "Elazığ", "Erzincan", "Erzurum", "Eskişehir", "Gaziantep", "Giresun", "Gümüşhane", "Hakkâri",
-  "Hatay", "Isparta", "Mersin", "İstanbul", "İzmir", "Kars", "Kastamonu", "Kayseri", "Kırklareli", "Kırşehir",
-  "Kocaeli", "Konya", "Kütahya", "Malatya", "Manisa", "Kahramanmaraş", "Mardin", "Muğla", "Muş", "Nevşehir",
-  "Niğde", "Ordu", "Rize", "Sakarya", "Samsun", "Siirt", "Sinop", "Sivas", "Tekirdağ", "Tokat",
-  "Trabzon", "Tunceli", "Şanlıurfa", "Uşak", "Van", "Yozgat", "Zonguldak", "Aksaray", "Bayburt", "Karaman",
-  "Kırıkkale", "Batman", "Şırnak", "Bartın", "Ardahan", "Iğdır", "Yalova", "Karabük", "Kilis", "Osmaniye", "Düzce"
-];
+const sehirlerListesi = iller.map((il) => il.ad);
+const slugBul = (ad) => iller.find((il) => il.ad === ad)?.slug;
 
 // RAMAZAN İÇİN SIKÇA SORULAN SORULAR
 const sssVerileri = [
   { soru: `${ramazan.yil} Ramazan ayı ne zaman başlıyor?`, cevap: `Diyanet İşleri Başkanlığı takvimine göre ${ramazan.yil} yılında Ramazan ayı ${tarihMetni(ramazan.baslangicTarihi)} günü başlıyor. İlk sahur, bir önceki geceye denk gelir. Son oruç ${tarihMetni(ramazan.bitisTarihi)} günü tutulacak.` },
   { soru: `${ramazan.yil} Kadir Gecesi ne zaman?`, cevap: `Diyanet takvimine göre Kadir Gecesi, ${tarihMetni(ramazan.kadirGecesi)} günü akşamı idrak edilecek.` },
   { soru: 'Ramazana kaç gün kaldı?', cevap: 'Sayfamızdaki "Ramazan\'a Doğru" sekmesine tıklayarak Ramazan ayının başlangıcına kaç gün, saat, dakika ve saniye kaldığını görebilirsiniz.' },
-  { soru: 'İftar ve sahur vakitleri neye göre hesaplanıyor?', cevap: 'Vakitler, bulunduğunuz şehre göre Diyanet İşleri Başkanlığı\'nın güncel hesaplama yöntemleri kullanılarak anlık olarak api.aladhan servisinden çekilmektedir.' },
+  { soru: 'İftar ve sahur vakitleri nereden geliyor?', cevap: 'Vakitler, Diyanet İşleri Başkanlığı\'nın seçtiğiniz il merkezi için yayımladığı resmi namaz vakitleridir. Sahur imsak vaktinde biter, iftar akşam ezanıyla başlar. Her il için ayrıntılı imsakiye sayfası aşağıdaki şehir listesinde.' },
   { soru: 'Sayaç ne kadar doğru?', cevap: 'Sayaç cihazınızın saatini kullanır ve Türkiye saatine göre hesaplar. Cihazınızın saati doğruysa sonuç saniyesi saniyesine doğrudur. Vakitler bir kez yüklendikten sonra internet bağlantınız kopsa bile sayaç çalışmaya devam eder.' }
 ];
 
@@ -70,22 +59,22 @@ export default function RamazanSayaci() {
       setYukleniyor(true);
       setHata(false);
       try {
-        const res = await fetch(`https://api.aladhan.com/v1/timingsByCity?city=${encodeURIComponent(sehir)}&country=Turkey&method=13`);
+        // Diyanet'in resmi vakitleri (sunucumuz üzerinden): bugün ve sonraki 2 gün
+        const res = await fetch(`/api/vakitler/${slugBul(sehir)}`);
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const veri = await res.json();
         if (gecersiz) return;
-        const saatler = veri.data.timings;
-        const bugun = veri.data.date.gregorian.date; // "GG-AA-YYYY", şehrin kendi günü
+        const gunler = veri.gunler;
+        if (!gunler?.length) throw new Error('Vakit yok');
 
         const simdi = new Date();
-        // Bugünün vakitleri (Türkiye saatiyle)
-        const imsakBugun = trVakit(bugun, saatler.Imsak);
-        const iftarBugun = trVakit(bugun, saatler.Maghrib);
+        const imsakBugun = trVakit(gunler[0].tarih, gunler[0].imsak);
+        const iftarBugun = trVakit(gunler[0].tarih, gunler[0].aksam);
 
-        // Sıradaki imsak ve iftar: geçtiyse yarına kaydır (vakitler günden güne birkaç dakika değişir;
-        // vakit gelince sayfa yeni vakitleri tekrar çeker).
-        const sahurTarihi = simdi < imsakBugun ? imsakBugun : new Date(imsakBugun.getTime() + GUN_MS);
-        const iftarTarihi = simdi < iftarBugun ? iftarBugun : new Date(iftarBugun.getTime() + GUN_MS);
+        // Sıradaki imsak (sahur sonu) ve iftar; vakit gelince sayfa yenilerini tekrar çeker.
+        const sonraki = (alan) => gunler.map((g) => trVakit(g.tarih, g[alan])).find((t) => t > simdi) ?? null;
+        const sahurTarihi = sonraki('imsak');
+        const iftarTarihi = sonraki('aksam');
 
         setVakitler({ iftar: iftarTarihi, sahur: sahurTarihi });
 
@@ -282,6 +271,27 @@ export default function RamazanSayaci() {
         <div className="mb-16">
           <PaylasimDugmeleri yol="/ramazan" baslik="Ramazan, İftar ve Sahur Sayacı" metin={paylasimMetni} />
         </div>
+
+        {/* ŞEHİR SAYFALARI: her il için iftar/sahur vakti ve imsakiye */}
+        <section className="w-full max-w-4xl mb-16">
+          <h2 className="text-2xl md:text-3xl font-bold text-white mb-2 text-center tracking-tight">Şehrine Göre İftar ve Sahur Vakitleri</h2>
+          <p className="text-zinc-400 text-center mb-6">
+            <Link href={`/ramazan/${slugBul(sehir)}`} className="text-amber-400 hover:text-amber-300 font-semibold">
+              {sehir} imsakiyesi ve bugünün vakitleri →
+            </Link>
+          </p>
+          <div className="flex flex-wrap justify-center gap-2">
+            {iller.map((il) => (
+              <Link
+                key={il.slug}
+                href={`/ramazan/${il.slug}`}
+                className="px-3 py-1.5 rounded-full text-sm bg-zinc-900/60 border border-zinc-800 text-zinc-300 hover:text-white hover:border-zinc-700"
+              >
+                {il.ad}
+              </Link>
+            ))}
+          </div>
+        </section>
 
         {/* RAMAZAN SSS BÖLÜMÜ */}
         <div className="w-full max-w-3xl flex flex-col animate-in fade-in slide-in-from-bottom-8 duration-700">
