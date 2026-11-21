@@ -5,6 +5,9 @@ import GeriSayim from './GeriSayim';
 import { temalar } from '@/lib/tema';
 import { tarihMetni, saatMetni } from '@/lib/zaman';
 import { depoyuDinle, depodanOku, depoyaYaz } from '@/lib/depo';
+import { usePathname } from 'next/navigation';
+import { paylasimBilgisi } from '@/lib/site';
+import PaylasimDugmeleri from '@/components/PaylasimDugmeleri';
 
 /**
  * Birden fazla oturumu olan sınavlar için (ör. YKS: TYT/AYT/YDT) seçici + geri sayım.
@@ -20,6 +23,7 @@ export default function OturumluSayac({
   saatGoster = true,
   bitisEtiketi,
   varsayilan = 0, // kayıtlı seçim yoksa açılacak oturum (genelde sıradaki)
+  paylasimGoster = true,
 }) {
   const t = temalar[tema];
   const [secimAdi, setSecimAdi] = useState(null);
@@ -40,6 +44,10 @@ export default function OturumluSayac({
   const bulunan = oturumlar.findIndex((o) => o.ad === aktifAd);
   const secili = bulunan >= 0 ? bulunan : varsayilan;
   const oturum = oturumlar[secili];
+
+  // Paylaşım metni bulunduğumuz sayfanın başlığından gelir ("YKS'ye ... gün kaldı!").
+  const yol = usePathname();
+  const paylasim = paylasimGoster ? paylasimBilgisi(yol) : null;
 
   return (
     <>
@@ -82,6 +90,19 @@ export default function OturumluSayac({
         tema={tema}
         bittiMesaji={bittiMesaji}
       />
+
+      {paylasim && (
+        <div className="mb-14">
+          <PaylasimDugmeleri
+            yol={paylasim.yol}
+            baslik={paylasim.baslik}
+            ifade={paylasim.ifade}
+            hedef={oturum.tarih}
+            // Birden çok oturum varsa hangisi olduğunu ekle ("YKS'ye ... (TYT)"); ifadeyle aynıysa ekleme.
+            ek={oturumlar.length > 1 && !paylasim.ifade.startsWith(oturum.ad) ? oturum.ad : undefined}
+          />
+        </div>
+      )}
     </>
   );
 }

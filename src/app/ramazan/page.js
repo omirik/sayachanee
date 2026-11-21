@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { ArrowLeft, MapPin, Loader2, ChevronDown, Search, Moon, Sun, Calendar, Plus, Minus } from 'lucide-react';
 import { ramazan } from '@/data/sayaclar';
 import { tarihMetni } from '@/lib/zaman';
+import PaylasimDugmeleri from '@/components/PaylasimDugmeleri';
 
 const ramazanBaslangici = new Date(ramazan.baslangicTarihi);
 const GUN_MS = 24 * 60 * 60 * 1000;
@@ -137,6 +138,20 @@ export default function RamazanSayaci() {
     return () => clearInterval(sayac);
   }, [aktifSekme, vakitler]);
 
+  // Paylaşım metni: tıklama anındaki sekme, şehir ve kalan süreye göre.
+  function paylasimMetni() {
+    const sayi = (s) => Number.parseInt(s, 10);
+    if (aktifSekme === 'Ramazan') {
+      const gun = sayi(kalan.gun);
+      return Number.isNaN(gun) ? 'Ramazan sayacı' : `⏳ Ramazana ${gun} gün kaldı!`;
+    }
+    const saat = sayi(kalan.saat);
+    const dakika = sayi(kalan.dakika);
+    if (Number.isNaN(saat) || Number.isNaN(dakika)) return `${sehir} iftar ve sahur sayacı`;
+    const sure = saat > 0 ? `${saat} saat ${dakika} dakika` : `${dakika} dakika`;
+    return `🌙 ${sehir} için ${aktifSekme === 'İftar' ? 'iftara' : 'sahura'} ${sure} kaldı!`;
+  }
+
   const filtrelenmisSehirler = sehirlerListesi.filter(s => s.toLowerCase().includes(aramaMetni.toLowerCase()));
   const gosterilecekBirimler = aktifSekme === 'Ramazan' ? ['Gun', 'Saat', 'Dakika', 'Saniye'] : ['Saat', 'Dakika', 'Saniye'];
 
@@ -238,7 +253,7 @@ export default function RamazanSayaci() {
         </div>
 
         {/* SAYAÇ KARTLARI */}
-        <div className={`grid gap-4 md:gap-6 w-full mb-20 ${aktifSekme === 'Ramazan' ? 'grid-cols-2 md:grid-cols-4 max-w-4xl' : 'grid-cols-3 max-w-2xl'}`}>
+        <div className={`grid gap-4 md:gap-6 w-full mb-8 ${aktifSekme === 'Ramazan' ? 'grid-cols-2 md:grid-cols-4 max-w-4xl' : 'grid-cols-3 max-w-2xl'}`}>
           {gosterilecekBirimler.map((birim, i) => {
             const isSaniye = birim === 'Saniye';
             const deger = birim.toLowerCase();
@@ -261,6 +276,11 @@ export default function RamazanSayaci() {
               </div>
             )
           })}
+        </div>
+
+        {/* PAYLAŞ: metin o anki sekmeye ve şehre göre */}
+        <div className="mb-16">
+          <PaylasimDugmeleri yol="/ramazan" baslik="Ramazan, İftar ve Sahur Sayacı" metin={paylasimMetni} />
         </div>
 
         {/* RAMAZAN SSS BÖLÜMÜ */}

@@ -198,6 +198,16 @@ export const sayfalar = {
   },
 };
 
+// Paylaşım metni için sayfa bilgisi. "YKS'ye Kaç Gün Kaldı? ..." başlığından "YKS'ye" ifadesini çıkarır.
+// Başlığı bu kalıpta olmayan sayfalar (Hakkımızda vb.) için null döner.
+export function paylasimBilgisi(yol) {
+  const sayfa = sayfalar[yol];
+  if (!sayfa) return null;
+  const [ifade] = sayfa.title.split(' Kaç Gün Kaldı');
+  if (ifade === sayfa.title) return null;
+  return { yol, baslik: sayfa.title, ifade };
+}
+
 // Bir sayfanın <title>, açıklama, canonical ve paylaşım (Open Graph) etiketlerini üretir.
 // Kullanım: export const metadata = sayfaMeta('/yks');
 export function sayfaMeta(yol) {
