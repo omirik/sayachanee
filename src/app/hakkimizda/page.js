@@ -35,7 +35,7 @@ export default function Hakkimizda() {
 
             <h2 className="text-xl font-semibold text-white mt-8 mb-3">Neler Sunuyoruz?</h2>
             <ul className="list-disc pl-5 space-y-2">
-              <li><strong>Sınav Sayaçları:</strong> YKS, KPSS, LGS ve DGS gibi hayatın dönüm noktası olan sınavlara kalan süreyi ÖSYM ve MEB’in resmi takvimlerine göre gösteriyoruz.</li>
+              <li><strong>Sınav Sayaçları:</strong> YKS, KPSS, LGS, MSÜ ve AGS gibi hayatın dönüm noktası olan sınavlara kalan süreyi ÖSYM ve MEB’in resmi takvimlerine göre gösteriyoruz.</li>
               <li><strong>Bayram ve Dini Gün Sayaçları:</strong> Resmi bayramlar, Ramazan ve Kurban Bayramı için geri sayım; Ramazan’da şehrine göre iftar ve sahur vakitleri (Diyanet hesaplama yöntemiyle).</li>
               <li><strong>Özel Sayaç:</strong> Sizin için anlamlı olan herhangi bir tarihi sisteme girerek kendi kişisel geri sayımlarınızı oluşturmanıza imkan tanıyoruz.</li>
             </ul>

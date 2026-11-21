@@ -2,9 +2,9 @@
 // sayfaları buradan beslenir. Yeni sayaç eklerken buraya da bir satır ekle.
 import {
   BookOpen, Briefcase, PenTool, GraduationCap, Moon, Heart, Star, Flag, Sun, Award,
-  FileText, Languages, Snowflake, Coffee, TreePalm, PartyPopper, Handshake, Landmark,
+  FileText, Languages, Snowflake, Coffee, TreePalm, PartyPopper, Handshake, Landmark, Shield, Presentation,
 } from 'lucide-react';
-import { yks, kpss, lgs, dgs, ales, yds, okul, ramazan, ramazanBayrami, kurbanBayrami, milliBayramlar } from '@/data/sayaclar';
+import { yks, kpss, lgs, dgs, ales, yds, msu, ags, okul, ramazan, ramazanBayrami, kurbanBayrami, milliBayramlar } from '@/data/sayaclar';
 import { yillikTarihler } from '@/lib/zaman';
 
 export const kategoriler = {
@@ -39,6 +39,8 @@ export const sayaclar = [
   { yol: '/dgs', ad: 'DGS', aciklama: 'Dikey Geçiş Sınavı', kategori: 'sinav', tema: 'purple', Ikon: GraduationCap, sinav: dgs },
   { yol: '/ales', ad: 'ALES', aciklama: 'Lisansüstü ve akademik kadro', kategori: 'sinav', tema: 'purple', Ikon: FileText, sinav: ales },
   { yol: '/yds', ad: 'YDS', aciklama: 'Yabancı dil sınavı', kategori: 'sinav', tema: 'cyan', Ikon: Languages, sinav: yds },
+  { yol: '/msu', ad: 'MSÜ', aciklama: 'Harp okulları ve astsubaylık', kategori: 'sinav', tema: 'emerald', Ikon: Shield, sinav: msu },
+  { yol: '/ags', ad: 'AGS', aciklama: 'MEB Akademi Giriş Sınavı ve ÖABT', kategori: 'sinav', tema: 'indigo', Ikon: Presentation, sinav: ags },
   { yol: '/yariyil-tatili', ad: 'Yarıyıl Tatili', aciklama: 'Karne günü', kategori: 'okul', tema: 'indigo', Ikon: Snowflake, tarih: okul.karne1 },
   { yol: '/ara-tatil', ad: 'Ara Tatil', aciklama: '2. dönem ara tatili', kategori: 'okul', tema: 'indigo', Ikon: Coffee, tarih: okul.araTatil2.baslangic },
   { yol: '/okullarin-kapanmasi', ad: 'Okulların Kapanışı', aciklama: 'Yaz tatili', kategori: 'okul', tema: 'indigo', Ikon: TreePalm, tarih: okul.kapanis },

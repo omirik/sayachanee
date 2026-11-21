@@ -126,6 +126,41 @@ export const yds = {
   ],
 };
 
+export const msu = {
+  ad: 'MSÜ',
+  yil: 2027,
+  kurum: 'ÖSYM',
+  baslangic: '2026-09-01T00:00:00+03:00',
+  baslangicEtiketi: 'Sezon Başı (Eylül)',
+  oturumlar: [
+    { ad: 'MSÜ', tamAd: 'Millî Savunma Üniversitesi Askerî Öğrenci Aday Belirleme Sınavı', tarih: '2027-03-20T10:15:00+03:00' },
+  ],
+  bilgiler: [
+    { etiket: 'Başvuru', deger: '13 Ocak – 10 Şubat 2027', not: 'Geç başvuru: 16 Şubat' },
+    { etiket: 'Sınav', deger: '20 Mart 2027 Cumartesi', not: 'Saat 10:15' },
+    { etiket: 'Sonuç', deger: '15 Nisan 2027', not: 'ÖSYM planlanan tarih' },
+  ],
+};
+
+export const ags = {
+  ad: 'AGS',
+  yil: 2027,
+  kurum: 'ÖSYM',
+  baslangic: '2026-09-01T00:00:00+03:00',
+  baslangicEtiketi: 'Sezon Başı (Eylül)',
+  oturumlar: [
+    { ad: 'AGS', tamAd: 'MEB Akademi Giriş Sınavı', tarih: '2027-05-08T10:15:00+03:00' },
+    // ÖABT başlama saati henüz açıklanmadı: saat gösterilmez, sayaç günün başına sayar.
+    { ad: 'ÖABT', tamAd: 'Öğretmenlik Alan Bilgisi Testi', tarih: '2027-05-09T00:00:00+03:00', saatBelirsiz: true },
+  ],
+  bilgiler: [
+    { etiket: 'Başvuru', deger: '19 – 29 Mart 2027', not: 'Geç başvuru: 6 Nisan' },
+    { etiket: 'AGS', deger: '8 Mayıs 2027 Cumartesi', not: 'Saat 10:15' },
+    { etiket: 'ÖABT', deger: '9 Mayıs 2027 Pazar', not: 'Saat ÖSYM kılavuzuyla açıklanacak' },
+    { etiket: 'Sonuç', deger: '11 Haziran 2027', not: 'ÖSYM planlanan tarih' },
+  ],
+};
+
 // --- OKUL TAKVİMİ (MEB 2026-2027 çalışma takvimi) -----------------------
 
 export const okul = {

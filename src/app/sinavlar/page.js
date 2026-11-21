@@ -10,7 +10,7 @@ export default function SinavlarSayfasi() {
       baslik="Sınav"
       vurgu="Sayaçları"
       vurguRengi="text-emerald-500"
-      aciklama="YKS, KPSS, LGS ve DGS'ye kaç gün kaldığını canlı takip et. Tarihler ÖSYM ve MEB'in resmi takvimlerine dayanır."
+      aciklama="YKS, KPSS, LGS, DGS, ALES, YDS, MSÜ ve AGS'ye kaç gün kaldığını canlı takip et. Tarihler ÖSYM ve MEB'in resmi takvimlerine dayanır."
       kategori="sinav"
     />
   );

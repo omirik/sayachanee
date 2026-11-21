@@ -52,6 +52,19 @@ export const sayfalar = {
     keywords: ['yds ye kaç gün kaldı', '2027 yds ne zaman', 'yds sayacı', 'yds başvuru tarihleri'],
   },
 
+  '/msu': {
+    title: "MSÜ'ye Kaç Gün Kaldı? 2027 MSÜ Sınavı Sayacı",
+    description:
+      '2027 MSÜ sınavına kaç gün kaldı? Millî Savunma Üniversitesi sınav, başvuru ve sonuç tarihleri ile canlı geri sayım.',
+    keywords: ['msü ye kaç gün kaldı', '2027 msü ne zaman', 'msü sayacı', 'msü başvuru tarihleri'],
+  },
+  '/ags': {
+    title: "AGS'ye Kaç Gün Kaldı? 2027 MEB-AGS ve ÖABT Sayacı",
+    description:
+      "2027 MEB Akademi Giriş Sınavı (AGS) ve ÖABT'ye kaç gün kaldı? Sınav, başvuru ve sonuç tarihleri ile canlı geri sayım.",
+    keywords: ['ags ye kaç gün kaldı', '2027 ags ne zaman', 'öabt ne zaman', 'meb ags sayacı', 'akademi giriş sınavı'],
+  },
+
   // Okul takvimi
   '/yariyil-tatili': {
     title: 'Yarıyıl Tatiline Kaç Gün Kaldı? Karne Günü Sayacı',
@@ -146,9 +159,9 @@ export const sayfalar = {
       'Sayaçhane’deki tüm sayaçlar tek sayfada: sınavlar, resmi bayramlar, dini günler ve özel sayaç aracı.',
   },
   '/sinavlar': {
-    title: 'Sınav Sayaçları: YKS, KPSS, LGS, DGS, ALES, YDS',
+    title: 'Sınav Sayaçları: YKS, KPSS, LGS, MSÜ, AGS ve Daha Fazlası',
     description:
-      'YKS, KPSS, LGS, DGS, ALES ve YDS sınavlarına kaç gün kaldı? Tüm sınav geri sayım sayaçları bir arada.',
+      'YKS, KPSS, LGS, DGS, ALES, YDS, MSÜ ve AGS sınavlarına kaç gün kaldı? Tüm sınav geri sayım sayaçları bir arada.',
   },
   '/resmi-bayramlar': {
     title: 'Resmi Bayram ve Tatil Sayaçları',

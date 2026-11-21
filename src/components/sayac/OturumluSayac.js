@@ -67,7 +67,8 @@ export default function OturumluSayac({
         {saatGoster && (
           <span className="flex items-center gap-2">
             <Clock size={16} className={t.ikon} />
-            {saatMetni(oturum.tarih)}
+            {/* Saati henüz açıklanmamış oturumlarda saat yerine not göster */}
+            {oturum.saatBelirsiz ? 'Saat açıklanmadı' : saatMetni(oturum.tarih)}
             {oturumlar.length > 1 && <span className="text-zinc-400">· {oturum.tamAd}</span>}
           </span>
         )}

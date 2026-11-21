@@ -1,7 +1,7 @@
 // Her sayfanın paylaşım görselinde yazacaklar.
 // Tarihler src/data/sayaclar.js'den gelir; tarih değişince görsel de değişir.
 import { ogResim } from './og';
-import { yks, kpss, lgs, dgs, ales, yds, okul, ramazan, ramazanBayrami, kurbanBayrami, milliBayramlar } from '@/data/sayaclar';
+import { yks, kpss, lgs, dgs, ales, yds, msu, ags, okul, ramazan, ramazanBayrami, kurbanBayrami, milliBayramlar } from '@/data/sayaclar';
 import { tarihMetni } from './zaman';
 
 const milli = (slug) => {
@@ -44,6 +44,8 @@ export const ogSayfalar = {
   '/15-temmuz': milli('15-temmuz'),
   '/ales': { etiket: `ÖSYM · ${ales.yil}`, baslik: "ALES'e kaç gün kaldı?", alt: `ALES/1: ${tarihMetni(ales.oturumlar[0].tarih)}`, tema: 'purple' },
   '/yds': { etiket: `ÖSYM · ${yds.yil}`, baslik: "YDS'ye kaç gün kaldı?", alt: `YDS/1: ${tarihMetni(yds.oturumlar[0].tarih)}`, tema: 'cyan' },
+  '/msu': { etiket: `ÖSYM · ${msu.yil}`, baslik: "MSÜ'ye kaç gün kaldı?", alt: tarihMetni(msu.oturumlar[0].tarih), tema: 'emerald' },
+  '/ags': { etiket: `ÖSYM · MEB · ${ags.yil}`, baslik: "AGS'ye kaç gün kaldı?", alt: `AGS: ${tarihMetni(ags.oturumlar[0].tarih)}`, tema: 'indigo' },
   '/yariyil-tatili': { etiket: `MEB · ${okul.donem}`, baslik: 'Yarıyıl tatiline kaç gün kaldı?', alt: `Karne günü: ${tarihMetni(okul.karne1)}`, tema: 'indigo' },
   '/ara-tatil': { etiket: `MEB · ${okul.donem}`, baslik: 'Ara tatile kaç gün kaldı?', alt: `${tarihMetni(okul.araTatil2.baslangic, { gunAdi: false })} – ${tarihMetni(okul.araTatil2.bitis, { gunAdi: false })}`, tema: 'indigo' },
   '/okullarin-kapanmasi': { etiket: `MEB · ${okul.donem}`, baslik: 'Okulların kapanmasına kaç gün kaldı?', alt: `Son ders günü: ${tarihMetni(okul.kapanis)}`, tema: 'indigo' },
