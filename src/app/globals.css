@@ -16,6 +16,13 @@
   }
 }
 
+/* Tam ekran arka planındaki ışıkların yavaş süzülmesi */
+@keyframes suzul {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(8vw, 6vh) scale(1.08); }
+  66% { transform: translate(-4vw, 10vh) scale(0.95); }
+}
+
 /* Tam ekran modundaki kutlama konfetisi */
 @keyframes konfeti {
   0% { transform: translateY(0) rotate(0deg); opacity: 1; }

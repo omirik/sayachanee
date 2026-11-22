@@ -3,6 +3,7 @@
 
 export const temalar = {
   emerald: {
+    hex: '#34d399', // tam ekran ışıltısı için
     metin: 'text-emerald-400',
     ikon: 'text-emerald-500',
     ikonKutu: 'bg-emerald-900/30 border-emerald-500/30 text-emerald-400',
@@ -15,6 +16,7 @@ export const temalar = {
     sssIkon: 'group-open:bg-emerald-500/20 group-open:text-emerald-400',
   },
   blue: {
+    hex: '#60a5fa', // tam ekran ışıltısı için
     metin: 'text-blue-400',
     ikon: 'text-blue-500',
     ikonKutu: 'bg-blue-900/30 border-blue-500/30 text-blue-400',
@@ -27,6 +29,7 @@ export const temalar = {
     sssIkon: 'group-open:bg-blue-500/20 group-open:text-blue-400',
   },
   cyan: {
+    hex: '#22d3ee', // tam ekran ışıltısı için
     metin: 'text-cyan-400',
     ikon: 'text-cyan-500',
     ikonKutu: 'bg-cyan-900/30 border-cyan-500/30 text-cyan-400',
@@ -39,6 +42,7 @@ export const temalar = {
     sssIkon: 'group-open:bg-cyan-500/20 group-open:text-cyan-400',
   },
   purple: {
+    hex: '#c084fc', // tam ekran ışıltısı için
     metin: 'text-purple-400',
     ikon: 'text-purple-500',
     ikonKutu: 'bg-purple-900/30 border-purple-500/30 text-purple-400',
@@ -51,6 +55,7 @@ export const temalar = {
     sssIkon: 'group-open:bg-purple-500/20 group-open:text-purple-400',
   },
   red: {
+    hex: '#f87171', // tam ekran ışıltısı için
     metin: 'text-red-400',
     ikon: 'text-red-500',
     ikonKutu: 'bg-red-900/30 border-red-500/30 text-red-500',
@@ -63,6 +68,7 @@ export const temalar = {
     sssIkon: 'group-open:bg-red-500/20 group-open:text-red-400',
   },
   indigo: {
+    hex: '#a5b4fc', // tam ekran ışıltısı için
     metin: 'text-indigo-300',
     ikon: 'text-indigo-400',
     ikonKutu: 'bg-indigo-900/30 border-indigo-500/30 text-indigo-300',
@@ -75,6 +81,7 @@ export const temalar = {
     sssIkon: 'group-open:bg-indigo-500/20 group-open:text-indigo-300',
   },
   rose: {
+    hex: '#fb7185', // tam ekran ışıltısı için
     metin: 'text-rose-400',
     ikon: 'text-rose-500',
     ikonKutu: 'bg-rose-900/30 border-rose-500/30 text-rose-400',
@@ -87,6 +94,7 @@ export const temalar = {
     sssIkon: 'group-open:bg-rose-500/20 group-open:text-rose-400',
   },
   amber: {
+    hex: '#fbbf24', // tam ekran ışıltısı için
     metin: 'text-amber-400',
     ikon: 'text-amber-500',
     ikonKutu: 'bg-amber-900/30 border-amber-500/30 text-amber-500',

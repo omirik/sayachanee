@@ -77,6 +77,7 @@ export default function GeriSayim({
       <TamEkranDugmesi
         hedef={hedef}
         tekrar={tekrarAy ? { ay: tekrarAy, gun: tekrarGun } : undefined}
+        baslangic={baslangic}
         tema={tema}
         altBaslik={altBaslik}
         kutlama={kutlama}
