@@ -217,8 +217,10 @@ function TamEkranGorunumu({ hedef, tekrar, baslangic, tema, baslik, altBaslik, k
           <>
             {/* Gün: kahraman sayı */}
             <div className="mt-[3vh] flex flex-col items-center">
+              {/* Not: renk geçişli yazı (bg-clip-text) yalnızca kutunun içini boyar; sıkı harf aralığı son rakamı
+                  kutunun dışına taşırdığı için yanlara biraz boşluk (px) verilir, yoksa sağ kenar kesik görünür. */}
               <span
-                className="font-black tabular-nums leading-[0.82] tracking-[-0.05em] text-[min(30vw,30vh)] bg-gradient-to-b from-white via-white to-zinc-500 bg-clip-text text-transparent"
+                className="inline-block px-[0.08em] py-[0.02em] font-black tabular-nums leading-[0.82] tracking-[-0.05em] text-[min(30vw,30vh)] bg-gradient-to-b from-white via-white to-zinc-500 bg-clip-text text-transparent"
                 style={{ filter: `drop-shadow(0 0 50px ${renk}40)` }}
               >
                 {k.gun}
