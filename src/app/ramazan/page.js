@@ -1,16 +1,17 @@
 'use client'
-import { useState, useEffect, useRef, useSyncExternalStore } from 'react';
+import { useState, useEffect, useSyncExternalStore } from 'react';
 import { depoyuDinle, depodanOku, depoyaYaz } from '@/lib/depo';
 
 const SEHIR_DEPO = 'sayachane_sehir';
 import Link from 'next/link';
-import { ArrowLeft, MapPin, Loader2, ChevronDown, Search, Moon, Sun, Calendar, Plus, Minus } from 'lucide-react';
+import { ArrowLeft, MapPin, Loader2, ChevronDown, Moon, Sun, Calendar, Plus, Minus } from 'lucide-react';
 import { ramazan } from '@/data/sayaclar';
 import { tarihMetni, saatMetni } from '@/lib/zaman';
 import PaylasimDugmeleri from '@/components/PaylasimDugmeleri';
 import { iller } from '@/data/iller';
 import TamEkranDugmesi from '@/components/TamEkran';
 import ReklamAlani from '@/components/ReklamAlani';
+import AramaliSecim from '@/components/AramaliSecim';
 
 const ramazanBaslangici = new Date(ramazan.baslangicTarihi);
 
@@ -18,6 +19,7 @@ const ramazanBaslangici = new Date(ramazan.baslangicTarihi);
 const trVakit = (tarih, saat) => new Date(`${tarih}T${saat}:00+03:00`);
 
 const sehirlerListesi = iller.map((il) => il.ad);
+const sehirSecenekleri = sehirlerListesi.map((ad) => ({ etiket: ad, deger: ad }));
 const slugBul = (ad) => iller.find((il) => il.ad === ad)?.slug;
 
 // RAMAZAN İÇİN SIKÇA SORULAN SORULAR
@@ -42,18 +44,6 @@ export default function RamazanSayaci() {
   const [yenile, setYenile] = useState(0); // vakit gelince yeni vakitleri çekmek için
   const [acikSoru, setAcikSoru] = useState(null);
   
-  const [dropdownAcik, setDropdownAcik] = useState(false);
-  const [aramaMetni, setAramaMetni] = useState('');
-  const dropdownRef = useRef(null);
-
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) setDropdownAcik(false);
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
   useEffect(() => {
     // Şehir hızlıca değiştirilirse eski şehrin geç gelen cevabı yenisinin üzerine yazmasın.
     let gecersiz = false;
@@ -166,7 +156,6 @@ export default function RamazanSayaci() {
     return `🌙 ${sehir} için ${aktifSekme === 'İftar' ? 'iftara' : 'sahura'} ${sure} kaldı!`;
   }
 
-  const filtrelenmisSehirler = sehirlerListesi.filter(s => s.toLowerCase().includes(aramaMetni.toLowerCase()));
   const gosterilecekBirimler = aktifSekme === 'Ramazan' ? ['Gun', 'Saat', 'Dakika', 'Saniye'] : ['Saat', 'Dakika', 'Saniye'];
 
   const sssGecis = (index) => {
@@ -182,7 +171,7 @@ export default function RamazanSayaci() {
 
   return (
     <div className="flex-1 flex flex-col items-center justify-start p-4 relative overflow-hidden pb-32">
-      <div className={`absolute inset-0 bg-gradient-to-br bg-[length:400%_400%] animate-gradient -z-10 transition-all duration-1000 fixed ${
+      <div className={`absolute inset-0 bg-gradient-to-br -z-10 transition-all duration-1000 fixed ${
         aktifSekme === 'İftar' ? 'from-orange-600/15 via-zinc-950 to-amber-950/20' : 
         aktifSekme === 'Sahur' ? 'from-blue-900/15 via-zinc-950 to-indigo-950/20' :
         'from-emerald-900/15 via-zinc-950 to-teal-950/20'
@@ -197,36 +186,29 @@ export default function RamazanSayaci() {
             <span className="text-sm font-medium">Geri</span>
           </Link>
 
-          <div className="relative" ref={dropdownRef}>
-            <button 
-              onClick={() => setDropdownAcik(!dropdownAcik)}
-              className="flex items-center gap-3 px-5 py-2.5 bg-zinc-900/90 hover:bg-zinc-800 border border-zinc-700/60 rounded-full backdrop-blur-md shadow-xl transition-all text-zinc-200"
-            >
-              <MapPin size={16} className={temaRenkleri.metin} />
-              <span className="text-sm font-medium">{sehir}</span>
-              <ChevronDown size={14} className={`text-zinc-400 transition-transform duration-300 ${dropdownAcik ? 'rotate-180' : ''}`} />
-            </button>
-
-            {dropdownAcik && (
-              <div className="absolute right-0 mt-3 w-64 bg-zinc-900/95 border border-zinc-800 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden z-50 animate-in fade-in zoom-in-95 duration-200">
-                <div className="p-3 border-b border-zinc-800 flex items-center gap-2 bg-zinc-950/50">
-                  <Search size={16} className="text-zinc-500 ml-1" />
-                  <input type="text" placeholder="Şehir ara..." value={aramaMetni} onChange={(e) => setAramaMetni(e.target.value)} className="bg-transparent text-sm text-white placeholder-zinc-500 outline-none w-full" autoFocus />
-                </div>
-                <div className="max-h-60 overflow-y-auto p-1.5 scrollbar-thin scrollbar-thumb-zinc-800">
-                  {filtrelenmisSehirler.map((s, idx) => (
-                    <button key={idx} onClick={() => { setSehir(s); setDropdownAcik(false); setAramaMetni(''); }} className={`w-full text-left px-4 py-2.5 rounded-xl text-sm transition-colors ${sehir === s ? 'bg-zinc-800 text-white font-semibold' : 'text-zinc-400 hover:text-white hover:bg-zinc-800/50'}`}>
-                      {s}
-                    </button>
-                  ))}
-                </div>
-              </div>
+          <AramaliSecim
+            etiket="Şehir"
+            deger={sehir}
+            onSec={setSehir}
+            secenekler={sehirSecenekleri}
+            aramaIpucu="Şehir ara…"
+            sinif=""
+            panelSinifi="right-0 w-64"
+            listeYuksekligi="max-h-60"
+            dugmeSinifi="flex items-center gap-3 px-5 py-2.5 bg-zinc-900 hover:bg-zinc-800 border border-zinc-700/60 rounded-full shadow-xl transition-all text-zinc-200"
+          >
+            {(acik) => (
+              <>
+                <MapPin size={16} className={temaRenkleri.metin} />
+                <span className="text-sm font-medium">{sehir}</span>
+                <ChevronDown size={14} className={`text-zinc-400 transition-transform duration-300 ${acik ? 'rotate-180' : ''}`} />
+              </>
             )}
-          </div>
+          </AramaliSecim>
         </div>
 
         {/* SEKMELER */}
-        <div className="flex items-center gap-1 md:gap-2 p-1.5 bg-zinc-900/80 border border-zinc-700/60 rounded-full backdrop-blur-md shadow-xl transition-all mb-8 relative z-10 flex-wrap justify-center">
+        <div className="flex items-center gap-1 md:gap-2 p-1.5 bg-zinc-900/80 border border-zinc-700/60 rounded-full shadow-xl transition-all mb-8 relative z-10 flex-wrap justify-center">
           <button onClick={() => setAktifSekme('İftar')} className={`flex items-center gap-2 px-5 py-2 rounded-full text-sm font-semibold transition-all ${aktifSekme === 'İftar' ? 'bg-amber-500 text-zinc-950 shadow-md' : 'text-zinc-400 hover:text-white'}`}>
             <Sun size={16} className={aktifSekme === 'İftar' ? 'text-zinc-950' : 'text-amber-500/70'} /> İftar
           </button>
@@ -272,7 +254,7 @@ export default function RamazanSayaci() {
             const isSaniye = birim === 'Saniye';
             const deger = birim.toLowerCase();
             return (
-              <div key={i} className={`flex flex-col items-center p-6 md:p-8 bg-zinc-900/60 border rounded-3xl backdrop-blur-md shadow-lg transition-transform hover:scale-[1.02] duration-300 ${
+              <div key={i} className={`flex flex-col items-center p-6 md:p-8 bg-zinc-900/60 border rounded-3xl shadow-lg transition-transform hover:scale-[1.02] duration-300 ${
                 isSaniye && aktifSekme === 'İftar' ? 'border-amber-500/40 shadow-[0_0_35px_rgba(245,158,11,0.15)]' : 
                 isSaniye && aktifSekme === 'Sahur' ? 'border-blue-500/40 shadow-[0_0_35px_rgba(59,130,246,0.15)]' : 
                 isSaniye && aktifSekme === 'Ramazan' ? 'border-emerald-500/40 shadow-[0_0_35px_rgba(16,185,129,0.15)]' : 
@@ -335,8 +317,8 @@ export default function RamazanSayaci() {
             {sssVerileri.map((item, index) => {
               const acikMi = acikSoru === index;
               return (
-                <div key={index} className={`border rounded-2xl transition-all duration-300 overflow-hidden backdrop-blur-sm ${acikMi ? `bg-zinc-900/80 ${temaRenkleri.cerceve}` : 'bg-zinc-900/40 border-zinc-800/80 hover:border-zinc-700'}`}>
-                  <button onClick={() => sssGecis(index)} className="w-full flex items-center justify-between p-5 text-left focus:outline-none">
+                <div key={index} className={`border rounded-2xl transition-all duration-300 overflow-hidden ${acikMi ? `bg-zinc-900/80 ${temaRenkleri.cerceve}` : 'bg-zinc-900/40 border-zinc-800/80 hover:border-zinc-700'}`}>
+                  <button onClick={() => sssGecis(index)} className="w-full flex items-center justify-between p-5 text-left">
                     <span className={`font-semibold transition-colors ${acikMi ? temaRenkleri.metin : 'text-zinc-200'}`}>{item.soru}</span>
                     <div className={`p-1.5 rounded-full transition-colors ${acikMi ? `${temaRenkleri.arkaPlan} ${temaRenkleri.metin}` : 'bg-zinc-800 text-zinc-400'}`}>
                       {acikMi ? <Minus size={18} /> : <Plus size={18} />}

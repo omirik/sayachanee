@@ -14,7 +14,7 @@ export default function GizlilikPolitikasi() {
           <ArrowLeft size={16} /> Geri Dön
         </Link>
 
-        <div className="bg-zinc-900/40 border border-zinc-800/80 p-8 md:p-12 rounded-3xl backdrop-blur-sm">
+        <div className="bg-zinc-900/40 border border-zinc-800/80 p-8 md:p-12 rounded-3xl">
           <ShieldCheck size={48} className="text-emerald-500 mb-6" />
           <h1 className="text-3xl md:text-4xl font-bold text-white mb-8">Gizlilik Politikası</h1>
           

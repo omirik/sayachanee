@@ -49,7 +49,7 @@ export default function Iletisim() {
   return (
     <div className="flex-1 flex flex-col items-center justify-start p-4 pt-12 relative pb-32 min-h-screen">
       <div className="absolute inset-0 bg-gradient-to-br from-emerald-900/10 via-zinc-950 to-teal-950/10 -z-10 fixed"></div>
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-lg h-96 bg-emerald-500/5 rounded-full blur-[100px] -z-10"></div>
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-2xl h-96 bg-[radial-gradient(closest-side,rgba(16,185,129,0.08),transparent)] -z-10"></div>
       
       <div className="w-full max-w-5xl animate-in fade-in slide-in-from-bottom-4 duration-500">
         
@@ -70,7 +70,7 @@ export default function Iletisim() {
             </p>
             
             <div className="space-y-6">
-              <div className="flex items-center gap-4 p-4 bg-zinc-900/40 border border-zinc-800/80 rounded-2xl backdrop-blur-sm">
+              <div className="flex items-center gap-4 p-4 bg-zinc-900/40 border border-zinc-800/80 rounded-2xl">
                 <div className="p-3 bg-zinc-950 border border-zinc-800 rounded-xl text-emerald-400">
                   <Mail size={20} />
                 </div>
@@ -85,9 +85,9 @@ export default function Iletisim() {
           </div>
 
           <div className="lg:col-span-3">
-            <div className="bg-zinc-900/40 border border-zinc-800/80 p-6 md:p-10 rounded-[2rem] backdrop-blur-sm shadow-2xl relative overflow-hidden">
+            <div className="bg-zinc-900/40 border border-zinc-800/80 p-6 md:p-10 rounded-[2rem] shadow-2xl relative overflow-hidden">
               
-              <div className={`absolute inset-0 z-20 bg-zinc-900/95 backdrop-blur-md flex flex-col items-center justify-center transition-all duration-500 ${gonderildi ? 'opacity-100 visible' : 'opacity-0 invisible'}`}>
+              <div className={`absolute inset-0 z-20 bg-zinc-900/95 flex flex-col items-center justify-center transition-all duration-500 ${gonderildi ? 'opacity-100 visible' : 'opacity-0 invisible'}`}>
                 <CheckCircle2 size={64} className="text-emerald-500 mb-4 animate-in zoom-in duration-500" />
                 <h3 className="text-2xl font-bold text-white mb-2">Mesajınız Alındı!</h3>
                 <p className="text-zinc-400 text-center max-w-xs">En kısa sürede e-posta adresiniz üzerinden size geri dönüş yapacağız.</p>

@@ -25,7 +25,7 @@ export default function SayacSayfasi({
   const t = temalar[tema];
   return (
     <div className="flex-1 flex flex-col items-center justify-start px-4 pb-24 relative">
-      <div className={`fixed inset-0 bg-gradient-to-br ${t.arkaPlan} bg-[length:400%_400%] animate-gradient -z-10`} />
+      <div className={`fixed inset-0 bg-gradient-to-br ${t.arkaPlan} -z-10`} />
 
       <div className="w-full max-w-4xl flex flex-col items-center pt-8">
         <div className="w-full flex justify-between items-center gap-3 mb-10">

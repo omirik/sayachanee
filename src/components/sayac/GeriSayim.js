@@ -109,7 +109,7 @@ export default function GeriSayim({
           return (
             <div
               key={anahtar}
-              className={`flex flex-col items-center p-5 md:p-8 bg-zinc-900/60 border rounded-3xl backdrop-blur-md shadow-lg ${vurgu ? t.vurguKart : 'border-zinc-800/80'}`}
+              className={`flex flex-col items-center p-5 md:p-8 bg-zinc-900/60 border rounded-3xl shadow-lg ${vurgu ? t.vurguKart : 'border-zinc-800/80'}`}
             >
               <span className={`text-4xl md:text-6xl font-bold tabular-nums tracking-tight ${vurgu ? t.metin : 'text-white'}`}>
                 {durum ? ikiHane(durum.kalan[anahtar]) : '--'}

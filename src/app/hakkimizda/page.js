@@ -14,7 +14,7 @@ export default function Hakkimizda() {
           <ArrowLeft size={16} /> <span className="text-sm font-medium">Geri Dön</span>
         </Link>
 
-        <div className="bg-zinc-900/40 border border-zinc-800/80 p-8 md:p-12 rounded-3xl backdrop-blur-sm shadow-2xl">
+        <div className="bg-zinc-900/40 border border-zinc-800/80 p-8 md:p-12 rounded-3xl shadow-2xl">
           <div className="inline-flex p-4 rounded-full bg-emerald-500/10 mb-6 border border-emerald-500/20">
             <Info size={40} className="text-emerald-500" />
           </div>

@@ -7,6 +7,7 @@ import TamEkranDugmesi from '@/components/TamEkran';
 import { trZamani, trParcalar, tarihMetni, saatMetni } from '@/lib/zaman';
 import { AD_UZUNLUGU } from '@/lib/ozel';
 import { depoyuDinle, depodanOku, depoyaYaz } from '@/lib/depo';
+import AramaliSecim from '@/components/AramaliSecim';
 
 const DEPO = 'sayachane_ozel_sayaclar';
 
@@ -32,6 +33,30 @@ const yillarListesi = Array.from({ length: 15 }, (_, i) => new Date().getFullYea
 const gunlerListesi = Array.from({ length: 31 }, (_, i) => i + 1);
 const saatlerListesi = Array.from({ length: 24 }, (_, i) => i);
 const dakikalarListesi = Array.from({ length: 60 }, (_, i) => i);
+const ikiHane = (n) => String(n).padStart(2, '0');
+
+// Açılır listelerin seçenekleri: { etiket, deger }
+const gunSecenekleri = gunlerListesi.map((g) => ({ etiket: String(g), deger: g }));
+const aySecenekleri = aylarListesi.map((ay, i) => ({ etiket: ay, deger: i }));
+const yilSecenekleri = yillarListesi.map((y) => ({ etiket: String(y), deger: y }));
+const saatSecenekleri = saatlerListesi.map((x) => ({ etiket: ikiHane(x), deger: x }));
+const dakikaSecenekleri = dakikalarListesi.map((x) => ({ etiket: ikiHane(x), deger: x }));
+
+const secimDugmesi = (acik) =>
+  `w-full flex items-center justify-between bg-zinc-950/50 border ${acik ? 'border-rose-500/70 shadow-[0_0_15px_rgba(244,63,94,0.1)]' : 'border-zinc-700/50'} rounded-xl px-3 py-3 text-white transition-all text-sm`;
+
+function Secim({ etiket, metin, ...ozellikler }) {
+  return (
+    <AramaliSecim etiket={etiket} vurgu="rose" dugmeSinifi={secimDugmesi} {...ozellikler}>
+      {(acik) => (
+        <>
+          <span className="font-medium truncate mr-1">{metin}</span>
+          <ChevronDown size={14} className={`text-zinc-500 shrink-0 transition-transform duration-300 ${acik ? 'rotate-180 text-rose-400' : ''}`} />
+        </>
+      )}
+    </AramaliSecim>
+  );
+}
 
 export default function OzelSayac() {
   // Kayıtlı sayaçlar tarayıcı hafızasından okunur (sunucuda boş liste).
@@ -50,20 +75,7 @@ export default function OzelSayac() {
   const [seciliSaat, setSeciliSaat] = useState(new Date().getHours());
   const [seciliDakika, setSeciliDakika] = useState(new Date().getMinutes());
   
-  const [acikDropdown, setAcikDropdown] = useState(null);
   const [hata, setHata] = useState('');
-
-  // HATA ÇÖZÜLDÜ: Menünün açılıp anında kapanmasını engelleyen doğru tıklama mantığı
-  useEffect(() => {
-    const disariTiklama = (e) => {
-      // Eğer tıklanan yer ozel-dropdown sınıfına sahip bir elementin içinde DEĞİLSE menüyü kapat
-      if (!e.target.closest('.ozel-dropdown')) {
-        setAcikDropdown(null);
-      }
-    };
-    document.addEventListener('mousedown', disariTiklama);
-    return () => document.removeEventListener('mousedown', disariTiklama);
-  }, []);
 
   useEffect(() => {
     if (sayaclar.length === 0) return;
@@ -151,42 +163,6 @@ export default function OzelSayac() {
     }
   };
 
-  // KUSURSUZ DROPDOWN
-  const renderDropdown = (id, aktifDeger, etiket, secenekler) => {
-    const acikMi = acikDropdown === id;
-    return (
-      // "ozel-dropdown" sınıfı dışarı tıklamayı anlamamız için eklendi
-      <div className={`ozel-dropdown relative w-full ${acikMi ? 'z-50' : 'z-10'}`}>
-        <button 
-          type="button" 
-          onClick={() => setAcikDropdown(acikMi ? null : id)} 
-          className={`w-full flex items-center justify-between bg-zinc-950/50 border ${acikMi ? 'border-rose-500/70 shadow-[0_0_15px_rgba(244,63,94,0.1)]' : 'border-zinc-700/50'} rounded-xl px-3 py-3 text-white outline-none transition-all text-sm`}
-        >
-          <span className="font-medium truncate mr-1">{etiket}</span>
-          <ChevronDown size={14} className={`text-zinc-500 shrink-0 transition-transform duration-300 ${acikMi ? 'rotate-180 text-rose-400' : ''}`} />
-        </button>
-        
-        {acikMi && (
-          <div className="absolute left-0 top-full mt-2 w-full max-h-48 overflow-y-auto bg-zinc-900 border border-zinc-700 rounded-xl shadow-2xl scrollbar-thin scrollbar-thumb-zinc-700 animate-in fade-in zoom-in-95 duration-200 py-1">
-            {secenekler.map((secenek, i) => (
-              <button 
-                type="button" 
-                key={i} 
-                onClick={() => { 
-                  secenek.onClick(); 
-                  setAcikDropdown(null); 
-                }} 
-                className={`w-full text-left px-4 py-2.5 text-sm transition-colors ${aktifDeger === secenek.value ? 'bg-rose-500/20 text-rose-400 font-bold' : 'text-zinc-300 hover:bg-zinc-800 hover:text-white'}`}
-              >
-                {secenek.label}
-              </button>
-            ))}
-          </div>
-        )}
-      </div>
-    );
-  };
-
   const aktifDetay = sayaclar.find(s => s.id === seciliSayacId);
   const aktifZaman = zamanlar[seciliSayacId] || { gun: '00', saat: '00', dakika: '00', saniye: '00', ilerleme: 0 };
 
@@ -217,7 +193,7 @@ export default function OzelSayac() {
           )}
           
           {seciliSayacId && (
-            <button onClick={() => setSeciliSayacId(null)} className="flex items-center gap-2 px-4 py-2 bg-zinc-900/80 hover:bg-zinc-800 border border-zinc-700/60 rounded-full backdrop-blur-sm transition-all text-rose-400 text-sm font-medium shadow-lg">
+            <button onClick={() => setSeciliSayacId(null)} className="flex items-center gap-2 px-4 py-2 bg-zinc-900/80 hover:bg-zinc-800 border border-zinc-700/60 rounded-full transition-all text-rose-400 text-sm font-medium shadow-lg">
               <List size={16} />
               <span>Tüm Sayaçlar</span>
             </button>
@@ -231,7 +207,7 @@ export default function OzelSayac() {
             </div>
             <h1 className="text-3xl md:text-4xl font-bold text-white mb-8 tracking-tight">{duzenlenecekId ? 'Sayacı Güncelle' : 'Yeni Sayaç Oluştur'}</h1>
             
-            <form onSubmit={kaydet} className="w-full max-w-lg bg-zinc-900/60 border border-zinc-800/80 p-6 md:p-8 rounded-3xl backdrop-blur-md text-left shadow-2xl relative">
+            <form onSubmit={kaydet} className="w-full max-w-lg bg-zinc-900/60 border border-zinc-800/80 p-6 md:p-8 rounded-3xl text-left shadow-2xl relative">
               {hata && (
                 <div className="mb-6 p-3 bg-red-500/10 border border-red-500/30 rounded-xl flex items-center gap-2 text-red-400 text-sm">
                   <AlertCircle size={16} /><span>{hata}</span>
@@ -246,17 +222,17 @@ export default function OzelSayac() {
               <div className="mb-4 relative z-20">
                 <label className="flex items-center gap-2 text-xs uppercase tracking-widest text-zinc-400 mb-2 font-semibold"><Calendar size={14}/> Hedef Tarih</label>
                 <div className="grid grid-cols-3 gap-2">
-                  {renderDropdown('gun', seciliGun, seciliGun, gunlerListesi.map(g => ({ label: g, value: g, onClick: () => setSeciliGun(g) })))}
-                  {renderDropdown('ay', seciliAy, aylarListesi[seciliAy], aylarListesi.map((ay, i) => ({ label: ay, value: i, onClick: () => setSeciliAy(i) })))}
-                  {renderDropdown('yil', seciliYil, seciliYil, yillarListesi.map(y => ({ label: y, value: y, onClick: () => setSeciliYil(y) })))}
+                  <Secim etiket="Gün" metin={seciliGun} deger={seciliGun} onSec={setSeciliGun} secenekler={gunSecenekleri} aramaTuru="sayi" aramaIpucu="Gün yaz" />
+                  <Secim etiket="Ay" metin={aylarListesi[seciliAy]} deger={seciliAy} onSec={setSeciliAy} secenekler={aySecenekleri} aramaIpucu="Ay ara" />
+                  <Secim etiket="Yıl" metin={seciliYil} deger={seciliYil} onSec={setSeciliYil} secenekler={yilSecenekleri} aramaTuru="sayi" aramaIpucu="Yıl yaz" />
                 </div>
               </div>
 
               <div className="mb-10 relative z-10">
                 <label className="flex items-center gap-2 text-xs uppercase tracking-widest text-zinc-400 mb-2 font-semibold"><Clock size={14}/> Hedef Saat</label>
                 <div className="grid grid-cols-2 gap-2">
-                  {renderDropdown('saat', seciliSaat, String(seciliSaat).padStart(2, '0') + ' : Saat', saatlerListesi.map(s => ({ label: String(s).padStart(2, '0'), value: s, onClick: () => setSeciliSaat(s) })))}
-                  {renderDropdown('dakika', seciliDakika, String(seciliDakika).padStart(2, '0') + ' : Dakika', dakikalarListesi.map(d => ({ label: String(d).padStart(2, '0'), value: d, onClick: () => setSeciliDakika(d) })))}
+                  <Secim etiket="Saat" metin={`${ikiHane(seciliSaat)} : Saat`} deger={seciliSaat} onSec={setSeciliSaat} secenekler={saatSecenekleri} aramaTuru="sayi" aramaIpucu="Saat yaz" />
+                  <Secim etiket="Dakika" metin={`${ikiHane(seciliDakika)} : Dakika`} deger={seciliDakika} onSec={setSeciliDakika} secenekler={dakikaSecenekleri} aramaTuru="sayi" aramaIpucu="Dakika yaz" />
                 </div>
               </div>
               
@@ -282,7 +258,7 @@ export default function OzelSayac() {
               {['Gun', 'Saat', 'Dakika', 'Saniye'].map((birim, i) => {
                 const isSaniye = birim.toLowerCase() === 'saniye';
                 return (
-                  <div key={i} className={`flex flex-col items-center p-6 md:p-8 bg-zinc-900/60 border ${isSaniye ? 'border-rose-500/40 shadow-[0_0_30px_rgba(244,63,94,0.15)]' : 'border-zinc-800/80'} rounded-3xl backdrop-blur-md transition-transform hover:scale-[1.02] duration-300`}>
+                  <div key={i} className={`flex flex-col items-center p-6 md:p-8 bg-zinc-900/60 border ${isSaniye ? 'border-rose-500/40 shadow-[0_0_30px_rgba(244,63,94,0.15)]' : 'border-zinc-800/80'} rounded-3xl transition-transform hover:scale-[1.02] duration-300`}>
                     <span className={`text-4xl md:text-6xl font-bold ${isSaniye ? 'text-rose-400' : 'text-white'} tabular-nums`}>{aktifZaman[birim.toLowerCase()]}</span>
                     <span className="text-zinc-500 text-xs md:text-sm mt-3 uppercase tracking-widest font-semibold">{birim === 'Gun' ? 'Gün' : birim}</span>
                   </div>
@@ -313,7 +289,7 @@ export default function OzelSayac() {
             <h2 className="text-3xl font-bold text-white mb-8">Sayaçlarım</h2>
             
             {sayaclar.length === 0 ? (
-              <div className="text-center p-12 bg-zinc-900/40 border border-zinc-800/80 rounded-3xl backdrop-blur-sm max-w-md w-full">
+              <div className="text-center p-12 bg-zinc-900/40 border border-zinc-800/80 rounded-3xl max-w-md w-full">
                 <CalendarHeart size={48} className="text-zinc-600 mx-auto mb-4" />
                 <h3 className="text-xl font-semibold text-white mb-2">Henüz Sayaç Yok</h3>
                 <p className="text-zinc-400 text-sm mb-6">Özel günleriniz için geri sayımlar oluşturun.</p>

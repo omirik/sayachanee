@@ -162,18 +162,19 @@ function TamEkranGorunumu({ hedef, tekrar, baslangic, tema, baslik, altBaslik, k
       aria-modal="true"
       aria-label="Tam ekran geri sayım"
     >
-      {/* Arka plan: yavaşça süzülen renkli ışıklar + kenar karartması */}
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-        <div
-          className="absolute -top-[25vh] -left-[15vw] h-[80vh] w-[80vh] rounded-full blur-[120px] opacity-25"
-          style={{ background: renk, animation: 'suzul 22s ease-in-out infinite' }}
-        />
-        <div
-          className="absolute -bottom-[30vh] -right-[10vw] h-[90vh] w-[90vh] rounded-full blur-[140px] opacity-[0.18]"
-          style={{ background: renk, animation: 'suzul 28s ease-in-out -9s infinite reverse' }}
-        />
-        <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse at center, transparent 35%, rgba(0,0,0,0.7) 100%)' }} />
-      </div>
+      {/* Arka plan: sabit renkli ışıklar + kenar karartması. Bulanıklık filtresi ve animasyon yerine
+          radial-gradient kullanılır; TV kutusu gibi zayıf cihazlarda saniyelik yeniden çizim yükü olmaz. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background: [
+            `radial-gradient(circle at 12% 8%, ${renk}40 0%, transparent 45%)`,
+            `radial-gradient(circle at 92% 100%, ${renk}2e 0%, transparent 50%)`,
+            'radial-gradient(ellipse at center, transparent 35%, rgba(0,0,0,0.7) 100%)',
+          ].join(', '),
+        }}
+      />
 
       {/* Üst şerit */}
       <header className={`relative z-10 flex items-center justify-between px-[4vw] pt-[3vh] transition-opacity duration-500 ${kontroller ? 'opacity-100' : 'opacity-40'}`}>
@@ -217,11 +218,11 @@ function TamEkranGorunumu({ hedef, tekrar, baslangic, tema, baslik, altBaslik, k
           <>
             {/* Gün: kahraman sayı */}
             <div className="mt-[3vh] flex flex-col items-center">
-              {/* Not: renk geçişli yazı (bg-clip-text) yalnızca kutunun içini boyar; sıkı harf aralığı son rakamı
-                  kutunun dışına taşırdığı için yanlara biraz boşluk (px) verilir, yoksa sağ kenar kesik görünür. */}
+              {/* Düz beyaz + tema renginde hafif ışıltı. Renk geçişli yazı (bg-clip-text) bazı TV
+                  tarayıcılarında gri/siyah görünüyordu; ayrıca sıkı harf aralığı için yanlarda boşluk (px) var. */}
               <span
-                className="inline-block px-[0.08em] py-[0.02em] font-black tabular-nums leading-[0.82] tracking-[-0.05em] text-[min(30vw,30vh)] bg-gradient-to-b from-white via-white to-zinc-500 bg-clip-text text-transparent"
-                style={{ filter: `drop-shadow(0 0 50px ${renk}40)` }}
+                className="inline-block px-[0.08em] py-[0.02em] font-black tabular-nums leading-[0.82] tracking-[-0.05em] text-[min(30vw,30vh)] text-white"
+                style={{ textShadow: `0 0 40px ${renk}55, 0 0 100px ${renk}30` }}
               >
                 {k.gun}
               </span>
@@ -239,7 +240,7 @@ function TamEkranGorunumu({ hedef, tekrar, baslangic, tema, baslik, altBaslik, k
               ].map(([anahtar, etiket]) => (
                 <div
                   key={anahtar}
-                  className="flex flex-col items-center justify-center py-[1.8vh] rounded-[clamp(1rem,1.8vw,2rem)] border border-white/10 bg-white/[0.035] backdrop-blur-md"
+                  className="flex flex-col items-center justify-center py-[1.8vh] rounded-[clamp(1rem,1.8vw,2rem)] border border-white/10 bg-white/[0.035]"
                   style={anahtar === 'saniye' ? { borderColor: `${renk}55`, boxShadow: `0 0 50px ${renk}1f inset` } : undefined}
                 >
                   <span className="font-bold tabular-nums leading-none text-[min(10vw,10vh)] overflow-hidden" style={anahtar === 'saniye' ? { color: renk } : undefined}>

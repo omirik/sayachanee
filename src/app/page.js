@@ -44,7 +44,7 @@ export default function AnaSayfa() {
       {/* GİRİŞ + SIRADAKİ SAYAÇ */}
       <section className="relative w-full px-4 pt-14 md:pt-20 pb-14 overflow-hidden">
         <div className="absolute inset-0 -z-10 bg-gradient-to-b from-emerald-950/30 via-zinc-950 to-zinc-950" />
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] max-w-full h-[400px] bg-emerald-500/10 rounded-full blur-[120px] -z-10 pointer-events-none" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] max-w-full h-[500px] bg-[radial-gradient(closest-side,rgba(16,185,129,0.14),transparent)] -z-10 pointer-events-none" />
 
         <div className="max-w-5xl mx-auto flex flex-col items-center text-center">
           <h1 className="text-4xl md:text-6xl font-extrabold text-white tracking-tight text-balance max-w-3xl animate-in fade-in slide-in-from-bottom-2 duration-500">
@@ -58,7 +58,7 @@ export default function AnaSayfa() {
           {/* Sıradaki etkinlik */}
           <Link
             href={siradaki.yol}
-            className="group mt-10 w-full max-w-3xl flex flex-col md:flex-row md:items-center md:justify-between gap-6 p-6 md:p-8 text-left bg-zinc-900/60 border border-zinc-800 rounded-3xl backdrop-blur-sm hover:border-zinc-700 transition-colors animate-in fade-in zoom-in-95 duration-500"
+            className="group mt-10 w-full max-w-3xl flex flex-col md:flex-row md:items-center md:justify-between gap-6 p-6 md:p-8 text-left bg-zinc-900/60 border border-zinc-800 rounded-3xl hover:border-zinc-700 transition-colors animate-in fade-in zoom-in-95 duration-500"
           >
             <div className="flex flex-col gap-3">
               <span className={`inline-flex w-fit items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border ${t.ikonKutu}`}>
